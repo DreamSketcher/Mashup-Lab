@@ -83,6 +83,9 @@ digest produces a different candidate ID. It remains untrusted until a local
 policy explicitly approves that exact ID and image; merely updating a sidecar
 must not add trust.
 
+See also the [trust and execution contract](planner-trust-and-execution-specification.md)
+for policy decisions and explicit PASS/FAIL/UNAVAILABLE semantics.
+
 ## Policy, build and invocation vectors
 
 For the following cases, fixture hash constants are not OCI images. Integration

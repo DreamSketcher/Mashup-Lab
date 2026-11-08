@@ -14,9 +14,10 @@ running process. Before verification, a local operator must install a trust
 policy mapping accepted `planner_id` values to approved immutable execution
 images and a trusted launcher/verifier. A sidecar may name an ID but must never
 add it to the allowlist, choose executable code, or trigger a download or run of
-arbitrary code. Unknown, revoked or unsupported IDs fail closed. Policy
-management, distribution, revocation and optional signatures are outside MVP;
-if used, signatures need their own key and revocation policy. A signature alone
+arbitrary code. Unknown, revoked or unsupported IDs fail closed. The proposed local trust root and admission procedure are defined in the
+[trust and execution specification](planner-trust-and-execution-specification.md).
+Remote policy distribution and signatures are outside MVP; if used, signatures
+need their own key and revocation policy. A signature alone
 is not proof of correctness or of the code currently executing.
 
 The MVP threat boundary assumes the launcher, container runtime, host kernel,

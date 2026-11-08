@@ -67,6 +67,7 @@ They are design proposals, not features currently implemented in this repository
 - [Project–plan binding (proposal; not implemented)](docs/project-plan-binding-specification.md)
 - [Planner build manifest (proposal; not implemented)](docs/planner-build-manifest-specification.md)
 - [Planner build manifest test contract](docs/planner-build-manifest-test-contract.md)
+- [Planner trust and execution (proposal; not implemented)](docs/planner-trust-and-execution-specification.md)
 
 ## Reference timeline model (experimental)
 
