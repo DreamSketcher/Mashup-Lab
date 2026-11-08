@@ -116,6 +116,17 @@ class ManifestTests(unittest.TestCase):
         p['dependencies'] = []
         parse_manifest(json.dumps(p).encode())
 
+    def test_unicode_surrogate_pair_and_unpaired_surrogates(self):
+        # Python's JSON decoder combines a valid escaped UTF-16 pair into one
+        # Unicode scalar; an unpaired escape remains a surrogate and is invalid.
+        emoji = self.raw.replace(b'fixture-only', br'\ud83d\ude00')
+        self.assertNotEqual(parse_manifest(emoji).planner_id, ID)
+        literal = self.raw.replace(b'fixture-only', '😀'.encode('utf-8'))
+        parse_manifest(literal)
+        for bad in [br'\ud83d', br'\ude00', br'\ude00\ud83d']:
+            with self.subTest(bad=bad), self.assertRaises(ManifestError):
+                parse_manifest(self.raw.replace(b'fixture-only', bad))
+
     def test_resource_limits(self):
         import tempfile
         from mashup.safe_json import MAX_BYTES, MAX_DEPTH, MAX_STRING_LENGTH

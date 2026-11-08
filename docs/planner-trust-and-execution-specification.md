@@ -76,9 +76,9 @@ snapshot semantics or image contents. It is not a trusted admission gate.
 An operator may remove or revoke an entry via a trusted policy update. Each new
 admission uses a fresh safely read policy snapshot; verification cached from a
 prior run is not sufficient. This draft does not promise immediate interruption
-of work already admitted when policy changes. Coordinated updates, atomic policy
-installation, race-free path handling and the exact moment of admission must be
-specified by a supported-platform implementation. Report the SHA-256 of the
+of work already admitted when policy changes. The proposed [trusted policy loading contract](trusted-policy-loading-specification.md)
+defines snapshot, coordinated update and admission-point requirements; a
+supported-platform implementation must still specify and verify the mechanisms. Report the SHA-256 of the
 exact policy snapshot and the selected ID in a decision record; that hash is
 for audit and does not itself make the policy trusted. Avoid recording sensitive
 project content. Optional signatures or remote policy distribution need a

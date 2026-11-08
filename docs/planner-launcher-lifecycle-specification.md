@@ -37,6 +37,9 @@ violation is **FAIL**. Neither permits fallback to a host Python process.
 
 ### Updates and compatibility
 
+The [trusted policy loading contract](trusted-policy-loading-specification.md)
+defines the proposed snapshot and policy-update ordering.
+
 An operator installs a launcher update through the trusted administrative
 process. It takes effect for **new** admission attempts only after the installed
 version and its dependencies pass the local bootstrap checks. Policy entries

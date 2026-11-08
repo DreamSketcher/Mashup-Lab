@@ -57,7 +57,9 @@ All listed digests are `sha256:` followed by 64 lowercase hexadecimal digits,
 except the bare digest component of `planner_id`. Paths are absolute POSIX paths
 inside the image, normalized, without `..` or backslashes, and refer to regular
 files (existence and type are checked only at admission). Schema parsing also
-rejects NUL and unpaired surrogates; entrypoint arguments may be empty except
+rejects NUL and unpaired surrogates; valid JSON escaped surrogate pairs decode
+to a single Unicode scalar and are accepted. Escaped and literal forms have
+different byte hashes. Entrypoint arguments may be empty except
 for the executable. Platform components use lowercase ASCII letters, digits,
 period, underscore and hyphen, beginning with an alphanumeric. Dependency
 names use lowercase normalized Python distribution names (`[a-z0-9]+` groups
@@ -150,3 +152,7 @@ escaped control characters other than NUL are permitted where a string field
 allows them; raw unescaped controls are invalid JSON. POSIX paths may contain
 non-ASCII characters and are not Unicode-normalized; path identity remains exact.
 These limits bound this parser only, not image verification or an entire service.
+
+The byte cap bounds input size but Python JSON decoding can still amplify memory
+usage through many small values; there is no separate total-member limit. A
+service must apply additional process-level memory and time limits.
