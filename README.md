@@ -85,6 +85,7 @@ python3 -m venv .venv
 .venv/bin/python -m mashup plan project.yaml > plan.json
 .venv/bin/python -m mashup validate-plan plan.json
 .venv/bin/python -m mashup inspect-manifest tests/fixtures/planner/manifest-valid.json
+.venv/bin/python -m mashup compare-policy manifest.json policy.json
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
@@ -98,3 +99,10 @@ planner ID from the exact file bytes. It does not read an image, authorize a
 planner, verify a build, check isolation, or run any code. Its `trust` and
 `execution` fields are explicitly `not_checked`; the sample manifest contains
 fabricated artifact digests.
+
+`compare-policy` checks a caller-supplied policy's schema and compares it to a
+manifest's claimed identity, image digest and platform. It returns `MATCH`,
+`NOT_LISTED`, `REVOKED`, `MISMATCH` or `UNAVAILABLE` (exit 0, 1 or 2). A
+`MATCH` is **not admission or proof of trust**: policy ownership/protection,
+actual image contents, runtime and isolation are not checked. The policy parser
+shares the manifest JSON limits and permits at most 1,024 entries.

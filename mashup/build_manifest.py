@@ -100,6 +100,8 @@ class ManifestIdentity:
     """Identity of a structurally valid manifest, not an authorization."""
     planner_id: str
     sha256: str
+    image_digest: str
+    platform: str
 
 
 def parse_manifest(data: bytes, expected_planner_id: str | None = None) -> ManifestIdentity:
@@ -117,7 +119,9 @@ def parse_manifest(data: bytes, expected_planner_id: str | None = None) -> Manif
     planner_id = f'mashup-lab-timing/0.1/sha256:{digest}'
     if expected_planner_id is not None and expected_planner_id != planner_id:
         raise ManifestError('planner_id does not match manifest bytes and contract')
-    return ManifestIdentity(planner_id=planner_id, sha256=digest)
+    return ManifestIdentity(planner_id=planner_id, sha256=digest,
+                            image_digest=manifest['execution_image']['oci_manifest_digest'],
+                            platform=manifest['execution_image']['platform'])
 
 
 def load_manifest(path, expected_planner_id: str | None = None) -> ManifestIdentity:

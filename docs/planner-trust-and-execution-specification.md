@@ -1,6 +1,7 @@
 # Planner Trust and Execution Specification — draft v0.1
 
-Status: **design proposal, not implemented**. No policy store, launcher, image
+Status: **design proposal**. A policy schema parser and untrusted file
+comparison are implemented; no trusted policy store, launcher, image
 verification, isolation monitor, binding or audio execution currently exists.
 This document refines the [build manifest](planner-build-manifest-specification.md)
 and its [test contract](planner-build-manifest-test-contract.md); it does not
@@ -63,6 +64,14 @@ platform must exactly match the active entry; matching the sidecar alone is not
 enough. Unlisted, revoked, mismatched, unreadable, absent, malformed or
 unsupported policy means **deny**, never warn-and-continue or fall back to a
 host Python. A manifest is not trusted merely because it parses.
+
+The experimental `compare-policy` command performs only structural parsing and
+claim comparison against the caller-supplied policy file. It emits MATCH,
+NOT_LISTED, REVOKED, MISMATCH or UNAVAILABLE, and always states that trust and
+execution were not checked. MATCH is not the authorization described above. The
+parser applies the manifest JSON resource limits and a maximum of 1,024 entries.
+It does not validate policy ownership, permissions, protected directories, safe
+snapshot semantics or image contents. It is not a trusted admission gate.
 
 An operator may remove or revoke an entry via a trusted policy update. Each new
 admission uses a fresh safely read policy snapshot; verification cached from a
