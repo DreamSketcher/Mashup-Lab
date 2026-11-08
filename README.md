@@ -55,3 +55,36 @@ This project does not claim ownership of third-party material or imply endorseme
 ---
 
 **Experiment. Combine. Create.**
+
+## Proposed engine specifications
+
+The following drafts explore a deterministic, AI-free audio processing engine.
+They are design proposals, not features currently implemented in this repository:
+
+- [Project format](docs/project-format-specification.md)
+- [Audio processing](docs/audio-processing-specification.md)
+- [Determinism and reproducibility](docs/determinism-reproducibility-specification.md)
+- [Project–plan binding (proposal; not implemented)](docs/project-plan-binding-specification.md)
+- [Planner build manifest (proposal; not implemented)](docs/planner-build-manifest-specification.md)
+
+## Reference timeline model (experimental)
+
+The Python implementation parses the draft YAML format, validates project
+structure and local PCM WAV identity/metadata, and computes exact timeline
+frames, pairwise half-open overlap intervals, and total duration. It does not
+process or render audio, check a render backend, or prove audio determinism.
+Python 3.11+ is required.
+
+```sh
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+.venv/bin/python -m mashup validate project.yaml
+.venv/bin/python -m mashup plan project.yaml > plan.json
+.venv/bin/python -m mashup validate-plan plan.json
+.venv/bin/python -m unittest discover -s tests -v
+```
+
+`plan` prints versioned JSON with named clip and overlap boundaries and
+durations in timeline frames; see [the plan contract](docs/timeline-plan-specification.md). Project paths are relative to the project file;
+the hash in the specification example must be replaced with the actual source
+file hash and metadata. Render-environment checks will be added with a renderer.
