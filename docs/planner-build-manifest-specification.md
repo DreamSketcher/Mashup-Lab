@@ -1,6 +1,7 @@
 # Planner Build Manifest Specification — draft v0.1
 
-Status: **design proposal, not implemented or an approved build profile**. This
+Status: the manifest schema parser and byte identity are implemented; trust,
+image verification, launcher and an approved build profile are not. This
 specifies a future way to identify and admit a particular timing-planner build
 for [Project–Plan Binding](project-plan-binding-specification.md). It does not
 change the project, plan or binding sidecar schemas. It does not select an audio
@@ -54,8 +55,13 @@ MVP manifest top-level fields, all required, with no unknown fields:
 
 All listed digests are `sha256:` followed by 64 lowercase hexadecimal digits,
 except the bare digest component of `planner_id`. Paths are absolute POSIX paths
-inside the image, normalized, without `..`, and refer to regular files. Dependency
-names use lowercase normalized Python distribution names; names must be unique
+inside the image, normalized, without `..` or backslashes, and refer to regular
+files (existence and type are checked only at admission). Schema parsing also
+rejects NUL and unpaired surrogates; entrypoint arguments may be empty except
+for the executable. Platform components use lowercase ASCII letters, digits,
+period, underscore and hyphen, beginning with an alphanumeric. Dependency
+names use lowercase normalized Python distribution names (`[a-z0-9]+` groups
+separated by single hyphens); names must be unique
 and entries sorted by name. `entrypoint` is a nonempty array of literal argument
 strings, not a shell command. `platform` is an exact OCI `os/architecture`
 string, optionally followed by `/variant`; `isolation_policy` is the literal

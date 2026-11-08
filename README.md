@@ -65,7 +65,7 @@ They are design proposals, not features currently implemented in this repository
 - [Audio processing](docs/audio-processing-specification.md)
 - [Determinism and reproducibility](docs/determinism-reproducibility-specification.md)
 - [Project–plan binding (proposal; not implemented)](docs/project-plan-binding-specification.md)
-- [Planner build manifest (proposal; not implemented)](docs/planner-build-manifest-specification.md)
+- [Planner build manifest (schema parser implemented; admission proposed)](docs/planner-build-manifest-specification.md)
 - [Planner build manifest test contract](docs/planner-build-manifest-test-contract.md)
 - [Planner trust and execution (proposal; not implemented)](docs/planner-trust-and-execution-specification.md)
 - [Planner launcher lifecycle and bootstrap (proposal; not implemented)](docs/planner-launcher-lifecycle-specification.md)
@@ -84,6 +84,7 @@ python3 -m venv .venv
 .venv/bin/python -m mashup validate project.yaml
 .venv/bin/python -m mashup plan project.yaml > plan.json
 .venv/bin/python -m mashup validate-plan plan.json
+.venv/bin/python -m mashup inspect-manifest tests/fixtures/planner/manifest-valid.json
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
@@ -91,3 +92,9 @@ python3 -m venv .venv
 durations in timeline frames; see [the plan contract](docs/timeline-plan-specification.md). Project paths are relative to the project file;
 the hash in the specification example must be replaced with the actual source
 file hash and metadata. Render-environment checks will be added with a renderer.
+
+`inspect-manifest` validates UTF-8 JSON structure and computes the SHA-256 and
+planner ID from the exact file bytes. It does not read an image, authorize a
+planner, verify a build, check isolation, or run any code. Its `trust` and
+`execution` fields are explicitly `not_checked`; the sample manifest contains
+fabricated artifact digests.

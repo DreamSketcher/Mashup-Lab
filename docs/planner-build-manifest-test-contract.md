@@ -1,7 +1,8 @@
 # Planner Build Manifest — independent test contract, draft v0.1
 
-Status: **test design only**. No manifest validator, trusted launcher, image
-builder or binding verifier is implemented. This is an acceptance target for
+Status: the schema and byte-identity test layer is implemented; trusted launcher,
+image builder, policy verification and binding verifier are not implemented.
+The remaining vectors are acceptance targets for
 [the build-manifest specification](planner-build-manifest-specification.md),
 not evidence that it is satisfied. Do not treat fixture IDs or hashes as trusted
 production identities.
