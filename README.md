@@ -66,6 +66,7 @@ They are design proposals, not features currently implemented in this repository
 - [Determinism and reproducibility](docs/determinism-reproducibility-specification.md)
 - [Project–plan binding (proposal; not implemented)](docs/project-plan-binding-specification.md)
 - [Planner build manifest (proposal; not implemented)](docs/planner-build-manifest-specification.md)
+- [Planner build manifest test contract](docs/planner-build-manifest-test-contract.md)
 
 ## Reference timeline model (experimental)
 

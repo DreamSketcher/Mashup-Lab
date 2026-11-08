@@ -113,6 +113,9 @@ claim cross-platform bit identity from this planner identity alone.
 
 ## Build reproducibility and tests
 
+See the independent [test contract](planner-build-manifest-test-contract.md)
+for pinned byte vectors and separate schema, trust and isolation acceptance cases.
+
 This contract aims to **identify a particular build**, not guarantee that
 rebuilding source produces identical image or manifest bytes. Timestamps, layer
 ordering, compiler, dependencies and build tools may change artifacts. A future
