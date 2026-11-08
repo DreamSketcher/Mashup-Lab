@@ -75,6 +75,10 @@ for audit and does not itself make the policy trusted. Avoid recording sensitive
 project content. Optional signatures or remote policy distribution need a
 separate key, update and revocation design; they are not part of v0.1.
 
+The [launcher lifecycle and bootstrap contract](planner-launcher-lifecycle-specification.md)
+specifies pre-execution ordering, runtime object identity and launcher trust.
+Its requirements apply in addition to the following admission sequence.
+
 ## Admission and actual invocation
 
 The planner is not allowed to self-attest by printing a version or ID. The
@@ -98,8 +102,8 @@ against protected snapshots. Any error aborts the admission attempt:
    decision. Build-time dependency provenance is distinct from runtime identity.
 3. Construct the exact invocation from the verified manifest and local policy,
    using the **same verified immutable image**, not an image tag or a later
-   mutable path. Start the container without executing planner work until the
-   runtime configuration is inspected via trusted mechanisms. Verify the
+   mutable path. Create the runtime object without starting planner code, then inspect it via
+   trusted mechanisms as required by the lifecycle contract. Verify the
    concrete image identity, platform, effective entrypoint/arguments, mounts,
    read-only root, network state, environment and isolation settings against the
    approved policy. On mismatch or if a needed fact cannot be verified, stop the

@@ -68,6 +68,7 @@ They are design proposals, not features currently implemented in this repository
 - [Planner build manifest (proposal; not implemented)](docs/planner-build-manifest-specification.md)
 - [Planner build manifest test contract](docs/planner-build-manifest-test-contract.md)
 - [Planner trust and execution (proposal; not implemented)](docs/planner-trust-and-execution-specification.md)
+- [Planner launcher lifecycle and bootstrap (proposal; not implemented)](docs/planner-launcher-lifecycle-specification.md)
 
 ## Reference timeline model (experimental)
 
