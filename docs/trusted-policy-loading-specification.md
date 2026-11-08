@@ -1,6 +1,7 @@
 # Trusted Policy Loading — draft v0.1
 
-Status: **design proposal, not implemented**. `compare-policy` only parses and
+Status: **design proposal, not implemented**. See the
+[Linux snapshot scaffold and test contract](linux-policy-snapshot-test-contract.md). `compare-policy` only parses and
 compares a caller-supplied file; it does not provide the guarantees below. This
 contract refines the [trust and execution](planner-trust-and-execution-specification.md)
 and [launcher lifecycle](planner-launcher-lifecycle-specification.md) drafts.

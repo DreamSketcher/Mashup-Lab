@@ -70,6 +70,7 @@ They are design proposals, not features currently implemented in this repository
 - [Planner trust and execution (proposal; not implemented)](docs/planner-trust-and-execution-specification.md)
 - [Planner launcher lifecycle and bootstrap (proposal; not implemented)](docs/planner-launcher-lifecycle-specification.md)
 - [Trusted policy loading (proposal; not implemented)](docs/trusted-policy-loading-specification.md)
+- [Linux policy snapshot scaffold and test contract](docs/linux-policy-snapshot-test-contract.md)
 
 ## Reference timeline model (experimental)
 
@@ -107,3 +108,7 @@ manifest's claimed identity, image digest and platform. It returns `MATCH`,
 `MATCH` is **not admission or proof of trust**: policy ownership/protection,
 actual image contents, runtime and isolation are not checked. The policy parser
 shares the manifest JSON limits and permits at most 1,024 entries.
+
+The Linux trusted policy snapshot adapter is a fail-closed scaffold only: it
+never reads a policy or returns a trusted snapshot. No Linux configuration is
+currently supported for trusted policy loading or execution admission.
