@@ -116,6 +116,34 @@ class ManifestTests(unittest.TestCase):
         p['dependencies'] = []
         parse_manifest(json.dumps(p).encode())
 
+    def test_resource_limits(self):
+        import tempfile
+        from mashup.safe_json import MAX_BYTES, MAX_DEPTH, MAX_STRING_LENGTH
+        with self.assertRaises(ManifestError): parse_manifest(b' ' * (MAX_BYTES + 1))
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'huge.json'
+            path.write_bytes(b' ' * (MAX_BYTES + 1))
+            with self.assertRaises(ManifestError): load_manifest(path)
+        with self.assertRaises(ManifestError): parse_manifest(b'[' * (MAX_DEPTH + 1) + b']' * (MAX_DEPTH + 1))
+        p = copy.deepcopy(self.doc); p['build_id'] = 'a' * (MAX_STRING_LENGTH + 1)
+        self.check_invalid(p)
+        p['build_id'] = 'a' * MAX_STRING_LENGTH
+        parse_manifest(json.dumps(p).encode())
+        p = copy.deepcopy(self.doc)
+        dep = p['dependencies'][0]
+        p['dependencies'] = [{**dep, 'name': f'package-{i:04d}'} for i in range(1025)]
+        self.check_invalid(p)
+
+    def test_empty_root_control_and_unicode_paths(self):
+        for data in [b'', b'null', b'[]', b'0', b'"object"', b'{"bad\nkey": 1}']:
+            with self.subTest(data=data), self.assertRaises(ManifestError): parse_manifest(data)
+        p = copy.deepcopy(self.doc); p['python']['executable_path'] = '/opt/音声/питон'
+        parse_manifest(json.dumps(p, ensure_ascii=False).encode('utf-8'))
+        p['python']['executable_path'] = '/opt/\x00python'
+        self.check_invalid(p)
+        p['python']['executable_path'] = '/opt/\ud800'
+        self.check_invalid(p)
+
     def test_cli_identity_not_trust(self):
         command = [sys.executable, '-m', 'mashup', 'inspect-manifest', str(FIXTURE)]
         result = subprocess.run(command, capture_output=True, text=True)

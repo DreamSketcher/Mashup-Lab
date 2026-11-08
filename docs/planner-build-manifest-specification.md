@@ -139,3 +139,14 @@ same input snapshots that pass binding verification. These tests exercise the
 chosen implementation and trust boundary, not correctness against a compromised
 host. Build and execution machinery and its testable platform requirements must
 be defined before claiming conformance.
+
+## Parser resource limits
+
+The implemented schema parser accepts at most 1,048,576 raw bytes, 32 nested
+JSON objects/arrays, 4,096 Unicode code points per decoded string (including
+keys), and 1,024 dependency records. File loading reads at most the byte limit
+plus one byte, rather than reading the entire file before rejecting it. JSON
+escaped control characters other than NUL are permitted where a string field
+allows them; raw unescaped controls are invalid JSON. POSIX paths may contain
+non-ASCII characters and are not Unicode-normalized; path identity remains exact.
+These limits bound this parser only, not image verification or an entire service.

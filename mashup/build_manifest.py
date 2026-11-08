@@ -3,28 +3,14 @@
 No files inside the claimed image are opened, and no authorization is performed.
 """
 import hashlib
-import json
 import posixpath
 import re
 from dataclasses import dataclass
-from pathlib import Path
+from .safe_json import decode, read_bounded, SafeJSONError
 
 
 class ManifestError(ValueError):
     """Invalid manifest bytes, schema, or expected identity."""
-
-
-def _object(pairs):
-    result = {}
-    for key, value in pairs:
-        if key in result:
-            raise ManifestError(f'duplicate JSON key: {key}')
-        result[key] = value
-    return result
-
-
-def _invalid_constant(value):
-    raise ManifestError(f'invalid JSON constant: {value}')
 
 
 def _fields(value, keys, name):
@@ -78,6 +64,8 @@ def _validate(manifest):
     dependencies = manifest['dependencies']
     if not isinstance(dependencies, list):
         raise ManifestError('dependencies: expected array')
+    if len(dependencies) > 1024:
+        raise ManifestError('dependencies: exceeds count limit')
     names = []
     for dep in dependencies:
         _fields(dep, ('name', 'version', 'artifact_path', 'artifact_sha256'), 'dependency')
@@ -119,12 +107,11 @@ def parse_manifest(data: bytes, expected_planner_id: str | None = None) -> Manif
     if not isinstance(data, bytes):
         raise TypeError('manifest must be bytes')
     try:
-        text = data.decode('utf-8', errors='strict')
-        manifest = json.loads(text, object_pairs_hook=_object, parse_constant=_invalid_constant)
+        manifest = decode(data)
         _validate(manifest)
     except ManifestError:
         raise
-    except (UnicodeDecodeError, ValueError, RecursionError) as exc:
+    except SafeJSONError as exc:
         raise ManifestError(f'invalid manifest JSON: {exc}') from exc
     digest = hashlib.sha256(data).hexdigest()
     planner_id = f'mashup-lab-timing/0.1/sha256:{digest}'
@@ -135,7 +122,7 @@ def parse_manifest(data: bytes, expected_planner_id: str | None = None) -> Manif
 
 def load_manifest(path, expected_planner_id: str | None = None) -> ManifestIdentity:
     try:
-        data = Path(path).read_bytes()
-    except OSError as exc:
+        data = read_bounded(path)
+    except (OSError, SafeJSONError) as exc:
         raise ManifestError(f'cannot read manifest: {exc}') from exc
     return parse_manifest(data, expected_planner_id)
