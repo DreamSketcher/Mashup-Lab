@@ -1,0 +1,256 @@
+P1 read-only collector v1; no compliance or admission decision
+negative-test username: mashup-p1-unprivileged
+
+=== date -u +%Y-%m-%dT%H:%M:%SZ ===
+2026-11-09T00:16:56Z
+[exit=0]
+
+=== uname -a ===
+Linux e2b.local 6.1.158+ #1 SMP PREEMPT_DYNAMIC Mon May 11 18:48:24 UTC 2026 x86_64 GNU/Linux
+[exit=0]
+
+=== cat /etc/os-release ===
+PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
+NAME="Debian GNU/Linux"
+VERSION_ID="12"
+VERSION="12 (bookworm)"
+VERSION_CODENAME=bookworm
+ID=debian
+HOME_URL="https://www.debian.org/"
+SUPPORT_URL="https://www.debian.org/support"
+BUG_REPORT_URL="https://bugs.debian.org/"
+[exit=0]
+
+=== id ===
+uid=1001(user) gid=1001(user) groups=1001(user),27(sudo),100(users)
+[exit=0]
+
+=== readlink /proc/2674/ns/user ===
+user:[4026531837]
+[exit=0]
+
+=== readlink /proc/2674/ns/mnt ===
+mnt:[4026531841]
+[exit=0]
+
+=== readlink /proc/1/ns/user ===
+[exit=1]
+
+=== readlink /proc/1/ns/mnt ===
+[exit=1]
+
+=== cat /proc/2674/uid_map ===
+         0          0 4294967295
+[exit=0]
+
+=== cat /proc/2674/gid_map ===
+         0          0 4294967295
+[exit=0]
+
+=== cat /proc/2674/status ===
+Name:	bash
+Umask:	0022
+State:	S (sleeping)
+Tgid:	2674
+Ngid:	0
+Pid:	2674
+PPid:	2672
+TracerPid:	0
+Uid:	1001	1001	1001	1001
+Gid:	1001	1001	1001	1001
+FDSize:	256
+Groups:	27 100 1001 1001 
+NStgid:	2674
+NSpid:	2674
+NSpgid:	1229
+NSsid:	1229
+VmPeak:	    4308 kB
+VmSize:	    4308 kB
+VmLck:	       0 kB
+VmPin:	       0 kB
+VmHWM:	    3116 kB
+VmRSS:	    3116 kB
+RssAnon:	     284 kB
+RssFile:	    2832 kB
+RssShmem:	       0 kB
+VmData:	     304 kB
+VmStk:	     132 kB
+VmExe:	     772 kB
+VmLib:	    1596 kB
+VmPTE:	      52 kB
+VmSwap:	       0 kB
+HugetlbPages:	       0 kB
+CoreDumping:	0
+THP_enabled:	1
+Threads:	1
+SigQ:	0/15734
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000010000
+SigIgn:	0000000000000004
+SigCgt:	0000000000010002
+CapInh:	0000000000000000
+CapPrm:	0000000000000000
+CapEff:	0000000000000000
+CapBnd:	000001ffffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	0
+Seccomp_filters:	0
+Speculation_Store_Bypass:	thread vulnerable
+SpeculationIndirectBranch:	conditional enabled
+Cpus_allowed:	3
+Cpus_allowed_list:	0-1
+Mems_allowed:	00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000000,00000001
+Mems_allowed_list:	0
+voluntary_ctxt_switches:	12
+nonvoluntary_ctxt_switches:	0
+[exit=0]
+
+=== systemd-detect-virt ===
+kvm
+[exit=0]
+
+=== ps -p 1 -o pid=\,comm=\,args= ===
+      1 systemd         /sbin/init
+[exit=0]
+
+=== lsns -t user ===
+        NS TYPE  NPROCS   PID USER COMMAND
+4026531837 user       4  2668 user /bin/bash -l -c cat > docs/p1b-test-runner.md <<'EOF'\x0a# P1-B test runner — experimental and incomplete\x0a\x0aThis is a **partial executable evidence harness**, not a complete trusted\x0asnapshot acceptance suite. It does not change production code, create or approve\x0aa VM, perform planner admission, or replace P1-A/P1-C/P1-D. The existing Linux\x0asnapshot API always returns `UNAVAILABLE`.\x0a\x0aThe runner at `scripts/p1b/run.py` assigns stable IDs, prerequisites, expected\x0aand actual results and PASS/FAIL/UNAVAILABLE/NOT_RUN statuses. P1B-01–05 invoke\x0aexisting independent Linux primitive probes (openat2, path race, ACL, memfd and\x0aflock), each in a separate process with a 60-second timeout and per-probe raw\x0astdout/stderr. These tests use temporary subdirectories of an explicitly supplied\x0awork directory. They are not tests of the snapshot implementation and cannot\x0aprove its security. All P1B-06–18 are **NOT_RUN** until a trusted snapshot,\x0aupdater/admission implementation and independent adversarial fixtures/oracles\x0aexist. The catalog identifies those missing scenarios; it is not an executable\x0aimplementation of those tests. Do not claim the requested complete P1-B\x0aacceptance suite has been delivered.\x0a\x0aThe preflight gate checks only Ubuntu 24.04, x86-64, the running kernel and exact\x0ainstalled kernel package. It is deliberately not a P1-A verification: ext4,\x0aACLs, permissions, namespace, image provenance and capabilities must be checked\x0aseparately. A primitive PASS is only its observed behavior, not platform support,\x0apolicy trust or permission to execute. Outcomes depend on finite race sampling\x0aand particular environment; absent privileges or tools are UNAVAILABLE.\x0a\x0a## Running after provisioning an isolated test VM\x0a\x0aFirst establish P1-A using the [P1 report and collector](linux-policy-snapshot-p1-report.md)\x0aand the [platform research](linux-policy-snapshot-platform-research.md). Prepare\x0aan empty, disposable, operator-reviewed ext4 test directory and separate report\x0adirectory. Never use system or production directories; ACL and race probes\x0acreate, modify and delete test objects beneath the supplied directory. The ACL\x0aprobe may invoke `sudo -n` solely to run a test as existing UID 65534; it does\x0anot create accounts or edit system directories. Never pass untrusted work paths\x0aor run this on a shared host.\x0a\x0a```sh\x0apython3 scripts/p1b/run.py --workdir /verified/disposable/empty-test-dir \\x0a  --output /separate/new-report-dir --ack-disposable\x0a```\x0a\x0aReplace both paths after verifying the VM and storage. The command requires an\x0aexisting empty work directory, a new separate report directory, and explicit\x0aacknowledgement. It never provisions, formats, mounts or deletes the supplied\x0awork directory. It runs no primitive probe if the narrow OS/kernel/package gate\x0aor environment collector is unavailable. It collects raw environment/mountinfo\x0aand a JSON report plus any probe logs. The gate is **not** a security boundary\x0aand does not verify that the supplied workdir is a dedicated ext4 mount: that\x0ais an operator prerequisite. Exit 1 means a probe FAIL; exit 2 means at least\x0aone UNAVAILABLE/NOT_RUN; exit 0 would require every scenario PASS and is not\x0apossible while adapter tests remain NOT_RUN. Setup/argument errors also exit 2;\x0acheck whether `report.json` exists to distinguish them.\x0a\x0a## Current execution evidence\x0a\x0aThere is no candidate VM in the current sandbox. A safe preflight on the wrong\x0ahost was used only to exercise the harness's gate. All primitive probes were\x0aUNAVAILABLE and all adapter scenarios NOT_RUN; no P1-B Linux experiments were\x0arun. See [report.json](evidence/p1b-preflight-unavailable/report.json),\x0a[stdout](evidence/p1b-preflight-unavailable/stdout.txt) and the environment\x0acollector output there. This evidence is not VM acceptance. Obtaining a\x0areproducible VM and implementing the missing snapshot and admission fixtures\x0aremain blockers.\x0aEOF\x0amkdir -p /home/user/p1b-empty-work\x0apython3 scripts/p1b/run.py --workdir /home/user/p1b-empty-work --output /home/user/p1b-unavailable-output --ack-disposable > /home/user/p1b-stdout.txt; rc=$?; echo "runner exit=$rc"; cat /home/user/p1b-stdout.txt; git status --short
+[exit=0]
+
+=== lsns -t mnt ===
+        NS TYPE NPROCS   PID USER COMMAND
+4026531841 mnt       4  2668 user /bin/bash -l -c cat > docs/p1b-test-runner.md <<'EOF'\x0a# P1-B test runner — experimental and incomplete\x0a\x0aThis is a **partial executable evidence harness**, not a complete trusted\x0asnapshot acceptance suite. It does not change production code, create or approve\x0aa VM, perform planner admission, or replace P1-A/P1-C/P1-D. The existing Linux\x0asnapshot API always returns `UNAVAILABLE`.\x0a\x0aThe runner at `scripts/p1b/run.py` assigns stable IDs, prerequisites, expected\x0aand actual results and PASS/FAIL/UNAVAILABLE/NOT_RUN statuses. P1B-01–05 invoke\x0aexisting independent Linux primitive probes (openat2, path race, ACL, memfd and\x0aflock), each in a separate process with a 60-second timeout and per-probe raw\x0astdout/stderr. These tests use temporary subdirectories of an explicitly supplied\x0awork directory. They are not tests of the snapshot implementation and cannot\x0aprove its security. All P1B-06–18 are **NOT_RUN** until a trusted snapshot,\x0aupdater/admission implementation and independent adversarial fixtures/oracles\x0aexist. The catalog identifies those missing scenarios; it is not an executable\x0aimplementation of those tests. Do not claim the requested complete P1-B\x0aacceptance suite has been delivered.\x0a\x0aThe preflight gate checks only Ubuntu 24.04, x86-64, the running kernel and exact\x0ainstalled kernel package. It is deliberately not a P1-A verification: ext4,\x0aACLs, permissions, namespace, image provenance and capabilities must be checked\x0aseparately. A primitive PASS is only its observed behavior, not platform support,\x0apolicy trust or permission to execute. Outcomes depend on finite race sampling\x0aand particular environment; absent privileges or tools are UNAVAILABLE.\x0a\x0a## Running after provisioning an isolated test VM\x0a\x0aFirst establish P1-A using the [P1 report and collector](linux-policy-snapshot-p1-report.md)\x0aand the [platform research](linux-policy-snapshot-platform-research.md). Prepare\x0aan empty, disposable, operator-reviewed ext4 test directory and separate report\x0adirectory. Never use system or production directories; ACL and race probes\x0acreate, modify and delete test objects beneath the supplied directory. The ACL\x0aprobe may invoke `sudo -n` solely to run a test as existing UID 65534; it does\x0anot create accounts or edit system directories. Never pass untrusted work paths\x0aor run this on a shared host.\x0a\x0a```sh\x0apython3 scripts/p1b/run.py --workdir /verified/disposable/empty-test-dir \\x0a  --output /separate/new-report-dir --ack-disposable\x0a```\x0a\x0aReplace both paths after verifying the VM and storage. The command requires an\x0aexisting empty work directory, a new separate report directory, and explicit\x0aacknowledgement. It never provisions, formats, mounts or deletes the supplied\x0awork directory. It runs no primitive probe if the narrow OS/kernel/package gate\x0aor environment collector is unavailable. It collects raw environment/mountinfo\x0aand a JSON report plus any probe logs. The gate is **not** a security boundary\x0aand does not verify that the supplied workdir is a dedicated ext4 mount: that\x0ais an operator prerequisite. Exit 1 means a probe FAIL; exit 2 means at least\x0aone UNAVAILABLE/NOT_RUN; exit 0 would require every scenario PASS and is not\x0apossible while adapter tests remain NOT_RUN. Setup/argument errors also exit 2;\x0acheck whether `report.json` exists to distinguish them.\x0a\x0a## Current execution evidence\x0a\x0aThere is no candidate VM in the current sandbox. A safe preflight on the wrong\x0ahost was used only to exercise the harness's gate. All primitive probes were\x0aUNAVAILABLE and all adapter scenarios NOT_RUN; no P1-B Linux experiments were\x0arun. See [report.json](evidence/p1b-preflight-unavailable/report.json),\x0a[stdout](evidence/p1b-preflight-unavailable/stdout.txt) and the environment\x0acollector output there. This evidence is not VM acceptance. Obtaining a\x0areproducible VM and implementing the missing snapshot and admission fixtures\x0aremain blockers.\x0aEOF\x0amkdir -p /home/user/p1b-empty-work\x0apython3 scripts/p1b/run.py --workdir /home/user/p1b-empty-work --output /home/user/p1b-unavailable-output --ack-disposable > /home/user/p1b-stdout.txt; rc=$?; echo "runner exit=$rc"; cat /home/user/p1b-stdout.txt; git status --short
+[exit=0]
+
+=== systemctl --version ===
+systemd 252 (252.39-1~deb12u2)
++PAM +AUDIT +SELINUX +APPARMOR +IMA +SMACK +SECCOMP +GCRYPT -GNUTLS +OPENSSL +ACL +BLKID +CURL +ELFUTILS +FIDO2 +IDN2 -IDN +IPTC +KMOD +LIBCRYPTSETUP +LIBFDISK +PCRE2 -PWQUALITY +P11KIT +QRENCODE +TPM2 +BZIP2 +LZ4 +XZ +ZLIB +ZSTD -BPF_FRAMEWORK -XKBCOMMON +UTMP +SYSVINIT default-hierarchy=unified
+[exit=0]
+
+=== getent passwd mashup-p1-unprivileged ===
+[exit=2]
+
+=== id mashup-p1-unprivileged ===
+id: ‘mashup-p1-unprivileged’: no such user
+[exit=1]
+
+=== dpkg-query -W -f=\$\{Package\}\\t\$\{Version\}\\t\$\{Status\}\\n linux-image-\* systemd e2fsprogs util-linux acl ===
+dpkg-query: no packages found matching linux-image-*
+acl		unknown ok not-installed
+e2fsprogs	1.47.0-2+b2	install ok installed
+systemd	252.39-1~deb12u2	install ok installed
+util-linux	2.38.1-5+deb12u3	install ok installed
+[exit=1]
+
+=== findmnt -T / -o TARGET\,SOURCE\,FSTYPE\,OPTIONS\,PROPAGATION ===
+TARGET SOURCE   FSTYPE OPTIONS             PROPAGATION
+/      /dev/vda ext4   rw,relatime,discard shared
+[exit=0]
+
+=== stat -f -c filesystem_type=%T\ magic=%t / ===
+filesystem_type=ext2/ext3 magic=ef53
+[exit=0]
+
+=== stat -c path=%n\ type=%F\ uid=%u\ gid=%g\ mode=%a\ links=%h\ device=%d\ inode=%i -- / ===
+path=/ type=directory uid=0 gid=0 mode=755 links=19 device=65024 inode=2
+[exit=0]
+
+=== getfacl -p -- / ===
+UNAVAILABLE: command not installed: getfacl
+[exit=127]
+
+=== stat -c path=%n\ type=%F\ uid=%u\ gid=%g\ mode=%a\ links=%h\ device=%d\ inode=%i -- /etc ===
+path=/etc type=directory uid=0 gid=0 mode=755 links=58 device=65024 inode=16
+[exit=0]
+
+=== getfacl -p -- /etc ===
+UNAVAILABLE: command not installed: getfacl
+[exit=127]
+
+=== stat -c path=%n\ type=%F\ uid=%u\ gid=%g\ mode=%a\ links=%h\ device=%d\ inode=%i -- /etc/mashup-lab ===
+stat: cannot statx '/etc/mashup-lab': No such file or directory
+[exit=1]
+
+=== getfacl -p -- /etc/mashup-lab ===
+UNAVAILABLE: command not installed: getfacl
+[exit=127]
+
+=== stat -c path=%n\ type=%F\ uid=%u\ gid=%g\ mode=%a\ links=%h\ device=%d\ inode=%i -- /etc/mashup-lab/policy.json ===
+stat: cannot statx '/etc/mashup-lab/policy.json': No such file or directory
+[exit=1]
+
+=== getfacl -p -- /etc/mashup-lab/policy.json ===
+UNAVAILABLE: command not installed: getfacl
+[exit=127]
+
+=== stat -c path=%n\ type=%F\ uid=%u\ gid=%g\ mode=%a\ links=%h\ device=%d\ inode=%i -- /etc/mashup-lab/policy.lock ===
+stat: cannot statx '/etc/mashup-lab/policy.lock': No such file or directory
+[exit=1]
+
+=== getfacl -p -- /etc/mashup-lab/policy.lock ===
+UNAVAILABLE: command not installed: getfacl
+[exit=127]
+
+=== command -v qemu-system-x86_64 ===
+[exit=1]
+
+=== command -v qemu-img ===
+[exit=1]
+
+=== command -v virsh ===
+[exit=1]
+
+=== command -v VBoxManage ===
+[exit=1]
+
+=== command -v multipass ===
+[exit=1]
+
+=== command -v cloud-localds ===
+[exit=1]
+
+=== command -v getfacl ===
+[exit=1]
+
+=== command -v setfacl ===
+[exit=1]
+
+=== command -v capsh ===
+/usr/sbin/capsh
+[exit=0]
+
+=== command -v tune2fs ===
+/usr/sbin/tune2fs
+[exit=0]
+
+=== ls -l /dev/kvm /dev/net/tun ===
+ls: cannot access '/dev/kvm': No such file or directory
+crw------- 1 root root 10, 200 Jun 15 17:00 /dev/net/tun
+[exit=2]
+
+=== capsh --print ===
+Current: =
+Bounding set =cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read,cap_perfmon,cap_bpf,cap_checkpoint_restore
+Ambient set =
+Current IAB: 
+Securebits: 00/0x0/1'b0 (no-new-privs=0)
+ secure-noroot: no (unlocked)
+ secure-no-suid-fixup: no (unlocked)
+ secure-keep-caps: no (unlocked)
+ secure-no-ambient-raise: no (unlocked)
+uid=1001(user) euid=1001(user)
+gid=1001(user)
+groups=27(sudo),100(users),1001(user),1001(user)
+Guessed mode: HYBRID (4)
+[exit=0]
+
+=== raw mountinfo ===
+saved mountinfo.txt [exit=0]
+
+=== ext4 superblock ===
+UNAVAILABLE: P1_EXT4_DEVICE not specified; no device guessed
+
+Collection finished. Command failures and unavailable facts are preserved above.

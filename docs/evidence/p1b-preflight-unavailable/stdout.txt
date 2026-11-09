@@ -1,0 +1,18 @@
+P1B-01 UNAVAILABLE openat2: exact target OS, architecture, running kernel and kernel package not established; not run
+P1B-02 UNAVAILABLE path_race: exact target OS, architecture, running kernel and kernel package not established; not run
+P1B-03 UNAVAILABLE acl: exact target OS, architecture, running kernel and kernel package not established; not run
+P1B-04 UNAVAILABLE memfd: exact target OS, architecture, running kernel and kernel package not established; not run
+P1B-05 UNAVAILABLE flock: exact target OS, architecture, running kernel and kernel package not established; not run
+P1B-06 NOT_RUN trusted-chain: required implementation and independent acceptance harness do not exist
+P1B-07 NOT_RUN file-types: required implementation and independent acceptance harness do not exist
+P1B-08 NOT_RUN acl-authority: required implementation and independent acceptance harness do not exist
+P1B-09 NOT_RUN path-escape: required implementation and independent acceptance harness do not exist
+P1B-10 NOT_RUN snapshot-races: required implementation and independent acceptance harness do not exist
+P1B-11 NOT_RUN same-bytes: required implementation and independent acceptance harness do not exist
+P1B-12 NOT_RUN update-lock: required implementation and independent acceptance harness do not exist
+P1B-13 NOT_RUN updater-crash: required implementation and independent acceptance harness do not exist
+P1B-14 NOT_RUN fail-closed: required implementation and independent acceptance harness do not exist
+P1B-15 NOT_RUN admission-revocation: required implementation and independent acceptance harness do not exist
+P1B-16 NOT_RUN policy-invariants: required implementation and independent acceptance harness do not exist
+P1B-17 NOT_RUN mount-topology: required implementation and independent acceptance harness do not exist
+P1B-18 NOT_RUN lock-replacement: required implementation and independent acceptance harness do not exist
