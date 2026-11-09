@@ -71,6 +71,7 @@ They are design proposals, not features currently implemented in this repository
 - [Planner launcher lifecycle and bootstrap (proposal; not implemented)](docs/planner-launcher-lifecycle-specification.md)
 - [Trusted policy loading (proposal; not implemented)](docs/trusted-policy-loading-specification.md)
 - [Linux policy snapshot scaffold and test contract](docs/linux-policy-snapshot-test-contract.md)
+- [Linux policy crash-consistency test contract](docs/linux-policy-crash-consistency-test-contract.md)
 
 ## Reference timeline model (experimental)
 
