@@ -26,10 +26,8 @@ jobs:
         run: |
           artifact="$RUNNER_TEMP/policy-research-artifact"
           if [ -f "$artifact/status.tsv" ]; then
-            while IFS=$'\t' read -r probe result detail; do
-              [ "$probe" = probe ] && continue
-              printf '::notice title=Linux probe %s::%s - %s\n' "$probe" "$result" "$detail"
-            done < "$artifact/status.tsv"
+            statuses=$(awk -F '\t' 'NR>1 {printf "%s=%s; ", $1, $2}' "$artifact/status.tsv")
+            printf '::notice title=Linux probe summary::%s\n' "$statuses"
           else
             echo '::warning title=Linux research::No status report was produced'
           fi
