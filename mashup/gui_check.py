@@ -12,8 +12,8 @@ def main():
         print(f'PySide6: недоступен: {exc}')
         ok = False
     try:
-        from .conversion import ffmpeg_executable
-        executable = ffmpeg_executable()
+        import imageio_ffmpeg
+        executable = imageio_ffmpeg.get_ffmpeg_exe()
         result = subprocess.run([executable, '-version'], stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE, timeout=15, check=True)
         version = result.stdout.decode('utf-8', 'replace').splitlines()
