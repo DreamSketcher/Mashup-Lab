@@ -220,3 +220,5 @@ BPM ≠ первый beat ≠ downbeat ≠ waveform phase. Постоянный 
 См. [сравнение SRC в изолированной среде](audio-resampler-experiment.md) и
 [сравнение лицензий и условий поставки](licensing-distribution-research.md).
 Лицензия и DSP-кандидат не выбраны; результаты не меняют спецификацию.
+
+Дальнейшее [расследование samplerate и проект эталонной сетки](src-contract-and-samplerate-investigation.md) остаётся исследованием, не утверждённым контрактом.

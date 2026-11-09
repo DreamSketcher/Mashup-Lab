@@ -1,0 +1,5810 @@
+{
+  "cases": {
+    "44100-48000-ch1-n1-first_impulse": {
+      "geometry_half_up": 1,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 1.0,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": 0.9657284021377563,
+        "output_frame": 0,
+        "soxr_value": 0.9132402539253235
+      },
+      "native_simple_used": 1,
+      "soxr_frames": 1,
+      "streams": {
+        "1": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 1,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 1
+      }
+    },
+    "44100-48000-ch1-n1-last_impulse": {
+      "geometry_half_up": 1,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 1.0,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": 0.9657284021377563,
+        "output_frame": 0,
+        "soxr_value": 0.9132402539253235
+      },
+      "native_simple_used": 1,
+      "soxr_frames": 1,
+      "streams": {
+        "1": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 1,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 1
+      }
+    },
+    "44100-48000-ch1-n1-tone": {
+      "geometry_half_up": 1,
+      "ideal_impulse_probe": null,
+      "native_simple_used": 1,
+      "soxr_frames": 1,
+      "streams": {
+        "1": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 1,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 1
+      }
+    },
+    "44100-48000-ch1-n10-first_impulse": {
+      "geometry_half_up": 11,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 1.0,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": 0.9657284021377563,
+        "output_frame": 0,
+        "soxr_value": 0.9132402539253235
+      },
+      "native_simple_used": 10,
+      "soxr_frames": 11,
+      "streams": {
+        "1": {
+          "native_calls": 11,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 10,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 10
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 10
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 10,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 10
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 10,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 10
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 10,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 10
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 10,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 10
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 10,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 10
+      }
+    },
+    "44100-48000-ch1-n10-last_impulse": {
+      "geometry_half_up": 11,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.9431653207443821,
+        "input_coordinate": 9.1875,
+        "input_impulse_frame": 9,
+        "native_value": null,
+        "output_frame": 10,
+        "soxr_value": 0.9068821668624878
+      },
+      "native_simple_used": 10,
+      "soxr_frames": 11,
+      "streams": {
+        "1": {
+          "native_calls": 11,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 10,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 10
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 10
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 10,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 10
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 10,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 10
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 10,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 10
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 10,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 10
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 10,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 10
+      }
+    },
+    "44100-48000-ch1-n10-tone": {
+      "geometry_half_up": 11,
+      "ideal_impulse_probe": null,
+      "native_simple_used": 10,
+      "soxr_frames": 11,
+      "streams": {
+        "1": {
+          "native_calls": 11,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 10,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 10
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 10
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 10,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 10
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 10,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 10
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 10,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 10
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 10,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 10
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 10,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 10
+      }
+    },
+    "44100-48000-ch1-n100-first_impulse": {
+      "geometry_half_up": 109,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 1.0,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": 0.9657284021377563,
+        "output_frame": 0,
+        "soxr_value": 0.9132402539253235
+      },
+      "native_simple_used": 100,
+      "soxr_frames": 109,
+      "streams": {
+        "1": {
+          "native_calls": 101,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 108,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 108
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 108
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 108,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 108
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 108,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 108
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 108,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 108
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 108,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 108
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 108,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 108
+      }
+    },
+    "44100-48000-ch1-n100-last_impulse": {
+      "geometry_half_up": 109,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.9187810415389628,
+        "input_coordinate": 99.225,
+        "input_impulse_frame": 99,
+        "native_value": null,
+        "output_frame": 108,
+        "soxr_value": 0.8854402303695679
+      },
+      "native_simple_used": 100,
+      "soxr_frames": 109,
+      "streams": {
+        "1": {
+          "native_calls": 101,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 108,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 108
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 108
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 108,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 108
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 108,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 108
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 108,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 108
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 108,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 108
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 108,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 108
+      }
+    },
+    "44100-48000-ch1-n100-tone": {
+      "geometry_half_up": 109,
+      "ideal_impulse_probe": null,
+      "native_simple_used": 100,
+      "soxr_frames": 109,
+      "streams": {
+        "1": {
+          "native_calls": 101,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 108,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 108
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 108
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 108,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 108
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 108,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 108
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 108,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 108
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 108,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 108
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 108,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 108
+      }
+    },
+    "44100-48000-ch1-n4096-first_impulse": {
+      "geometry_half_up": 4458,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 1.0,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": 0.9657284021377563,
+        "output_frame": 0,
+        "soxr_value": 0.9132402539253235
+      },
+      "native_simple_used": 4096,
+      "soxr_frames": 4458,
+      "streams": {
+        "1": {
+          "native_calls": 4097,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 4303,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          }
+        },
+        "1024": {
+          "native_calls": 19,
+          "native_consumed": 4096,
+          "native_drain_generated": 1130,
+          "native_partial_input_calls": 9,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 4302,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          }
+        },
+        "127": {
+          "native_calls": 34,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 4302,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 4458,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 4458
+      }
+    },
+    "44100-48000-ch1-n4096-last_impulse": {
+      "geometry_half_up": 4458,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.9719033558350689,
+        "input_coordinate": 4094.86875,
+        "input_impulse_frame": 4095,
+        "native_value": 0.9404019117355347,
+        "output_frame": 4457,
+        "soxr_value": 0.9321171045303345
+      },
+      "native_simple_used": 4096,
+      "soxr_frames": 4458,
+      "streams": {
+        "1": {
+          "native_calls": 4097,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 4303,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          }
+        },
+        "1024": {
+          "native_calls": 19,
+          "native_consumed": 4096,
+          "native_drain_generated": 1130,
+          "native_partial_input_calls": 9,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 4302,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          }
+        },
+        "127": {
+          "native_calls": 34,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 4302,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 4458,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 4458
+      }
+    },
+    "44100-48000-ch1-n4096-tone": {
+      "geometry_half_up": 4458,
+      "ideal_impulse_probe": null,
+      "native_simple_used": 4096,
+      "soxr_frames": 4458,
+      "streams": {
+        "1": {
+          "native_calls": 4097,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 4303,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          }
+        },
+        "1024": {
+          "native_calls": 19,
+          "native_consumed": 4096,
+          "native_drain_generated": 1130,
+          "native_partial_input_calls": 9,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 4302,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          }
+        },
+        "127": {
+          "native_calls": 34,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 4302,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 4458,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 4458
+      }
+    },
+    "44100-48000-ch1-n441-first_impulse": {
+      "geometry_half_up": 480,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 1.0,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": 0.9657284021377563,
+        "output_frame": 0,
+        "soxr_value": 0.9132402539253235
+      },
+      "native_simple_used": 441,
+      "soxr_frames": 480,
+      "streams": {
+        "1": {
+          "native_calls": 442,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 325,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          }
+        },
+        "1024": {
+          "native_calls": 3,
+          "native_consumed": 441,
+          "native_drain_generated": 224,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          }
+        },
+        "127": {
+          "native_calls": 5,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 324,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 480,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 480
+      }
+    },
+    "44100-48000-ch1-n441-last_impulse": {
+      "geometry_half_up": 480,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.9891761863638215,
+        "input_coordinate": 440.08125,
+        "input_impulse_frame": 440,
+        "native_value": 0.9559751152992249,
+        "output_frame": 479,
+        "soxr_value": 0.9472662210464478
+      },
+      "native_simple_used": 441,
+      "soxr_frames": 480,
+      "streams": {
+        "1": {
+          "native_calls": 442,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 325,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          }
+        },
+        "1024": {
+          "native_calls": 3,
+          "native_consumed": 441,
+          "native_drain_generated": 224,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          }
+        },
+        "127": {
+          "native_calls": 5,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 324,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 480,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 480
+      }
+    },
+    "44100-48000-ch1-n441-tone": {
+      "geometry_half_up": 480,
+      "ideal_impulse_probe": null,
+      "native_simple_used": 441,
+      "soxr_frames": 480,
+      "streams": {
+        "1": {
+          "native_calls": 442,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 325,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          }
+        },
+        "1024": {
+          "native_calls": 3,
+          "native_consumed": 441,
+          "native_drain_generated": 224,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          }
+        },
+        "127": {
+          "native_calls": 5,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 324,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 480,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 480
+      }
+    },
+    "44100-48000-ch2-n1-first_impulse": {
+      "geometry_half_up": 1,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 1.0,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": 0.9657284021377563,
+        "output_frame": 0,
+        "soxr_value": 0.9132402539253235
+      },
+      "native_simple_used": 1,
+      "soxr_frames": 1,
+      "streams": {
+        "1": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 2,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 2
+      }
+    },
+    "44100-48000-ch2-n1-last_impulse": {
+      "geometry_half_up": 1,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 1.0,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": 0.9657284021377563,
+        "output_frame": 0,
+        "soxr_value": 0.9132402539253235
+      },
+      "native_simple_used": 1,
+      "soxr_frames": 1,
+      "streams": {
+        "1": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 2,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 2
+      }
+    },
+    "44100-48000-ch2-n1-tone": {
+      "geometry_half_up": 1,
+      "ideal_impulse_probe": null,
+      "native_simple_used": 1,
+      "soxr_frames": 1,
+      "streams": {
+        "1": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 2,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 2
+      }
+    },
+    "44100-48000-ch2-n10-first_impulse": {
+      "geometry_half_up": 11,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 1.0,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": 0.9657284021377563,
+        "output_frame": 0,
+        "soxr_value": 0.9132402539253235
+      },
+      "native_simple_used": 10,
+      "soxr_frames": 11,
+      "streams": {
+        "1": {
+          "native_calls": 11,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 11,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 11
+      }
+    },
+    "44100-48000-ch2-n10-last_impulse": {
+      "geometry_half_up": 11,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.9431653207443821,
+        "input_coordinate": 9.1875,
+        "input_impulse_frame": 9,
+        "native_value": 0.9144669771194458,
+        "output_frame": 10,
+        "soxr_value": 0.9068821668624878
+      },
+      "native_simple_used": 10,
+      "soxr_frames": 11,
+      "streams": {
+        "1": {
+          "native_calls": 11,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 11,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 11
+      }
+    },
+    "44100-48000-ch2-n10-tone": {
+      "geometry_half_up": 11,
+      "ideal_impulse_probe": null,
+      "native_simple_used": 10,
+      "soxr_frames": 11,
+      "streams": {
+        "1": {
+          "native_calls": 11,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 11,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 11
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 11,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 11
+      }
+    },
+    "44100-48000-ch2-n100-first_impulse": {
+      "geometry_half_up": 109,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 1.0,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": 0.9657284021377563,
+        "output_frame": 0,
+        "soxr_value": 0.9132402539253235
+      },
+      "native_simple_used": 100,
+      "soxr_frames": 109,
+      "streams": {
+        "1": {
+          "native_calls": 101,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 109,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 109
+      }
+    },
+    "44100-48000-ch2-n100-last_impulse": {
+      "geometry_half_up": 109,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.9187810415389628,
+        "input_coordinate": 99.225,
+        "input_impulse_frame": 99,
+        "native_value": 0.8924364447593689,
+        "output_frame": 108,
+        "soxr_value": 0.8854402303695679
+      },
+      "native_simple_used": 100,
+      "soxr_frames": 109,
+      "streams": {
+        "1": {
+          "native_calls": 101,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 109,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 109
+      }
+    },
+    "44100-48000-ch2-n100-tone": {
+      "geometry_half_up": 109,
+      "ideal_impulse_probe": null,
+      "native_simple_used": 100,
+      "soxr_frames": 109,
+      "streams": {
+        "1": {
+          "native_calls": 101,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 109,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 109
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 109,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 109
+      }
+    },
+    "44100-48000-ch2-n4096-first_impulse": {
+      "geometry_half_up": 4458,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 1.0,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": 0.9657284021377563,
+        "output_frame": 0,
+        "soxr_value": 0.9132402539253235
+      },
+      "native_simple_used": 4096,
+      "soxr_frames": 4458,
+      "streams": {
+        "1": {
+          "native_calls": 4097,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 4459,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4459
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 4303,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4459
+          }
+        },
+        "1024": {
+          "native_calls": 19,
+          "native_consumed": 4096,
+          "native_drain_generated": 1131,
+          "native_partial_input_calls": 9,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 4459,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4459
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 4302,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4459
+          }
+        },
+        "127": {
+          "native_calls": 34,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 4459,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4459
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 4302,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4459
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 4459,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 4459
+      }
+    },
+    "44100-48000-ch2-n4096-last_impulse": {
+      "geometry_half_up": 4458,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.9719033558350689,
+        "input_coordinate": 4094.86875,
+        "input_impulse_frame": 4095,
+        "native_value": 0.9404019117355347,
+        "output_frame": 4457,
+        "soxr_value": 0.9321171045303345
+      },
+      "native_simple_used": 4096,
+      "soxr_frames": 4458,
+      "streams": {
+        "1": {
+          "native_calls": 4097,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 4459,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4459
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 4303,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4459
+          }
+        },
+        "1024": {
+          "native_calls": 19,
+          "native_consumed": 4096,
+          "native_drain_generated": 1131,
+          "native_partial_input_calls": 9,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 4459,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4459
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 4302,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4459
+          }
+        },
+        "127": {
+          "native_calls": 34,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 4459,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4459
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 4302,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4459
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 4459,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 4459
+      }
+    },
+    "44100-48000-ch2-n4096-tone": {
+      "geometry_half_up": 4458,
+      "ideal_impulse_probe": null,
+      "native_simple_used": 4096,
+      "soxr_frames": 4458,
+      "streams": {
+        "1": {
+          "native_calls": 4097,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 4459,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4459
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 4303,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4459
+          }
+        },
+        "1024": {
+          "native_calls": 19,
+          "native_consumed": 4096,
+          "native_drain_generated": 1131,
+          "native_partial_input_calls": 9,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 4459,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4459
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 4302,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4459
+          }
+        },
+        "127": {
+          "native_calls": 34,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 4459,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4459
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 4458,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4458
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 4302,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 4459
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 4459,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 4459
+      }
+    },
+    "44100-48000-ch2-n441-first_impulse": {
+      "geometry_half_up": 480,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 1.0,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": 0.9657284021377563,
+        "output_frame": 0,
+        "soxr_value": 0.9132402539253235
+      },
+      "native_simple_used": 441,
+      "soxr_frames": 480,
+      "streams": {
+        "1": {
+          "native_calls": 442,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 481,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 481
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 325,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 481
+          }
+        },
+        "1024": {
+          "native_calls": 3,
+          "native_consumed": 441,
+          "native_drain_generated": 225,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 481,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 481
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 481,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 481
+          }
+        },
+        "127": {
+          "native_calls": 5,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 481,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 481
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 324,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 481
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 481,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 481
+      }
+    },
+    "44100-48000-ch2-n441-last_impulse": {
+      "geometry_half_up": 480,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.9891761863638215,
+        "input_coordinate": 440.08125,
+        "input_impulse_frame": 440,
+        "native_value": 0.9559751152992249,
+        "output_frame": 479,
+        "soxr_value": 0.9472662210464478
+      },
+      "native_simple_used": 441,
+      "soxr_frames": 480,
+      "streams": {
+        "1": {
+          "native_calls": 442,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 481,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 481
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 325,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 481
+          }
+        },
+        "1024": {
+          "native_calls": 3,
+          "native_consumed": 441,
+          "native_drain_generated": 225,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 481,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 481
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 481,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 481
+          }
+        },
+        "127": {
+          "native_calls": 5,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 481,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 481
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 324,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 481
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 481,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 481
+      }
+    },
+    "44100-48000-ch2-n441-tone": {
+      "geometry_half_up": 480,
+      "ideal_impulse_probe": null,
+      "native_simple_used": 441,
+      "soxr_frames": 480,
+      "streams": {
+        "1": {
+          "native_calls": 442,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 481,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 481
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 325,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 481
+          }
+        },
+        "1024": {
+          "native_calls": 3,
+          "native_consumed": 441,
+          "native_drain_generated": 225,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 481,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 481
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 481,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 481
+          }
+        },
+        "127": {
+          "native_calls": 5,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 481,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 481
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 480,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 480
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 324,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 481
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 481,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 481
+      }
+    },
+    "48000-32000-ch1-n1-first_impulse": {
+      "geometry_half_up": 1,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.6666666666666666,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": null,
+        "output_frame": 0,
+        "soxr_value": 0.6379145383834839
+      },
+      "native_simple_used": 1,
+      "soxr_frames": 1,
+      "streams": {
+        "1": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 0,
+            "prefix_max_abs_diff": null,
+            "reference_frames": 0
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 0,
+            "prefix_max_abs_diff": null,
+            "reference_frames": 0
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 0,
+            "prefix_max_abs_diff": null,
+            "reference_frames": 0
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 0,
+            "prefix_max_abs_diff": null,
+            "reference_frames": 0
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 0,
+            "prefix_max_abs_diff": null,
+            "reference_frames": 0
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 0,
+            "prefix_max_abs_diff": null,
+            "reference_frames": 0
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 0,
+        "prefix_max_abs_diff": null,
+        "reference_frames": 0
+      }
+    },
+    "48000-32000-ch1-n1-last_impulse": {
+      "geometry_half_up": 1,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.6666666666666666,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": null,
+        "output_frame": 0,
+        "soxr_value": 0.6379145383834839
+      },
+      "native_simple_used": 1,
+      "soxr_frames": 1,
+      "streams": {
+        "1": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 0,
+            "prefix_max_abs_diff": null,
+            "reference_frames": 0
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 0,
+            "prefix_max_abs_diff": null,
+            "reference_frames": 0
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 0,
+            "prefix_max_abs_diff": null,
+            "reference_frames": 0
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 0,
+            "prefix_max_abs_diff": null,
+            "reference_frames": 0
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 0,
+            "prefix_max_abs_diff": null,
+            "reference_frames": 0
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 0,
+            "prefix_max_abs_diff": null,
+            "reference_frames": 0
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 0,
+        "prefix_max_abs_diff": null,
+        "reference_frames": 0
+      }
+    },
+    "48000-32000-ch1-n1-tone": {
+      "geometry_half_up": 1,
+      "ideal_impulse_probe": null,
+      "native_simple_used": 1,
+      "soxr_frames": 1,
+      "streams": {
+        "1": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 0,
+            "prefix_max_abs_diff": null,
+            "reference_frames": 0
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 0,
+            "prefix_max_abs_diff": null,
+            "reference_frames": 0
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 0,
+            "prefix_max_abs_diff": null,
+            "reference_frames": 0
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 0,
+            "prefix_max_abs_diff": null,
+            "reference_frames": 0
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 0,
+            "prefix_max_abs_diff": null,
+            "reference_frames": 0
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 0,
+            "prefix_max_abs_diff": null,
+            "reference_frames": 0
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 0,
+        "prefix_max_abs_diff": null,
+        "reference_frames": 0
+      }
+    },
+    "48000-32000-ch1-n10-first_impulse": {
+      "geometry_half_up": 7,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.6666666666666666,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": 0.6438189148902893,
+        "output_frame": 0,
+        "soxr_value": 0.6379145383834839
+      },
+      "native_simple_used": 10,
+      "soxr_frames": 7,
+      "streams": {
+        "1": {
+          "native_calls": 11,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 6,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 6
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 6
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 6,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 6
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 6,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 6
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 6,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 6
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 6,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 6
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 6,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 6
+      }
+    },
+    "48000-32000-ch1-n10-last_impulse": {
+      "geometry_half_up": 7,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.6666666666666666,
+        "input_coordinate": 9.0,
+        "input_impulse_frame": 9,
+        "native_value": null,
+        "output_frame": 6,
+        "soxr_value": 0.6379145383834839
+      },
+      "native_simple_used": 10,
+      "soxr_frames": 7,
+      "streams": {
+        "1": {
+          "native_calls": 11,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 6,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 6
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 6
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 6,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 6
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 6,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 6
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 6,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 6
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 6,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 6
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 6,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 6
+      }
+    },
+    "48000-32000-ch1-n10-tone": {
+      "geometry_half_up": 7,
+      "ideal_impulse_probe": null,
+      "native_simple_used": 10,
+      "soxr_frames": 7,
+      "streams": {
+        "1": {
+          "native_calls": 11,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 6,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 6
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 6
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 6,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 6
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 6,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 6
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 6,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 6
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 6,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 6
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 6,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 6
+      }
+    },
+    "48000-32000-ch1-n100-first_impulse": {
+      "geometry_half_up": 67,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.6666666666666666,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": 0.6438189148902893,
+        "output_frame": 0,
+        "soxr_value": 0.6379145383834839
+      },
+      "native_simple_used": 100,
+      "soxr_frames": 67,
+      "streams": {
+        "1": {
+          "native_calls": 101,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 66,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 66
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 66
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 66,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 66
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 66,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 66
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 66,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 66
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 66,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 66
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 66,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 66
+      }
+    },
+    "48000-32000-ch1-n100-last_impulse": {
+      "geometry_half_up": 67,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.6666666666666666,
+        "input_coordinate": 99.0,
+        "input_impulse_frame": 99,
+        "native_value": null,
+        "output_frame": 66,
+        "soxr_value": 0.6379145383834839
+      },
+      "native_simple_used": 100,
+      "soxr_frames": 67,
+      "streams": {
+        "1": {
+          "native_calls": 101,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 66,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 66
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 66
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 66,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 66
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 66,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 66
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 66,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 66
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 66,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 66
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 66,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 66
+      }
+    },
+    "48000-32000-ch1-n100-tone": {
+      "geometry_half_up": 67,
+      "ideal_impulse_probe": null,
+      "native_simple_used": 100,
+      "soxr_frames": 67,
+      "streams": {
+        "1": {
+          "native_calls": 101,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 66,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 66
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 66
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 66,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 66
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 66,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 66
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 66,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 66
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 66,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 66
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 66,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 66
+      }
+    },
+    "48000-32000-ch1-n4096-first_impulse": {
+      "geometry_half_up": 2731,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.6666666666666666,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": 0.6438189148902893,
+        "output_frame": 0,
+        "soxr_value": 0.6379145383834839
+      },
+      "native_simple_used": 4096,
+      "soxr_frames": 2731,
+      "streams": {
+        "1": {
+          "native_calls": 4097,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2730,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2730
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2588,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2730
+          }
+        },
+        "1024": {
+          "native_calls": 12,
+          "native_consumed": 4096,
+          "native_drain_generated": 682,
+          "native_partial_input_calls": 4,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2730,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2730
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2588,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2730
+          }
+        },
+        "127": {
+          "native_calls": 34,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2730,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2730
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2588,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2730
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 2730,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 2730
+      }
+    },
+    "48000-32000-ch1-n4096-last_impulse": {
+      "geometry_half_up": 2731,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.6666666666666666,
+        "input_coordinate": 4095.0,
+        "input_impulse_frame": 4095,
+        "native_value": null,
+        "output_frame": 2730,
+        "soxr_value": 0.6379145383834839
+      },
+      "native_simple_used": 4096,
+      "soxr_frames": 2731,
+      "streams": {
+        "1": {
+          "native_calls": 4097,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2730,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2730
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2588,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2730
+          }
+        },
+        "1024": {
+          "native_calls": 12,
+          "native_consumed": 4096,
+          "native_drain_generated": 682,
+          "native_partial_input_calls": 4,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2730,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2730
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2588,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2730
+          }
+        },
+        "127": {
+          "native_calls": 34,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2730,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2730
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2588,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2730
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 2730,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 2730
+      }
+    },
+    "48000-32000-ch1-n4096-tone": {
+      "geometry_half_up": 2731,
+      "ideal_impulse_probe": null,
+      "native_simple_used": 4096,
+      "soxr_frames": 2731,
+      "streams": {
+        "1": {
+          "native_calls": 4097,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2730,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2730
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2588,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2730
+          }
+        },
+        "1024": {
+          "native_calls": 12,
+          "native_consumed": 4096,
+          "native_drain_generated": 682,
+          "native_partial_input_calls": 4,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2730,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2730
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2588,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2730
+          }
+        },
+        "127": {
+          "native_calls": 34,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2730,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2730
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2588,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2730
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 2730,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 2730
+      }
+    },
+    "48000-32000-ch1-n441-first_impulse": {
+      "geometry_half_up": 294,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.6666666666666666,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": 0.6438189148902893,
+        "output_frame": 0,
+        "soxr_value": 0.6379145383834839
+      },
+      "native_simple_used": 441,
+      "soxr_frames": 294,
+      "streams": {
+        "1": {
+          "native_calls": 442,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 151,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          }
+        },
+        "1024": {
+          "native_calls": 3,
+          "native_consumed": 441,
+          "native_drain_generated": 38,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          }
+        },
+        "127": {
+          "native_calls": 5,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 151,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 294,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 294
+      }
+    },
+    "48000-32000-ch1-n441-last_impulse": {
+      "geometry_half_up": 294,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.5513288954217921,
+        "input_coordinate": 439.5,
+        "input_impulse_frame": 440,
+        "native_value": 0.5395296812057495,
+        "output_frame": 293,
+        "soxr_value": 0.53635573387146
+      },
+      "native_simple_used": 441,
+      "soxr_frames": 294,
+      "streams": {
+        "1": {
+          "native_calls": 442,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 151,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          }
+        },
+        "1024": {
+          "native_calls": 3,
+          "native_consumed": 441,
+          "native_drain_generated": 38,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          }
+        },
+        "127": {
+          "native_calls": 5,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 151,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 294,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 294
+      }
+    },
+    "48000-32000-ch1-n441-tone": {
+      "geometry_half_up": 294,
+      "ideal_impulse_probe": null,
+      "native_simple_used": 441,
+      "soxr_frames": 294,
+      "streams": {
+        "1": {
+          "native_calls": 442,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 151,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          }
+        },
+        "1024": {
+          "native_calls": 3,
+          "native_consumed": 441,
+          "native_drain_generated": 38,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          }
+        },
+        "127": {
+          "native_calls": 5,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 151,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 294,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 294
+      }
+    },
+    "48000-32000-ch2-n1-first_impulse": {
+      "geometry_half_up": 1,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.6666666666666666,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": 0.6438189148902893,
+        "output_frame": 0,
+        "soxr_value": 0.6379145383834839
+      },
+      "native_simple_used": 1,
+      "soxr_frames": 1,
+      "streams": {
+        "1": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 1,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 1
+      }
+    },
+    "48000-32000-ch2-n1-last_impulse": {
+      "geometry_half_up": 1,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.6666666666666666,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": 0.6438189148902893,
+        "output_frame": 0,
+        "soxr_value": 0.6379145383834839
+      },
+      "native_simple_used": 1,
+      "soxr_frames": 1,
+      "streams": {
+        "1": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 1,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 1
+      }
+    },
+    "48000-32000-ch2-n1-tone": {
+      "geometry_half_up": 1,
+      "ideal_impulse_probe": null,
+      "native_simple_used": 1,
+      "soxr_frames": 1,
+      "streams": {
+        "1": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 1,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 1
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 1,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 1
+      }
+    },
+    "48000-32000-ch2-n10-first_impulse": {
+      "geometry_half_up": 7,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.6666666666666666,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": 0.6438189148902893,
+        "output_frame": 0,
+        "soxr_value": 0.6379145383834839
+      },
+      "native_simple_used": 10,
+      "soxr_frames": 7,
+      "streams": {
+        "1": {
+          "native_calls": 11,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 7,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 7
+      }
+    },
+    "48000-32000-ch2-n10-last_impulse": {
+      "geometry_half_up": 7,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.6666666666666666,
+        "input_coordinate": 9.0,
+        "input_impulse_frame": 9,
+        "native_value": 0.6438189148902893,
+        "output_frame": 6,
+        "soxr_value": 0.6379145383834839
+      },
+      "native_simple_used": 10,
+      "soxr_frames": 7,
+      "streams": {
+        "1": {
+          "native_calls": 11,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 7,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 7
+      }
+    },
+    "48000-32000-ch2-n10-tone": {
+      "geometry_half_up": 7,
+      "ideal_impulse_probe": null,
+      "native_simple_used": 10,
+      "soxr_frames": 7,
+      "streams": {
+        "1": {
+          "native_calls": 11,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 10,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 7,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 7
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 7,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 7
+      }
+    },
+    "48000-32000-ch2-n100-first_impulse": {
+      "geometry_half_up": 67,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.6666666666666666,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": 0.6438189148902893,
+        "output_frame": 0,
+        "soxr_value": 0.6379145383834839
+      },
+      "native_simple_used": 100,
+      "soxr_frames": 67,
+      "streams": {
+        "1": {
+          "native_calls": 101,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 67,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 67
+      }
+    },
+    "48000-32000-ch2-n100-last_impulse": {
+      "geometry_half_up": 67,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.6666666666666666,
+        "input_coordinate": 99.0,
+        "input_impulse_frame": 99,
+        "native_value": 0.6438189148902893,
+        "output_frame": 66,
+        "soxr_value": 0.6379145383834839
+      },
+      "native_simple_used": 100,
+      "soxr_frames": 67,
+      "streams": {
+        "1": {
+          "native_calls": 101,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 67,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 67
+      }
+    },
+    "48000-32000-ch2-n100-tone": {
+      "geometry_half_up": 67,
+      "ideal_impulse_probe": null,
+      "native_simple_used": 100,
+      "soxr_frames": 67,
+      "streams": {
+        "1": {
+          "native_calls": 101,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 1,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          }
+        },
+        "1024": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          }
+        },
+        "127": {
+          "native_calls": 2,
+          "native_consumed": 100,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 67,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 67
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 67,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 67
+      }
+    },
+    "48000-32000-ch2-n4096-first_impulse": {
+      "geometry_half_up": 2731,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.6666666666666666,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": 0.6438189148902893,
+        "output_frame": 0,
+        "soxr_value": 0.6379145383834839
+      },
+      "native_simple_used": 4096,
+      "soxr_frames": 2731,
+      "streams": {
+        "1": {
+          "native_calls": 4097,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2588,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          }
+        },
+        "1024": {
+          "native_calls": 12,
+          "native_consumed": 4096,
+          "native_drain_generated": 683,
+          "native_partial_input_calls": 4,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2588,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          }
+        },
+        "127": {
+          "native_calls": 34,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2588,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 2731,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 2731
+      }
+    },
+    "48000-32000-ch2-n4096-last_impulse": {
+      "geometry_half_up": 2731,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.6666666666666666,
+        "input_coordinate": 4095.0,
+        "input_impulse_frame": 4095,
+        "native_value": 0.6438189148902893,
+        "output_frame": 2730,
+        "soxr_value": 0.6379145383834839
+      },
+      "native_simple_used": 4096,
+      "soxr_frames": 2731,
+      "streams": {
+        "1": {
+          "native_calls": 4097,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2588,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          }
+        },
+        "1024": {
+          "native_calls": 12,
+          "native_consumed": 4096,
+          "native_drain_generated": 683,
+          "native_partial_input_calls": 4,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2588,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          }
+        },
+        "127": {
+          "native_calls": 34,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2588,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 2731,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 2731
+      }
+    },
+    "48000-32000-ch2-n4096-tone": {
+      "geometry_half_up": 2731,
+      "ideal_impulse_probe": null,
+      "native_simple_used": 4096,
+      "soxr_frames": 2731,
+      "streams": {
+        "1": {
+          "native_calls": 4097,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2588,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          }
+        },
+        "1024": {
+          "native_calls": 12,
+          "native_consumed": 4096,
+          "native_drain_generated": 683,
+          "native_partial_input_calls": 4,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2588,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          }
+        },
+        "127": {
+          "native_calls": 34,
+          "native_consumed": 4096,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 2731,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 2588,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 2731
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 2731,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 2731
+      }
+    },
+    "48000-32000-ch2-n441-first_impulse": {
+      "geometry_half_up": 294,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.6666666666666666,
+        "input_coordinate": 0.0,
+        "input_impulse_frame": 0,
+        "native_value": 0.6438189148902893,
+        "output_frame": 0,
+        "soxr_value": 0.6379145383834839
+      },
+      "native_simple_used": 441,
+      "soxr_frames": 294,
+      "streams": {
+        "1": {
+          "native_calls": 442,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 151,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          }
+        },
+        "1024": {
+          "native_calls": 3,
+          "native_consumed": 441,
+          "native_drain_generated": 38,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          }
+        },
+        "127": {
+          "native_calls": 5,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 151,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 294,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 294
+      }
+    },
+    "48000-32000-ch2-n441-last_impulse": {
+      "geometry_half_up": 294,
+      "ideal_impulse_probe": {
+        "ideal_sinc_value": 0.5513288954217921,
+        "input_coordinate": 439.5,
+        "input_impulse_frame": 440,
+        "native_value": 0.5395296812057495,
+        "output_frame": 293,
+        "soxr_value": 0.53635573387146
+      },
+      "native_simple_used": 441,
+      "soxr_frames": 294,
+      "streams": {
+        "1": {
+          "native_calls": 442,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 151,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          }
+        },
+        "1024": {
+          "native_calls": 3,
+          "native_consumed": 441,
+          "native_drain_generated": 38,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          }
+        },
+        "127": {
+          "native_calls": 5,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 151,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 294,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 294
+      }
+    },
+    "48000-32000-ch2-n441-tone": {
+      "geometry_half_up": 294,
+      "ideal_impulse_probe": null,
+      "native_simple_used": 441,
+      "soxr_frames": 294,
+      "streams": {
+        "1": {
+          "native_calls": 442,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 151,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          }
+        },
+        "1024": {
+          "native_calls": 3,
+          "native_consumed": 441,
+          "native_drain_generated": 38,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "wrapper_vs_native": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          }
+        },
+        "127": {
+          "native_calls": 5,
+          "native_consumed": 441,
+          "native_drain_generated": 0,
+          "native_partial_input_calls": 0,
+          "native_vs_simple": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "soxr_vs_oneshot": {
+            "exact": true,
+            "frames": 294,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          },
+          "wrapper_vs_native": {
+            "exact": false,
+            "frames": 151,
+            "prefix_max_abs_diff": 0.0,
+            "reference_frames": 294
+          }
+        }
+      },
+      "wrapper_vs_native_simple": {
+        "exact": true,
+        "frames": 294,
+        "prefix_max_abs_diff": 0.0,
+        "reference_frames": 294
+      }
+    }
+  },
+  "context_isolation_crop_first": {
+    "samplerate": {
+      "exact": true,
+      "frames": 480,
+      "input_end_exclusive": 578,
+      "input_start": 137
+    },
+    "soxr": {
+      "exact": true,
+      "frames": 480,
+      "input_end_exclusive": 578,
+      "input_start": 137
+    }
+  },
+  "environment": {
+    "libsoxr": "0.1.3-14-ga66f3ee",
+    "native_sha256": "cccfab50a246683b21eca01392d51176597fa5cf3613602987a5ab2daec7a22f",
+    "numpy": "2.4.6",
+    "platform": "Linux-6.1.158+-x86_64-with-glibc2.36",
+    "python": "3.11.2 (main, Apr  8 2026, 01:58:00) [GCC 12.2.0]",
+    "samplerate": "0.2.4",
+    "soxr": "1.1.0",
+    "wheel_libsamplerate": "0.2.2"
+  },
+  "wrapper_capacity_trace": {
+    "all_input_consumed": 44100,
+    "calls": [
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 958,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1114,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1114,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1114,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1114,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1114,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1114,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1114,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1114,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1114,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1114,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1114,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1114,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1114,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1114,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1114,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1114,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1114,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1114,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 1115,
+        "eos": false,
+        "generated": 1115,
+        "offered": 1024,
+        "used": 1024
+      },
+      {
+        "capacity": 75,
+        "eos": true,
+        "generated": 75,
+        "offered": 68,
+        "used": 68
+      }
+    ],
+    "emulated_vs_native_complete": {
+      "exact": false,
+      "frames": 47845,
+      "prefix_max_abs_diff": 0.0,
+      "reference_frames": 48000
+    },
+    "emulated_vs_wrapper": {
+      "exact": true,
+      "frames": 47845,
+      "prefix_max_abs_diff": 0.0,
+      "reference_frames": 47845
+    },
+    "last_call": {
+      "capacity": 75,
+      "eos": true,
+      "generated": 75,
+      "offered": 68,
+      "used": 68
+    },
+    "native_complete_drain_generated": 128,
+    "native_complete_input_consumed": 44100,
+    "partial_calls": 0,
+    "tail_frames": 155,
+    "with_native_tail_vs_complete": {
+      "exact": true,
+      "frames": 48000,
+      "prefix_max_abs_diff": 0.0,
+      "reference_frames": 48000
+    }
+  }
+}
