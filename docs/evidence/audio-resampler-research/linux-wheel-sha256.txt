@@ -1,0 +1,5 @@
+89cd468399cfd2504718f0ba50e410dca55a170b61a02ad92bb18c8a65186e93  numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl
+b8bb0864c5a28024fac8a632c443c87c5aa6f215c0b126c449ae1a150412f31d  pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+3a0bbbf088894208386b0dc30ebacd51bab7406931cd9c6c31c1cf99baf026ee  samplerate-0.2.4-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl
+1e38bac1853412871318e82a1ba69a8be677619b56025bbfcccdb41b6cafe82d  soundfile-0.14.0-py2.py3-none-manylinux_2_28_x86_64.whl
+3da87e3ffa3e41823d873b051c7ecb2acebd8d1b6b46b752f5facf10a0d84ab9  soxr-1.1.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl

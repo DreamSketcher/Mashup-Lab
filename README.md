@@ -147,3 +147,9 @@ and in the Windows test workflow; it is not implied by Linux test results.
 The [audio-engine audit](docs/audio-engine-research-audit.md) and [architecture
 recommendations](docs/audio-engine-architecture-recommendations.md) are proposals
 for review, not implemented features or finalized backend choices.
+
+## License status
+
+**License: undecided.** No open-source license has been granted for the project
+in this repository. See the [licensing and distribution research](docs/licensing-distribution-research.md);
+third-party dependencies retain their own licenses.

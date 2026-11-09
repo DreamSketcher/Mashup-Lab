@@ -1,0 +1,8 @@
+3222ba5d678f80a030e6afbcc33dc1ae5cb45facabb61cee2c7016b8432fde48  cffi-2.1.1-cp314-cp314-win_amd64.whl
+2ca144f15135b6212a5c47b1e2aeca6e412f102f95a2d5d88d8aec77eb255de3  numpy-2.5.4-cp314-cp314-win_amd64.whl
+a076f3f489b39b43ed13563a1dafe42447445bec2e294154ec5c57fcdda4c85e  pycparser-3.12-py3-none-any.whl
+4a2e8cebe2ff6ab7d1050ecd59c25d4c8bd7e6f400f5f82b96557ac0abafd0ac  pyyaml-6.0.3-cp314-cp314-win_amd64.whl
+f8093c12d698ae821501efeb0796f189cb354d48ea8f6299ad9d79468df22eec  samplerate-0.2.4-cp314-cp314-win_amd64.whl
+299491d3499460fb1b74bb4bd78b57ffc2d243a5fafa7b6ec1b264875c78453e  soundfile-0.14.0-py2.py3-none-win_amd64.whl
+6ae2a174bffea94e8ead857dad85999d3f49f091774dbad5b046c0417d7092f4  soxr-1.1.0-cp312-abi3-win_amd64.whl
+481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8  typing_extensions-4.16.0-py3-none-any.whl

@@ -1,0 +1,283 @@
+{
+  "libsamplerate": "0.2.2",
+  "libsoxr": "0.1.3-14-ga66f3ee",
+  "numpy": "2.4.6",
+  "platform": "Linux-6.1.158+-x86_64-with-glibc2.36",
+  "python": "3.11.2",
+  "python_samplerate": "0.2.4",
+  "python_soxr": "1.1.0",
+  "results": {
+    "samplerate": {
+      "context": {
+        "crop_frames": 24000,
+        "first_256_max_abs_diff": 0.0018529444932937622,
+        "interior_max_abs_diff": 0.0,
+        "max_abs_diff": 0.0018529444932937622
+      },
+      "dc": {
+        "expected_frames": 48000,
+        "finite": true,
+        "first_five": [
+          0.9828642010688782,
+          1.0420372486114502,
+          0.9543567299842834,
+          1.0430207252502441,
+          0.9627571105957031
+        ],
+        "input_frames": 44100,
+        "interior_max_error": 5.960464477539063e-08,
+        "last_five": [
+          0.9623023271560669,
+          1.047906756401062,
+          0.9424245953559875,
+          1.0669119358062744,
+          0.9219182133674622
+        ],
+        "output_frames": 48000,
+        "peak": 1.0669119358062744,
+        "repeat_exact": true,
+        "sha256_float32_le": "dfd7fbd27c7b8b03eb4b16a00a3578fa63c1da3310e244cb5683486d903c33bc"
+      },
+      "downsample_18k": {
+        "alias_amplitude_at_14k": 2.065786406397904e-08,
+        "alias_db_relative_to_input_peak": -147.67769178097885,
+        "frames": 32000
+      },
+      "impulse": {
+        "expected_frames": 48000,
+        "finite": true,
+        "ideal_nearest_frame": 5442,
+        "input_frames": 44100,
+        "output_frames": 48000,
+        "peak": 0.9270698428153992,
+        "peak_frame": 5442,
+        "repeat_exact": true,
+        "sha256_float32_le": "1eac3978ebc9794d448a05dd77734eb8b520314ebbdfa0a15b62e33999e2f81a"
+      },
+      "short_lengths": {
+        "1": {
+          "expected": 1,
+          "frames": 1
+        },
+        "10": {
+          "expected": 11,
+          "frames": 10
+        },
+        "100": {
+          "expected": 109,
+          "frames": 108
+        },
+        "2": {
+          "expected": 2,
+          "frames": 2
+        },
+        "3": {
+          "expected": 3,
+          "frames": 3
+        },
+        "441": {
+          "expected": 480,
+          "frames": 480
+        }
+      },
+      "silence": {
+        "expected_frames": 48000,
+        "finite": true,
+        "input_frames": 44100,
+        "output_frames": 48000,
+        "peak": 0.0,
+        "repeat_exact": true,
+        "sha256_float32_le": "ea0787f65f73b0013d03b359490e3125211b28ad5c1502ffb1544c0ded4192f5"
+      },
+      "stereo": {
+        "channel_ratio_max_error": 0.0,
+        "expected_frames": 48000,
+        "finite": true,
+        "input_frames": 44100,
+        "output_frames": 48001,
+        "peak": 0.5000208616256714,
+        "repeat_exact": true,
+        "sha256_float32_le": "d05941f9e3888e073dd740693e3088fc71cec11b6013d747563377b85c379ee5"
+      },
+      "sweep": {
+        "expected_frames": 48000,
+        "finite": true,
+        "input_frames": 44100,
+        "output_frames": 48000,
+        "peak": 0.5266298055648804,
+        "repeat_exact": true,
+        "sha256_float32_le": "88139a23f289ff4bc578b23124b8670ddc3da0cd6fc03af6af7f64da14dbd01c"
+      },
+      "timing": {
+        "median_wall_s": 0.14369671800000106,
+        "runs": 5,
+        "seconds_input": 5
+      },
+      "tone_1000": {
+        "expected_frames": 48000,
+        "finite": true,
+        "input_frames": 44100,
+        "output_frames": 48000,
+        "peak": 0.5000208616256714,
+        "repeat_exact": true,
+        "sha256_float32_le": "56ea74f2ced7bc823e22258c9e540146158cc3f5ecafe6610b76bc651a2cc1b2",
+        "stream": {
+          "1024": {
+            "exact": false,
+            "first_output_frames": 958,
+            "frames": 47845,
+            "max_abs_diff": null
+          },
+          "127": {
+            "exact": false,
+            "first_output_frames": 0,
+            "frames": 47844,
+            "max_abs_diff": null
+          },
+          "4096": {
+            "exact": false,
+            "first_output_frames": 4302,
+            "frames": 47844,
+            "max_abs_diff": null
+          }
+        }
+      }
+    },
+    "soxr": {
+      "context": {
+        "crop_frames": 24000,
+        "first_256_max_abs_diff": 0.001985892653465271,
+        "interior_max_abs_diff": 3.2782554626464844e-07,
+        "max_abs_diff": 0.001985892653465271
+      },
+      "dc": {
+        "expected_frames": 48000,
+        "finite": true,
+        "first_five": [
+          0.9428854584693909,
+          1.0268303155899048,
+          0.9500447511672974,
+          1.0446549654006958,
+          0.9627684354782104
+        ],
+        "input_frames": 44100,
+        "interior_max_error": 3.5762786865234375e-07,
+        "last_five": [
+          0.9633885025978088,
+          1.0484802722930908,
+          0.9402559399604797,
+          1.0703809261322021,
+          0.917635977268219
+        ],
+        "output_frames": 48000,
+        "peak": 1.0703809261322021,
+        "repeat_exact": true,
+        "sha256_float32_le": "be753dafac1347fb3a52bf86ed79121deced0e2b96ef1e92ab93fff01f94eba4"
+      },
+      "downsample_18k": {
+        "alias_amplitude_at_14k": 2.1073421813304904e-08,
+        "alias_db_relative_to_input_peak": -147.5046988819351,
+        "frames": 32000
+      },
+      "impulse": {
+        "expected_frames": 48000,
+        "finite": true,
+        "ideal_nearest_frame": 5442,
+        "input_frames": 44100,
+        "output_frames": 48000,
+        "peak": 0.9191458225250244,
+        "peak_frame": 5442,
+        "repeat_exact": true,
+        "sha256_float32_le": "d96fd2a440761b053ba11781b1c4f3028bd4800afd91ce56ec54ccbe35cf80f3"
+      },
+      "short_lengths": {
+        "1": {
+          "expected": 1,
+          "frames": 1
+        },
+        "10": {
+          "expected": 11,
+          "frames": 11
+        },
+        "100": {
+          "expected": 109,
+          "frames": 109
+        },
+        "2": {
+          "expected": 2,
+          "frames": 2
+        },
+        "3": {
+          "expected": 3,
+          "frames": 3
+        },
+        "441": {
+          "expected": 480,
+          "frames": 480
+        }
+      },
+      "silence": {
+        "expected_frames": 48000,
+        "finite": true,
+        "input_frames": 44100,
+        "output_frames": 48000,
+        "peak": 0.0,
+        "repeat_exact": true,
+        "sha256_float32_le": "ea0787f65f73b0013d03b359490e3125211b28ad5c1502ffb1544c0ded4192f5"
+      },
+      "stereo": {
+        "channel_ratio_max_error": 0.0,
+        "expected_frames": 48000,
+        "finite": true,
+        "input_frames": 44100,
+        "output_frames": 48000,
+        "peak": 0.5000002384185791,
+        "repeat_exact": true,
+        "sha256_float32_le": "8ba1893e4c4cd585d4ff51621c517b88641e2f4c8a33ad77ff93ac06350c15b5"
+      },
+      "sweep": {
+        "expected_frames": 48000,
+        "finite": true,
+        "input_frames": 44100,
+        "output_frames": 48000,
+        "peak": 0.5228793621063232,
+        "repeat_exact": true,
+        "sha256_float32_le": "27b43cf95608e83d84750c31fe0ecb028f277a11680b520b3fe2b05246fd0215"
+      },
+      "timing": {
+        "median_wall_s": 0.0019299679999562613,
+        "runs": 5,
+        "seconds_input": 5
+      },
+      "tone_1000": {
+        "expected_frames": 48000,
+        "finite": true,
+        "input_frames": 44100,
+        "output_frames": 48000,
+        "peak": 0.5000002384185791,
+        "repeat_exact": true,
+        "sha256_float32_le": "b01d23b0a5737325f5d85c267ac18d25561975655cf6a8250f267ee95c5b7b5b",
+        "stream": {
+          "1024": {
+            "exact": true,
+            "first_output_frames": 889,
+            "frames": 48000,
+            "max_abs_diff": 0.0
+          },
+          "127": {
+            "exact": true,
+            "first_output_frames": 0,
+            "frames": 48000,
+            "max_abs_diff": 0.0
+          },
+          "4096": {
+            "exact": true,
+            "first_output_frames": 3566,
+            "frames": 48000,
+            "max_abs_diff": 0.0
+          }
+        }
+      }
+    }
+  }
+}
