@@ -141,34 +141,65 @@ def flock_probe():
             child.stdout.close()
 
 
-def acl():
+def acl_probe(kind):
     import shutil
     if not all(shutil.which(x) for x in ('setfacl', 'getfacl', 'sudo')):
         raise Unavailable('ACL utilities or sudo missing')
-    # Nothing outside this temporary ext4 filesystem is modified. The pre-existing
-    # nobody identity is used; no system accounts are created or changed.
-    if subprocess.run(['sudo', '-n', 'true']).returncode: raise Unavailable('noninteractive sudo unavailable')
-    if subprocess.run(['sudo', '-n', '-u', '#65534', 'true']).returncode:
-        raise Unavailable('sudo cannot run as uid 65534')
+    # Use a pre-existing numeric UID/GID, without changing system accounts.
+    identity = ['sudo', '-n', '-u', '#65534', '-g', '#65534']
+    if subprocess.run(identity + ['true']).returncode:
+        raise Unavailable('sudo cannot run as uid/gid 65534')
     with tempfile.TemporaryDirectory(dir=BASE) as root:
         os.chmod(root, 0o755)
-        if subprocess.run(['sudo', '-n', '-u', '#65534', 'test', '-x', root]).returncode:
+        if subprocess.run(identity + ['test', '-x', root]).returncode:
             raise Unavailable('uid 65534 cannot traverse temporary directory')
-        file = Path(root, 'acl-test'); file.write_text('acl-probe'); os.chmod(file, 0o600)
-        result = subprocess.run(['setfacl', '-m', 'u:65534:r--', str(file)], capture_output=True, text=True)
-        print('setfacl:', result.stdout, result.stderr)
-        if result.returncode: raise Unavailable('cannot set POSIX ACL')
-        subprocess.run(['getfacl', '-p', str(file)], check=True)
-        code = "import os,sys; p=sys.argv[1]; assert open(p).read()=='acl-probe';\ntry: os.open(p,os.O_WRONLY)\nexcept PermissionError: sys.exit(0)\nsys.exit(1)"
-        result = subprocess.run(['sudo', '-n', '-u', '#65534', sys.executable, '-c', code, str(file)], capture_output=True, text=True)
-        print('nonprivileged read/denied write exit=', result.returncode, 'stdout=', result.stdout, 'stderr=', result.stderr)
-        if result.returncode: raise AssertionError('nonprivileged access did not match expected ACL')
+        file = Path(root, 'acl-test')
+        def access(expected_write):
+            code = ("import os,sys; p=sys.argv[1]; print('read:',open(p).read()); "
+                    "expect=int(sys.argv[2]); "
+                    "\ntry:\n fd=os.open(p,os.O_WRONLY); os.close(fd); result=1"
+                    "\nexcept PermissionError: result=0"
+                    "\nprint('write allowed:', result); sys.exit(0 if result==expect else 1)")
+            result = subprocess.run(identity + [sys.executable, '-c', code, str(file), str(int(expected_write))],
+                                    capture_output=True, text=True)
+            print('access result:', result.returncode, result.stdout, result.stderr, flush=True)
+            if result.returncode: raise AssertionError('access result differs from expected')
+        def set_acl(*args):
+            result = subprocess.run(['setfacl', *args], capture_output=True, text=True)
+            print('setfacl:', result.returncode, result.stdout, result.stderr, flush=True)
+            if result.returncode: raise Unavailable('cannot set POSIX ACL')
+        if kind == 'user':
+            file.write_text('acl-probe'); os.chmod(file, 0o600)
+            set_acl('-m', 'u:65534:r--', str(file)); access(False)
+            set_acl('-m', 'u:65534:rw-', str(file)); access(True)
+        elif kind == 'group':
+            file.write_text('acl-probe'); os.chmod(file, 0o600)
+            set_acl('-m', 'g:65534:rw-', str(file)); access(True)
+            set_acl('-m', 'm::r--', str(file)); access(False)
+        elif kind == 'default':
+            set_acl('-d', '-m', 'u:65534:rw-', root)
+            fd = os.open(file, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o660)
+            os.write(fd, b'acl-probe'); os.close(fd)
+            access(True)
+            print('new file inherited default ACL', flush=True)
+        else:
+            raise ValueError('unknown ACL probe')
+        subprocess.run(['getfacl', '-p', root, str(file)], check=True)
+        print(f'ACL {kind} access checks succeeded', flush=True)
+
+
+def acl():
+    # Backward-compatible P1-B primitive; all three cases must pass.
+    for kind in ('user', 'group', 'default'):
+        acl_probe(kind)
 
 
 BASE = Path(os.environ['PROBE_ROOT'])
 if __name__ == '__main__':
     try:
-        {'openat2': openat2, 'path_race': race, 'memfd': sealed_memfd, 'flock': flock_probe, 'acl': acl}[sys.argv[1]]()
+        {'openat2': openat2, 'path_race': race, 'memfd': sealed_memfd, 'flock': flock_probe, 'acl': acl, 'acl_user': lambda: acl_probe('user'),
+         'acl_group': lambda: acl_probe('group'),
+         'acl_default': lambda: acl_probe('default')}[sys.argv[1]]()
     except (Unavailable, NotImplementedError) as exc:
         print('UNAVAILABLE:', exc); sys.exit(77)
     except Exception as exc:

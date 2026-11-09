@@ -7,7 +7,8 @@ mkdir -p "$out"
 : > "$out/status.tsv"
 echo -e 'probe\tstatus\tdetail' >> "$out/status.tsv"
 status() { printf '%s\t%s\t%s\n' "$1" "$2" "$3" >> "$out/status.tsv"; }
-root=$(mktemp -d "${RUNNER_TEMP:-/tmp}/mashup-policy-probes.XXXXXXXX") || exit 2
+# /tmp is traversable by the test UID; no system directory permissions change.
+root=$(mktemp -d /tmp/mashup-policy-probes.XXXXXXXX) || exit 2
 chmod 755 "$root"
 loop=''
 mounted=0
@@ -71,7 +72,7 @@ else
     status loop_ext4 UNAVAILABLE 'cannot create/mount isolated ext4; see loop.log'
 fi
 any_fail=0
-for probe in openat2 path_race acl memfd flock; do
+for probe in openat2 path_race acl_user acl_group acl_default memfd flock; do
     if [ "$loop_ready" != 1 ]; then
         echo 'UNAVAILABLE: isolated ext4 not available; probe not run' > "$out/$probe.log"
         status "$probe" UNAVAILABLE 'loop filesystem unavailable'
