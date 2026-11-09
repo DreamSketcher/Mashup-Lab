@@ -141,3 +141,9 @@ virtual environment and use the CLI without manual activation. See the
 [Windows guide](docs/windows-launcher.md) for setup, render limitations and
 troubleshooting. Windows and Russian-locale testing status is documented there
 and in the Windows test workflow; it is not implied by Linux test results.
+
+## Audio architecture research
+
+The [audio-engine audit](docs/audio-engine-research-audit.md) and [architecture
+recommendations](docs/audio-engine-architecture-recommendations.md) are proposals
+for review, not implemented features or finalized backend choices.
