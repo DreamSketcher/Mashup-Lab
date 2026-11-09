@@ -172,7 +172,7 @@ try {
                     $candidate = FindPython
                     if ($candidate) { Say "Найден совместимый Python: $($candidate.Exe) $($candidate.Args -join ' ')" } else { Say 'Совместимый системный Python не найден (для создания .venv нужен Python 3.11+).' }
                     $baseReady = Ready
-                    $guiReady = CheckGui
+                    $guiReady = CheckEnvironment
                     if ($baseReady -and $guiReady) { Say 'Окружение, интерфейс и FFmpeg готовы.'; $lastResult = 0 } else { $lastResult = 1 }
                 }
                 '2' {
