@@ -21,7 +21,7 @@ class WindowsLauncherTests(unittest.TestCase):
         cls.tmp = tempfile.TemporaryDirectory()
         cls.root = Path(cls.tmp.name) / 'Проект & тест ! %MASHUP_LAUNCHER_UNSET% и (пробел)'
         cls.root.mkdir()
-        for name in ('Mashup-Lab.bat', 'pyproject.toml', 'requirements.txt'):
+        for name in ('Mashup-Lab.bat', 'pyproject.toml', 'requirements.txt', 'requirements-gui.txt'):
             shutil.copy2(REPO / name, cls.root / name)
         for name in ('mashup', 'scripts/windows', 'docs'):
             shutil.copytree(REPO / name, cls.root / name, ignore=shutil.ignore_patterns('__pycache__'))

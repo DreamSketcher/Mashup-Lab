@@ -27,13 +27,14 @@ class WindowsGuiInstallTests(unittest.TestCase):
             profile.mkdir()
             env.update(PYTHONUTF8='1', PYTHONIOENCODING='utf-8', QT_QPA_PLATFORM='offscreen', USERPROFILE=str(profile))
             result = subprocess.run([str(root / 'Mashup-Lab.bat')], cwd=tmp,
-                                    input=b'2\n9\n8\n7\n', stdout=subprocess.PIPE,
+                                    input=b'1\n2\n1\n7\n', stdout=subprocess.PIPE,
                                     stderr=subprocess.STDOUT, env=env, timeout=600)
             output = result.stdout.decode('utf-8', 'replace')
             self.assertEqual(result.returncode, 0, output)
-            self.assertIn('PySide6 не установлен. Выберите пункт 8', output)
+            self.assertIn('нет работающего .venv', output)
+            self.assertIn('Окружение, интерфейс и FFmpeg готовы.', output)
             self.assertNotIn('Traceback (most recent call last)', output)
-            self.assertIn('Интерфейс установлен.', output)
+            self.assertIn('Интерфейс и FFmpeg установлены и проверены.', output)
             python = root / '.venv' / 'Scripts' / 'python.exe'
             check = subprocess.run([str(python), '-c',
                                     'import sys, PySide6; from PySide6.QtWidgets import QApplication; '
@@ -46,6 +47,24 @@ class WindowsGuiInstallTests(unittest.TestCase):
                                      'import imageio_ffmpeg, subprocess; subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(), "-version"], check=True)'],
                                     capture_output=True, timeout=30)
             self.assertEqual(ffmpeg.returncode, 0, ffmpeg.stderr.decode('utf-8', 'replace'))
+
+            # A damaged executable in an otherwise installed wheel must be
+            # reported by menu 1 and repaired by menu 8, not merely ignored by pip.
+            exe = subprocess.run([str(python), '-c',
+                                  'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())'],
+                                 text=True, capture_output=True, encoding='utf-8', check=True).stdout.strip()
+            Path(exe).unlink()
+            # Prevent a system FFmpeg on the hosted runner from masking damage.
+            env['PATH'] = str(Path(os.environ['SystemRoot']) / 'System32')
+            result = subprocess.run([str(root / 'Mashup-Lab.bat')], cwd=tmp,
+                                    input=b'1\n8\n1\n7\n', stdout=subprocess.PIPE,
+                                    stderr=subprocess.STDOUT, env=env, timeout=600)
+            output = result.stdout.decode('utf-8', 'replace')
+            self.assertEqual(result.returncode, 0, output)
+            self.assertIn('FFmpeg: недоступен', output)
+            self.assertIn('Попытка восстановить пакет FFmpeg', output)
+            self.assertIn('Интерфейс и FFmpeg установлены и проверены.', output)
+            self.assertIn('Окружение, интерфейс и FFmpeg готовы.', output)
 
             # The real menu action must start the actual GUI, not just import
             # its dependency. Only the temporary copied GUI gets a test timer

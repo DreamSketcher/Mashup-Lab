@@ -114,19 +114,33 @@ function Prepare {
     [IO.File]::WriteAllText($stamp, (RequirementsHash))
     Say 'Окружение готово.'; return 0
 }
+function CheckGui {
+    if (-not (Test-Path -LiteralPath $venvPython -PathType Leaf) -or -not (Compatible $venvPython '')) {
+        Say 'PySide6 и FFmpeg не проверены: нет работающего .venv. Выберите пункт 2.'; return $false
+    }
+    & $venvPython -m mashup.gui_check | Out-Host
+    return ($LASTEXITCODE -eq 0)
+}
 function PrepareGui {
     if (-not (Ready)) { return 1 }
     $guiRequirements = Join-Path $root 'requirements-gui.txt'
     if (-not (Test-Path -LiteralPath $guiRequirements -PathType Leaf)) { Say 'Файл requirements-gui.txt не найден.'; return 1 }
-    Say 'Установка необязательного интерфейса PySide6 в .venv...'
+    Say 'Установка интерфейса PySide6 и FFmpeg (imageio-ffmpeg) в .venv...'
     & $venvPython -m pip install -r $guiRequirements | Out-Host
     if ($LASTEXITCODE -ne 0) { Say 'Не удалось установить интерфейс.'; return 1 }
-    & $venvPython -c 'from PySide6.QtWidgets import QApplication' | Out-Host
-    if ($LASTEXITCODE -ne 0) { Say 'Не удалось загрузить PySide6.'; return 1 }
-    Say 'Интерфейс установлен.'; return 0
+    & $venvPython -m pip check | Out-Host
+    if ($LASTEXITCODE -ne 0) { Say 'Проверка зависимостей не пройдена.'; return 1 }
+    if (-not (CheckGui)) {
+        Say 'Попытка восстановить пакет FFmpeg (переустановка imageio-ffmpeg)...'
+        & $venvPython -m pip install --force-reinstall --no-deps 'imageio-ffmpeg==0.6.0' | Out-Host
+        if ($LASTEXITCODE -ne 0) { Say 'Не удалось восстановить FFmpeg.'; return 1 }
+        if (-not (CheckGui)) { Say 'Интерфейс или FFmpeg не прошёл проверку. Проверьте сообщения выше и IMAGEIO_FFMPEG_EXE, затем повторите пункт 8.'; return 1 }
+    }
+    Say 'Интерфейс и FFmpeg установлены и проверены.'; return 0
 }
 function RunGui {
     if (-not (Ready)) { return 1 }
+    if (-not (CheckGui)) { return 1 }
     & $venvPython -m mashup gui | Out-Host
     $code = $LASTEXITCODE
     if ($code -ne 0) { Say "Ошибка интерфейса (код $code). См. сообщение выше и локальную трассу." }
@@ -157,7 +171,7 @@ function RunProject([string]$command) {
 try {
     Say 'Mashup Lab — экспериментальный CLI. Окно можно закрыть после выхода из меню.'
     while ($true) {
-        Say "`n1. Проверить окружение`n2. Подготовить окружение / установить зависимости`n3. Проверить проект`n4. Построить план проекта`n5. Выполнить рендер`n6. Открыть документацию`n7. Выход`n8. Установить интерфейс PySide6`n9. Открыть интерфейс"
+        Say "`n1. Проверить окружение, PySide6 и FFmpeg`n2. Подготовить окружение и установить все зависимости`n3. Проверить проект`n4. Построить план проекта`n5. Выполнить рендер`n6. Открыть документацию`n7. Выход`n8. Установить / восстановить PySide6 и FFmpeg`n9. Открыть интерфейс"
         $choice = Ask 'Выберите пункт: '
         if ($null -eq $choice) { break }
         try {
@@ -165,9 +179,14 @@ try {
                 '1' {
                     $candidate = FindPython
                     if ($candidate) { Say "Найден совместимый Python: $($candidate.Exe) $($candidate.Args -join ' ')" } else { Say 'Совместимый системный Python не найден (для создания .venv нужен Python 3.11+).' }
-                    if (Ready) { Say 'Локальное окружение готово.'; $lastResult = 0 } else { $lastResult = 1 }
+                    $baseReady = Ready
+                    $guiReady = CheckGui
+                    if ($baseReady -and $guiReady) { Say 'Окружение, интерфейс и FFmpeg готовы.'; $lastResult = 0 } else { $lastResult = 1 }
                 }
-                '2' { $lastResult = Prepare }
+                '2' {
+                    $lastResult = Prepare
+                    if ($lastResult -eq 0) { $lastResult = PrepareGui }
+                }
                 '3' { $lastResult = RunProject 'validate' }
                 '4' { $lastResult = RunProject 'plan' }
                 '5' { $lastResult = RunProject 'render' }
