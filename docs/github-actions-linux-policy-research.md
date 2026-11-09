@@ -134,3 +134,39 @@ reader/updater coordination, protected lock replacement tests and the exact
 candidate VM remain open. The original P1-B adapter acceptance scenarios remain
 NOT_RUN. Workflow push triggers used for these experiments have been removed;
 manual dispatch still requires the workflow on the default branch.
+
+## Lock protocol experiments (not admission)
+
+[Run 42540278897](https://github.com/DreamSketcher/Mashup-Lab/actions/runs/42540278897)
+executed commit `cad04f7` on kernel `7.0.0-1017-azure`; the required candidate
+kernel remains UNAVAILABLE. GitHub annotations report PASS for four additional
+isolated ext4 probes:
+
+- `lock_swap`: replacing the lock file or its parent path results in a different,
+  independently lockable inode while the old one remains locked. This is a
+  **demonstration of the hazard**, not proof of protection.
+- `lock_permissions`: after checking that UID/GID 65534 can traverse the test
+  path, attempts to rename the lock and its parent in a mode-protected test tree
+  fail. This tests one mode-based configuration, not root-owned deployment,
+  full ACL/capability analysis, concurrent privileged mutation or protection of
+  every ancestor.
+- `lock_coordination`: a cooperating reader holds a shared lock across a
+  simulated in-memory decision while an exclusive-lock updater waits; after the
+  reader releases, the updater publishes a replacement and a later reader sees
+  it. This is not a real admission gate or a durable decision record.
+- `lock_crash`: an updater exits immediately before or after rename; a later
+  reader observes respectively complete old or new contents and can acquire the
+  lock. This is process-exit behavior, not power-loss, filesystem durability,
+  restart recovery or an exhaustive fault-injection campaign.
+
+The temporary ext4, baseline probes and cleanup also report PASS. These findings
+are finite experimental observations from annotations, not verification of the
+production loader, updater or revocation semantics. The full raw logs are in the
+GitHub run artifact, but the artifact storage host is inaccessible from this
+sandbox, so the logs have not been independently reviewed here. The
+[check annotations](evidence/github-actions/run-42540278897/annotations.json)
+and [run metadata](evidence/github-actions/run-42540278897/run.json) are saved.
+A temporary branch push trigger was removed again afterward; manual dispatch
+still needs the workflow registered on the default branch. The public snapshot
+adapter remains UNAVAILABLE, and the exact P1 VM and real integration tests are
+still required.
