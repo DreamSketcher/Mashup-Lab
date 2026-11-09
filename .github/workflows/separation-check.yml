@@ -30,5 +30,5 @@ jobs:
           Write-Host "::notice title=UVR model SHA256::$hash"
       - name: Install engine candidate
         run: python scripts/separation-dependency-probe.py ${{ matrix.separator }}
-      - name: Import engine
-        run: python -c "from audio_separator.separator import Separator; print('ENGINE IMPORT OK')"
+      - name: Run actual inference
+        run: python scripts/separation-real-probe.py ${{ matrix.separator }}

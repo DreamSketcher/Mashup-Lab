@@ -4,7 +4,9 @@ import sys
 
 version = sys.argv[1]
 cmd = [sys.executable, '-m', 'pip', 'install', f'audio-separator=={version}',
-       'onnxruntime', 'imageio-ffmpeg', 'audioop-lts', 'librosa==0.11.0']
+       'onnxruntime', 'imageio-ffmpeg', 'librosa==0.11.0']
+if sys.version_info >= (3, 13):
+    cmd.append('audioop-lts')
 result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 text = result.stdout.decode('utf-8', 'replace')
 print(text, flush=True)
