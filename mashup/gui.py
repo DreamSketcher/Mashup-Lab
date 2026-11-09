@@ -117,6 +117,7 @@ class MashupWindow(QMainWindow):
         self.trace = trace
         self.process = None
         self.converter_process = None
+        self.analysis_process = None
         self.converter_workspace = None
         self.converted_path = None
         self.convert_cancelled = False
@@ -243,6 +244,8 @@ class MashupWindow(QMainWindow):
         files = QHBoxLayout(); path = QLineEdit(); path.setObjectName(f'audio{number}'); path.setPlaceholderText('Выберите WAV-файл 48 kHz'); files.addWidget(path,1)
         select = QPushButton('Обзор…'); select.clicked.connect(lambda: self.choose_file(number)); files.addWidget(select)
         prepare_button = QPushButton('В конвертер'); prepare_button.clicked.connect(lambda: self.send_to_conversion(number)); files.addWidget(prepare_button); box.addLayout(files)
+        analysis_row = QHBoxLayout(); analyze_button = QPushButton('Определить BPM и тональность'); analyze_button.clicked.connect(lambda: self.analyze_track(number)); analysis_row.addWidget(analyze_button)
+        analysis_info = label('Анализ не запускался', 'muted'); analysis_info.setWordWrap(True); analysis_row.addWidget(analysis_info, 1); box.addLayout(analysis_row)
         opts = QGridLayout(); opts.setHorizontalSpacing(12); opts.setVerticalSpacing(6)
         def spin(name, low, high, value, decimal=False):
             w = QDoubleSpinBox() if decimal else QSpinBox()
@@ -259,7 +262,7 @@ class MashupWindow(QMainWindow):
             row, col = divmod(index, 3)
             opts.addWidget(label(title,'muted'),row*2,col); opts.addWidget(widget,row*2+1,col)
         box.addLayout(opts)
-        track = {'path':path,'info':info,'bar':bar,'beat':beat,'tick':tick,'gain':gain,'pan':pan,'start':start,'end':end,'fade_in':fade_in,'fade_out':fade_out,'frames':0,'rate':0}
+        track = {'path':path,'info':info,'bar':bar,'beat':beat,'tick':tick,'gain':gain,'pan':pan,'start':start,'end':end,'fade_in':fade_in,'fade_out':fade_out,'frames':0,'rate':0,'analysis_info':analysis_info}
         self.tracks.append(track)
         path.editingFinished.connect(lambda: self.read_header(number))
         start.editingFinished.connect(lambda: self.changed(f'start{number}',start.text()))
@@ -343,7 +346,7 @@ class MashupWindow(QMainWindow):
     def convert(self):
         self.record('conversion.requested', source=self.conversion_input.text().strip(),
                     output=self.conversion_output.text().strip(), channels=self.conversion_channels.currentData())
-        if self.converter_process is not None or self.process is not None:
+        if self.converter_process is not None or self.process is not None or self.analysis_process is not None:
             self.conversion_status.setText('Дождитесь завершения текущей операции.'); return
         self.converted_path = None
         self.use_converted1.setEnabled(False); self.use_converted2.setEnabled(False)
@@ -445,7 +448,71 @@ class MashupWindow(QMainWindow):
         self.tracks[number-1]['path'].setText(self.converted_path)
         self.read_header(number); self.run_status.setText('Файл выбран. Проверьте диапазон клипа перед рендером.'); self.switch_page(0)
 
+    def analyze_track(self, number):
+        if self.process or self.converter_process or self.analysis_process:
+            self.run_status.setText('Дождитесь завершения текущей операции.'); return
+        path = self.tracks[number-1]['path'].text().strip()
+        if not path:
+            self.tracks[number-1]['analysis_info'].setText('Выберите файл.')
+            self.record('analysis.validation_error', track=number, error='Пустой путь'); return
+        self.analysis_track = number
+        self.analysis_stdout = bytearray(); self.analysis_stderr = bytearray()
+        self.tracks[number-1]['analysis_info'].setText('Анализ… Первый запуск может занять время.')
+        self.analysis_process = QProcess(self)
+        self.analysis_process.readyReadStandardOutput.connect(self.read_analysis_stdout)
+        self.analysis_process.readyReadStandardError.connect(self.read_analysis_stderr)
+        self.analysis_process.finished.connect(self.analysis_finished)
+        self.analysis_process.errorOccurred.connect(self.analysis_error)
+        self.controls.setEnabled(False); self.stop_render.setEnabled(True); self.make.setEnabled(False); self.convert_button.setEnabled(False)
+        args = ['-m', 'mashup.audio_analysis', path]
+        self.record('analysis.started', track=number, executable=sys.executable, arguments=args)
+        self.analysis_process.start(sys.executable, args)
+
+    def read_analysis_stdout(self):
+        if self.analysis_process:
+            self.analysis_stdout.extend(bytes(self.analysis_process.readAllStandardOutput()))
+
+    def read_analysis_stderr(self):
+        if self.analysis_process:
+            self.analysis_stderr.extend(bytes(self.analysis_process.readAllStandardError()))
+
+    def analysis_error(self, error):
+        if self.analysis_process and error == QProcess.ProcessError.FailedToStart:
+            message = self.analysis_process.errorString()
+            self.record('analysis.process_error', error=message)
+            self.tracks[self.analysis_track-1]['analysis_info'].setText('Не удалось начать анализ: ' + message)
+            self.analysis_cleanup()
+
+    def analysis_cleanup(self):
+        self.analysis_process.deleteLater(); self.analysis_process = None
+        self.controls.setEnabled(True); self.stop_render.setEnabled(False); self.make.setEnabled(True); self.convert_button.setEnabled(True)
+
+    def analysis_finished(self, code, status):
+        if not self.analysis_process: return
+        self.read_analysis_stdout(); self.read_analysis_stderr()
+        stderr = bytes(self.analysis_stderr).decode('utf-8', 'replace')
+        if stderr: self.record('analysis.stderr', message=stderr[-10000:])
+        info = self.tracks[self.analysis_track-1]['analysis_info']
+        if code == 0 and status == QProcess.ExitStatus.NormalExit:
+            try:
+                data = json.loads(bytes(self.analysis_stdout).decode('utf-8'))
+                bpm = data['bpm']; key = data['key'] or {}
+                bpm_text = f'{bpm:.1f}' if bpm is not None else 'не определён'
+                key_text = (str(key.get('name')) + ' ' + str(key.get('mode'))) if key.get('name') else 'не определена'
+                if key.get('ambiguous'): key_text += ' (неоднозначно)'
+                info.setText(f"BPM: {bpm_text} · Тональность: {key_text} · {data['note']}")
+                self.record('analysis.completed', track=self.analysis_track, result=data)
+            except (ValueError, TypeError, KeyError) as exc:
+                info.setText('Ошибка ответа анализатора. См. трассу.')
+                self.record('analysis.invalid_report', error=str(exc))
+        else:
+            info.setText('Анализ остановлен или завершился с ошибкой. См. трассу.')
+            self.record('analysis.failed', track=self.analysis_track, exit_code=code, exit_status=str(status))
+        self.analysis_cleanup()
+
     def cancel_render(self):
+        if self.analysis_process:
+            self.record('analysis.cancel_requested'); self.analysis_process.kill(); return
         if self.process:
             self.record('backend.cancel_requested')
             self.run_status.setText('Остановка… Папка проекта может остаться неполной.')
@@ -453,7 +520,7 @@ class MashupWindow(QMainWindow):
 
     def run(self):
         self.record('ui.render_clicked')
-        if self.process is not None or self.converter_process is not None:
+        if self.process is not None or self.converter_process is not None or self.analysis_process is not None:
             self.run_status.setText('Дождитесь завершения текущей операции.'); return
         paths = [t['path'].text().strip() for t in self.tracks]
         target = self.output_dir.text().strip()
@@ -533,7 +600,7 @@ class MashupWindow(QMainWindow):
             self.record('ui.open_logs_failed')
 
     def closeEvent(self, event):
-        busy = self.process is not None or self.converter_process is not None
+        busy = self.process is not None or self.converter_process is not None or self.analysis_process is not None
         self.record('ui.close_requested', busy=busy)
         if busy:
             message = 'Сначала дождитесь завершения операции или нажмите «Остановить» в её разделе.'

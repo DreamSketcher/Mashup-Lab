@@ -6,6 +6,7 @@ commands = [
     [sys.executable, '-c', 'from PySide6.QtWidgets import QApplication; from mashup.gui import MashupWindow'],
     [sys.executable, '-c', 'import imageio_ffmpeg; import subprocess; subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(), "-version"], check=True, stdout=subprocess.PIPE)'],
     [sys.executable, '-m', 'unittest', 'discover', '-s', 'tests', '-p', 'test_conversion.py', '-v'],
+    [sys.executable, '-m', 'unittest', 'discover', '-s', 'tests', '-p', 'test_audio_analysis.py', '-v'],
     [sys.executable, '-m', 'unittest', 'discover', '-s', 'tests', '-p', 'test_gui.py', '-v'],
 ]
 for command in commands:

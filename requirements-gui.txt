@@ -4,3 +4,6 @@ PySide6==6.8.3; python_version < "3.14"
 PySide6==6.10.3; python_version >= "3.14"
 # Includes a platform-specific FFmpeg executable; distribution needs license review.
 imageio-ffmpeg==0.6.0
+# Audio analysis: upstream ISC librosa and MIT music-key-detector.
+librosa==0.11.0
+music-key-detector @ https://codeload.github.com/mrueda/music-key-detector/tar.gz/63b369dfffd5441ca0fa2db31b0c41e075377c20#sha256=9b2bb8848c3167d68ea1e679e43b13f6013fa83c7b99b568c63cbfa508ab102e

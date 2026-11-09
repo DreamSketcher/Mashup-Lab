@@ -183,6 +183,24 @@ class GuiTests(unittest.TestCase):
         self.assertFalse(Path(self.window.conversion_output.text()).exists())
         self.assertIn('conversion.cancelled', [row['event'] for row in self.trace_rows()])
 
+    def test_analysis_runs_without_modifying_project(self):
+        import math
+        path = self.root / 'тональность.wav'
+        rate = 22050
+        with wave.open(str(path), 'wb') as wav:
+            wav.setparams((1, 2, rate, 0, 'NONE', 'not compressed'))
+            samples = (int(4000 * sum(math.sin(2 * math.pi * f * i / rate) for f in (261.6256, 329.6276, 391.9954))) for i in range(rate * 6))
+            wav.writeframes(struct.pack('<' + str(rate * 6) + 'h', *samples))
+        self.window.tracks[0]['path'].setText(str(path))
+        self.window.analyze_track(1)
+        deadline = time.monotonic() + 120
+        while self.window.analysis_process is not None and time.monotonic() < deadline:
+            self.app.processEvents(); time.sleep(.02)
+        self.assertIsNone(self.window.analysis_process)
+        self.assertIn('Тональность: C major', self.window.tracks[0]['analysis_info'].text())
+        self.assertEqual(self.window.bpm.value(), 120)
+        self.assertTrue(any(x['event'] == 'analysis.completed' for x in self.trace_rows()))
+
     def test_bad_format_reports_error_and_does_not_make_project(self):
         path = self.root / '44100.wav'
         with wave.open(str(path), 'wb') as wav:

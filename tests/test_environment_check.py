@@ -28,6 +28,22 @@ class EnvironmentTests(unittest.TestCase):
                 self.assertFalse(check.check_requirements(root / 'gui.txt'))
             self.assertIn('не соответствует', out.getvalue())
 
+    def test_direct_archive_source_must_match_url_and_hash(self):
+        import json
+        from types import SimpleNamespace
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'req.txt'
+            digest = 'a' * 64
+            path.write_text('future @ https://example.org/source.tar.gz#sha256=' + digest + '\n')
+            installed = {'url': 'https://example.org/source.tar.gz', 'archive_info': {'hashes': {'sha256': digest}}}
+            dist = SimpleNamespace(read_text=lambda name: json.dumps(installed))
+            with patch.object(check.metadata, 'version', return_value='1'), \
+                 patch.object(check.metadata, 'distribution', return_value=dist), \
+                 contextlib.redirect_stdout(io.StringIO()):
+                self.assertTrue(check.check_requirements(path))
+                installed['archive_info']['hashes']['sha256'] = 'b' * 64
+                self.assertFalse(check.check_requirements(path))
+
     def test_unsupported_or_recursive_requirements_fail_closed(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / 'req.txt'
