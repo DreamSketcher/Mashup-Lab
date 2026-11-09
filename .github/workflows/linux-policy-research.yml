@@ -1,0 +1,26 @@
+name: Linux policy snapshot research
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  experiments:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Collect environment and run isolated probes
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/policy-research-artifact"
+          bash scripts/linux-policy-experiments/run.sh "$RUNNER_TEMP/policy-research-artifact"
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-policy-research-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/policy-research-artifact/
+          if-no-files-found: error
+          retention-days: 14
