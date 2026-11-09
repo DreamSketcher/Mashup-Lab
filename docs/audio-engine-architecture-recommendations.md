@@ -224,3 +224,5 @@ BPM ≠ первый beat ≠ downbeat ≠ waveform phase. Постоянный 
 Дальнейшее [расследование samplerate и проект эталонной сетки](src-contract-and-samplerate-investigation.md) остаётся исследованием, не утверждённым контрактом.
 
 Для обсуждения длины, исходного полуинтервала и сетки см. [исследование SRC-контракта](src-length-grid-contract-proposal.md); утверждённого решения по реализации SRC нет.
+
+Для согласования SRC с границами финального плана подготовлен [проект контракта](src-plan-alignment-contract-proposal.md); он не меняет действующий draft или production.

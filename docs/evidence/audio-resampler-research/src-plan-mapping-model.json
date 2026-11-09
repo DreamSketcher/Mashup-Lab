@@ -1,0 +1,129 @@
+{
+  "description": "Hypothetical linear support only; not pitch-preserving time stretch",
+  "matrix": [
+    {
+      "N": 1,
+      "Fs": 44100,
+      "Ft": 48000,
+      "ratio": "1",
+      "nominal_src_nearest": 1,
+      "plan_final": 1,
+      "nominal_vs_final": "equal",
+      "toy_required_count": 1,
+      "toy_required_max": 0,
+      "toy_missing_if_nominal_only": []
+    },
+    {
+      "N": 2,
+      "Fs": 44100,
+      "Ft": 48000,
+      "ratio": "1",
+      "nominal_src_nearest": 2,
+      "plan_final": 2,
+      "nominal_vs_final": "equal",
+      "toy_required_count": 2,
+      "toy_required_max": 1,
+      "toy_missing_if_nominal_only": []
+    },
+    {
+      "N": 10,
+      "Fs": 44100,
+      "Ft": 48000,
+      "ratio": "1",
+      "nominal_src_nearest": 11,
+      "plan_final": 11,
+      "nominal_vs_final": "equal",
+      "toy_required_count": 11,
+      "toy_required_max": 10,
+      "toy_missing_if_nominal_only": []
+    },
+    {
+      "N": 441,
+      "Fs": 44100,
+      "Ft": 48000,
+      "ratio": "1",
+      "nominal_src_nearest": 480,
+      "plan_final": 480,
+      "nominal_vs_final": "equal",
+      "toy_required_count": 480,
+      "toy_required_max": 479,
+      "toy_missing_if_nominal_only": []
+    },
+    {
+      "N": 441,
+      "Fs": 44100,
+      "Ft": 48000,
+      "ratio": "24/25",
+      "nominal_src_nearest": 480,
+      "plan_final": 461,
+      "nominal_vs_final": "more",
+      "toy_required_count": 481,
+      "toy_required_max": 480,
+      "toy_missing_if_nominal_only": [
+        480
+      ]
+    },
+    {
+      "N": 441,
+      "Fs": 44100,
+      "Ft": 48000,
+      "ratio": "26/25",
+      "nominal_src_nearest": 480,
+      "plan_final": 499,
+      "nominal_vs_final": "less",
+      "toy_required_count": 480,
+      "toy_required_max": 479,
+      "toy_missing_if_nominal_only": []
+    },
+    {
+      "N": 2,
+      "Fs": 48000,
+      "Ft": 48000,
+      "ratio": "1/2",
+      "nominal_src_nearest": 2,
+      "plan_final": 1,
+      "nominal_vs_final": "more",
+      "toy_required_count": 1,
+      "toy_required_max": 0,
+      "toy_missing_if_nominal_only": []
+    },
+    {
+      "N": 2,
+      "Fs": 48000,
+      "Ft": 48000,
+      "ratio": "2",
+      "nominal_src_nearest": 2,
+      "plan_final": 4,
+      "nominal_vs_final": "less",
+      "toy_required_count": 3,
+      "toy_required_max": 2,
+      "toy_missing_if_nominal_only": [
+        2
+      ]
+    },
+    {
+      "N": 1,
+      "Fs": 96000,
+      "Ft": 48000,
+      "ratio": "1/2",
+      "nominal_src_nearest": 1,
+      "plan_final": 0,
+      "nominal_vs_final": "more",
+      "toy_required_count": 0,
+      "toy_required_max": null,
+      "toy_missing_if_nominal_only": []
+    },
+    {
+      "N": 1,
+      "Fs": 96000,
+      "Ft": 48000,
+      "ratio": "2",
+      "nominal_src_nearest": 1,
+      "plan_final": 1,
+      "nominal_vs_final": "equal",
+      "toy_required_count": 1,
+      "toy_required_max": 0,
+      "toy_missing_if_nominal_only": []
+    }
+  ]
+}
