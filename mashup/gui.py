@@ -119,6 +119,7 @@ class MashupWindow(QMainWindow):
         self.converter_process = None
         self.analysis_process = None
         self.engine_process = None
+        self.engine_result = None
         self.converter_workspace = None
         self.converted_path = None
         self.convert_cancelled = False
@@ -231,6 +232,7 @@ class MashupWindow(QMainWindow):
         self.engine_denoise = QCheckBox('Дополнительный проход MDX (медленнее)'); proc.addWidget(self.engine_denoise)
         hint = label('Модель разделяет вокал и инструментал; результат может содержать артефакты. Это не отдельное шумоподавление или удаление реверберации.', 'muted'); hint.setWordWrap(True); proc.addWidget(hint)
         self.separate_button = QPushButton('Разделить вокал и музыку'); self.separate_button.setObjectName('primary'); self.separate_button.clicked.connect(self.start_separation); proc.addWidget(self.separate_button)
+        self.analysis_target = QComboBox(); self.analysis_target.addItem('Анализировать подготовленный файл', 'input'); proc.addWidget(self.analysis_target)
         self.analysis_info = label('BPM и тональность не определены', 'muted'); self.analysis_info.setWordWrap(True); proc.addWidget(self.analysis_info)
         self.analyze_button = QPushButton('Определить BPM и тональность'); self.analyze_button.clicked.connect(self.analyze_processing); proc.addWidget(self.analyze_button)
         pv.addWidget(self.processing_controls)
@@ -250,6 +252,7 @@ class MashupWindow(QMainWindow):
         self.conversion_output.editingFinished.connect(lambda: self.changed('conversion_output', self.conversion_output.text()))
         self.conversion_channels.currentTextChanged.connect(lambda v: self.changed('conversion_channels', v))
         self.processing_input.textChanged.connect(self.processing_input_changed)
+        self.analysis_target.currentIndexChanged.connect(lambda _: self.analysis_info.setText('BPM и тональность не определены'))
 
     def page(self, kicker, title, subtitle):
         scroll = QScrollArea(); scroll.setWidgetResizable(True); scroll.setFrameShape(QFrame.Shape.NoFrame)
@@ -475,6 +478,7 @@ class MashupWindow(QMainWindow):
     def processing_input_changed(self, path):
         self.analysis_info.setText('BPM и тональность не определены')
         self.engine_result = None
+        self.analysis_target.clear(); self.analysis_target.addItem('Анализировать подготовленный файл', 'input')
         self.stem_choice.setEnabled(False)
         for button in self.stem_buttons: button.setEnabled(False)
         self.record('processing.input_changed', path=path)
@@ -522,11 +526,13 @@ class MashupWindow(QMainWindow):
         except (OSError, ProjectError) as exc:
             self.processing_status.setText(str(exc)); self.record('processing.validation_error', error=str(exc)); return
         self.engine_result = None; self.stem_choice.setEnabled(False)
+        self.analysis_target.clear(); self.analysis_target.addItem('Анализировать подготовленный файл', 'input')
         for button in self.stem_buttons: button.setEnabled(False)
         self.engine_stdout = bytearray(); self.engine_stderr = bytearray()
         args = ['-m','mashup.separation','--input', source,'--output-dir',str(target),'--ffmpeg',str(exe)]
         if self.engine_denoise.isChecked(): args.append('--denoise')
         self.engine_process = QProcess(self); self.engine_process.setWorkingDirectory(str(root))
+        env = QProcessEnvironment.systemEnvironment(); env.insert('PYTHONUTF8', '1'); self.engine_process.setProcessEnvironment(env)
         self.engine_process.readyReadStandardOutput.connect(self.read_engine_stdout)
         self.engine_process.readyReadStandardError.connect(self.read_engine_stderr)
         self.engine_process.finished.connect(self.engine_finished)
@@ -565,6 +571,7 @@ class MashupWindow(QMainWindow):
                 report = json.loads(bytes(self.engine_stdout).decode('utf-8'))
                 if not all(Path(report['outputs'][key]).is_file() for key in ('vocals','instrumental')): raise ValueError('Выходные файлы отсутствуют')
                 self.engine_result = report['outputs']; self.stem_choice.setEnabled(True)
+                self.analysis_target.addItem('Анализировать вокал', 'vocals'); self.analysis_target.addItem('Анализировать инструментал', 'instrumental')
                 for button in self.stem_buttons: button.setEnabled(True)
                 self.processing_status.setText('Готово: вокал и инструментал. Проверьте результат на слух.')
                 self.record('processing.completed', report=report)
@@ -586,13 +593,15 @@ class MashupWindow(QMainWindow):
     def analyze_processing(self):
         if self.process or self.converter_process or self.analysis_process or self.engine_process:
             self.processing_status.setText('Дождитесь завершения текущей операции.'); return
-        path = self.processing_input.text().strip()
+        selected = self.analysis_target.currentData()
+        path = self.processing_input.text().strip() if selected == 'input' else (self.engine_result or {}).get(selected, '')
         if not path:
             self.analysis_info.setText('Выберите файл.')
             self.record('analysis.validation_error', error='Пустой путь'); return
         self.analysis_stdout = bytearray(); self.analysis_stderr = bytearray()
         self.analysis_info.setText('Анализ… Первый запуск может занять время.')
         self.analysis_process = QProcess(self)
+        env = QProcessEnvironment.systemEnvironment(); env.insert('PYTHONUTF8', '1'); self.analysis_process.setProcessEnvironment(env)
         self.analysis_process.readyReadStandardOutput.connect(self.read_analysis_stdout)
         self.analysis_process.readyReadStandardError.connect(self.read_analysis_stderr)
         self.analysis_process.finished.connect(self.analysis_finished)

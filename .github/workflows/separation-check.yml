@@ -7,6 +7,8 @@ on:
       - 'requirements-separation.txt'
       - 'scripts/separation-real-probe.py'
       - '.github/workflows/separation-check.yml'
+      - 'tests/windows/test_separation_install.py'
+      - 'scripts/windows/launcher.ps1'
   workflow_dispatch:
 permissions:
   contents: read
@@ -14,6 +16,9 @@ jobs:
   probe:
     runs-on: windows-2022
     timeout-minutes: 20
+    env:
+      PYTHONUTF8: '1'
+      PYTHONIOENCODING: utf-8
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -30,3 +35,5 @@ jobs:
         run: python scripts/separation-dependency-probe.py 0.41.1
       - name: Run actual inference
         run: python scripts/run-annotated.py scripts/separation-real-probe.py
+      - name: Test diagnostic installer
+        run: python scripts/run-annotated.py tests/windows/test_separation_install.py
