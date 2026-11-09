@@ -72,13 +72,15 @@ else
     status loop_ext4 UNAVAILABLE 'cannot create/mount isolated ext4; see loop.log'
 fi
 any_fail=0
-for probe in openat2 path_race acl_user acl_group acl_default memfd flock; do
+for probe in openat2 path_race acl_user acl_group acl_default memfd flock lock_swap lock_permissions lock_coordination lock_crash; do
     if [ "$loop_ready" != 1 ]; then
         echo 'UNAVAILABLE: isolated ext4 not available; probe not run' > "$out/$probe.log"
         status "$probe" UNAVAILABLE 'loop filesystem unavailable'
         continue
     fi
-    PROBE_ROOT="$root/mount" timeout 60s python3 scripts/linux-policy-experiments/probes.py "$probe" > "$out/$probe.log" 2>&1
+    script=scripts/linux-policy-experiments/probes.py
+    case "$probe" in lock_*) script=scripts/linux-policy-experiments/lock_probes.py ;; esac
+    PROBE_ROOT="$root/mount" timeout 60s python3 "$script" "$probe" > "$out/$probe.log" 2>&1
     rc=$?
     case "$rc" in
         0) status "$probe" PASS 'behavioral probe only, not security approval' ;;

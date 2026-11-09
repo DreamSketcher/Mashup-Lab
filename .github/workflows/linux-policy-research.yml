@@ -1,10 +1,14 @@
 name: Linux policy snapshot research
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - arena/32514431-mashup-lab
 permissions:
   contents: read
 jobs:
   experiments:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[linux-policy-probe]')
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -27,10 +31,10 @@ jobs:
           else
             echo '::warning title=Linux research::No status report was produced'
           fi
-          for probe in acl_user acl_group acl_default; do
+          for probe in lock_swap lock_permissions lock_coordination lock_crash; do
             if [ -f "$artifact/$probe.log" ]; then
               detail=$(tail -n 1 "$artifact/$probe.log")
-              printf '::notice title=ACL detail %s::%s\n' "$probe" "$detail"
+              printf '::notice title=Lock detail %s::%s\n' "$probe" "$detail"
             fi
           done
           if [ -f "$artifact/kernel.log" ]; then
