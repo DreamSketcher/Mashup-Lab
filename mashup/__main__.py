@@ -1,4 +1,4 @@
-"""Validate and inspect a project without producing audio."""
+"""Validate, inspect and experimentally render projects."""
 import argparse
 import json
 import sys
@@ -11,13 +11,20 @@ from .trust_policy import PolicyError, load_policy, compare_policy
 
 def main():
     parser = argparse.ArgumentParser(prog='python -m mashup')
-    parser.add_argument('command', choices=['validate', 'plan', 'validate-plan', 'inspect-manifest', 'compare-policy'])
+    parser.add_argument('command', choices=['validate', 'plan', 'validate-plan', 'inspect-manifest', 'compare-policy', 'render'])
     parser.add_argument('project', type=Path)
     parser.add_argument('policy', type=Path, nargs='?')
+    parser.add_argument('-o', '--output', type=Path, help='new output WAV path (render only)')
     args = parser.parse_args()
+    if (args.command == 'render') != (args.output is not None):
+        parser.error('render requires --output; other commands do not accept it')
     if (args.command == 'compare-policy') != (args.policy is not None):
         parser.error('compare-policy requires a policy path; other commands do not accept one')
     try:
+        if args.command == 'render':
+            from .render import render
+            print(json.dumps(render(args.project, args.output), indent=2))
+            return 0
         if args.command == 'compare-policy':
             identity = load_manifest(args.project)
             try:

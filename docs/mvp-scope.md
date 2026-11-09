@@ -2,7 +2,7 @@
 
 This document is the current project direction. It takes precedence over older
 drafts wherever they make trusted infrastructure a prerequisite for rendering.
-It is a product/implementation roadmap, not a claim that a renderer exists.
+It is a product/implementation roadmap; the initial renderer is experimental.
 
 ## Goal
 
@@ -75,8 +75,10 @@ musical quality. See the [reproducibility draft](determinism-reproducibility-spe
 5. Iterate on usability and sound quality. GUI, automatic structure analysis,
    source separation, DAW import and arbitrary plug-ins remain outside MVP.
 
-The exact backend and dependencies have **not yet been selected**; no audio
-rendering, manifest generation or render-time binding is implemented today.
+The first slice uses libsndfile/soundfile for decoding, NumPy for mixing and
+Python wave for PCM output. It rejects non-48 kHz sources and non-identity
+time/pitch transforms. These dependency ranges do not pin an environment.
+A time/pitch backend and resampler remain to be selected.
 
 ## Explicitly outside MVP: trusted execution research
 
@@ -94,6 +96,6 @@ from hashes, passing unit tests or these research artifacts.
 
 The YAML project validator, timeline planner and independent plan validator are
 implemented. Separate manifest/policy parsers and Linux experiments also exist,
-but are not prerequisites for the music MVP. Audio backend, render-time binding,
-renderer and render manifest are not implemented. Review actual test/CI results
+but are not prerequisites for the music MVP. A limited in-process renderer generates its own plan and verifies source bytes;
+the full renderer and render manifest are not implemented. Review actual test/CI results
 for the revision being used rather than treating a previous run as permanent.

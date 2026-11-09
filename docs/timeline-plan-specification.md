@@ -75,4 +75,5 @@ validation is not a performance or safety guarantee for arbitrarily large inputs
 For the first local renderer, the intended binding is to compute and validate a
 fresh plan in the same invocation as the render; see [MVP scope](mvp-scope.md).
 The historical sidecar and trusted-execution research is not a prerequisite.
-Neither a persisted plan nor this policy is implemented for rendering yet.
+The experimental renderer implements this in-process approach; it does not accept
+a persisted plan.

@@ -1,6 +1,8 @@
 # Audio Processing Specification — draft v0.1
 
-Status: proposal; no backend or implementation is selected or tested yet.
+Status: draft contract. An experimental identity-transform, 48 kHz slice is
+implemented; resampling, time stretch and pitch shift are not. See
+[scope and implementation status](mvp-scope.md).
 See [project format](project-format-specification.md) and
 [reproducibility](determinism-reproducibility-specification.md). The project
 specifies desired clip properties; this document fixes their evaluation order.
@@ -63,8 +65,8 @@ container metadata, as described in the reproducibility specification.
 
 ## Implementation and limitations
 
-Backend selection, precise resampler settings, the precise floating-point execution mode and
-library versions remain to be selected and pinned before implementing the MVP.
+The full MVP still needs resampler and time/pitch backend selection, precise
+settings, floating-point execution mode and pinned library versions.
 The backend must support independent duration and pitch changes and must be
 reviewed for licensing and offline use. Render is invalid if a required backend
 is unavailable; no silent fallback. Time stretching and pitch shifting can create

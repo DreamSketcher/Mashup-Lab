@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "mashup-lab"
 version = "0.1.0.dev0"
 requires-python = ">=3.11"
-dependencies = ["PyYAML>=6.0.2,<7"]
+dependencies = ["PyYAML>=6.0.2,<7", "numpy>=1.26,<3", "soundfile>=0.12.1,<1"]
 
 [tool.setuptools.packages.find]
 include = ["mashup*"]

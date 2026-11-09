@@ -61,7 +61,8 @@ This project does not claim ownership of third-party material or imply endorseme
 The focus is a local, deterministic and reproducible audio workflow: validate a
 project and its sources, calculate a timeline, render the audio, and record the
 parameters and output identity. See the [MVP scope and roadmap](docs/mvp-scope.md).
-The renderer, render-time binding and render manifest are **not implemented**.
+An experimental limited renderer and in-process plan binding are implemented;
+the full renderer and render manifest are **not implemented**.
 
 Core drafts:
 
@@ -82,8 +83,14 @@ execution is implemented or that hashes authenticate the source of a file.
 
 The Python implementation parses the draft YAML format, validates project
 structure and local PCM WAV identity/metadata, and computes exact timeline
-frames, pairwise half-open overlap intervals, and total duration. It does not
-process or render audio, check a render backend, or prove audio determinism.
+frames, pairwise half-open overlap intervals, and total duration. An experimental
+in-memory renderer supports 48 kHz PCM WAV sources, identity duration/pitch,
+clip gain, balance, fades, ordered mixing, peak protection and 16/24-bit PCM
+export. It rejects resampling and non-identity time/pitch transforms. `soundfile`
+(libsndfile) decodes; NumPy mixes; Python's `wave` writes the explicitly
+quantized PCM. The output path must not exist. Memory usage scales with the
+entire sources and output, so this is for small projects. It is not a hardened
+hostile-input boundary and cross-environment bit identity is not established.
 Python 3.11+ is required.
 
 ```sh
@@ -92,13 +99,16 @@ python3 -m venv .venv
 .venv/bin/python -m mashup validate project.yaml
 .venv/bin/python -m mashup plan project.yaml > plan.json
 .venv/bin/python -m mashup validate-plan plan.json
+.venv/bin/python -m mashup render project.yaml -o output.wav
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
 `plan` prints versioned JSON with named clip and overlap boundaries and
 durations in timeline frames; see [the plan contract](docs/timeline-plan-specification.md). Project paths are relative to the project file;
 the hash in the specification example must be replaced with the actual source
-file hash and metadata. Render-environment checks will be added with a renderer.
+file hash and metadata. `render` prints the output PCM SHA-256, peak and scale;
+this diagnostic is not a render manifest. Pin the full environment when comparing
+results; the dependency ranges alone do not pin versions.
 
 Optional research commands `inspect-manifest` and `compare-policy` are separate
 from the music MVP. `inspect-manifest` validates UTF-8 JSON structure and computes the SHA-256 and
