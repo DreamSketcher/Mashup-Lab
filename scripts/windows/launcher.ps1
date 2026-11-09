@@ -114,11 +114,11 @@ function Prepare {
     [IO.File]::WriteAllText($stamp, (RequirementsHash))
     Say 'Окружение готово.'; return 0
 }
-function CheckGui {
+function CheckEnvironment {
     if (-not (Test-Path -LiteralPath $venvPython -PathType Leaf) -or -not (Compatible $venvPython '')) {
-        Say 'PySide6 и FFmpeg не проверены: нет работающего .venv. Выберите пункт 2.'; return $false
+        Say 'Зависимости не проверены: нет работающего .venv. Выберите пункт 2.'; return $false
     }
-    & $venvPython -m mashup.gui_check | Out-Host
+    & $venvPython -m mashup.environment_check | Out-Host
     return ($LASTEXITCODE -eq 0)
 }
 function PrepareGui {
@@ -130,21 +130,13 @@ function PrepareGui {
     if ($LASTEXITCODE -ne 0) { Say 'Не удалось установить интерфейс.'; return 1 }
     & $venvPython -m pip check | Out-Host
     if ($LASTEXITCODE -ne 0) { Say 'Проверка зависимостей не пройдена.'; return 1 }
-    if (-not (CheckGui)) {
-        Say 'Попытка восстановить пакет FFmpeg (переустановка imageio-ffmpeg)...'
-        & $venvPython -m pip install --force-reinstall --no-deps 'imageio-ffmpeg==0.6.0' | Out-Host
-        if ($LASTEXITCODE -ne 0) { Say 'Не удалось восстановить FFmpeg.'; return 1 }
-        if (-not (CheckGui)) { Say 'Интерфейс или FFmpeg не прошёл проверку. Проверьте сообщения выше и IMAGEIO_FFMPEG_EXE, затем повторите пункт 8.'; return 1 }
+    if (-not (CheckEnvironment)) {
+        Say 'Попытка восстановить зависимости из requirements-gui.txt...'
+        & $venvPython -m pip install --force-reinstall -r $guiRequirements | Out-Host
+        if ($LASTEXITCODE -ne 0) { Say 'Не удалось восстановить зависимости.'; return 1 }
+        if (-not (CheckEnvironment)) { Say 'Зависимости не прошли проверку. Проверьте сообщения выше и IMAGEIO_FFMPEG_EXE, затем повторите пункт 8.'; return 1 }
     }
     Say 'Интерфейс и FFmpeg установлены и проверены.'; return 0
-}
-function RunGui {
-    if (-not (Ready)) { return 1 }
-    if (-not (CheckGui)) { return 1 }
-    & $venvPython -m mashup gui | Out-Host
-    $code = $LASTEXITCODE
-    if ($code -ne 0) { Say "Ошибка интерфейса (код $code). См. сообщение выше и локальную трассу." }
-    return $code
 }
 function RunProject([string]$command) {
     if (-not (Ready)) { return 1 }
@@ -169,9 +161,9 @@ function RunProject([string]$command) {
     return $code
 }
 try {
-    Say 'Mashup Lab — экспериментальный CLI. Окно можно закрыть после выхода из меню.'
+    Say 'Mashup Lab — диагностика и команды CLI. Интерфейс: Start-Mashup-Lab.bat. Окно можно закрыть после выхода из меню.'
     while ($true) {
-        Say "`n1. Проверить окружение, PySide6 и FFmpeg`n2. Подготовить окружение и установить все зависимости`n3. Проверить проект`n4. Построить план проекта`n5. Выполнить рендер`n6. Открыть документацию`n7. Выход`n8. Установить / восстановить PySide6 и FFmpeg`n9. Открыть интерфейс"
+        Say "`n1. Проверить все зависимости и окружение`n2. Подготовить окружение и установить все зависимости`n3. Проверить проект`n4. Построить план проекта`n5. Выполнить рендер`n6. Открыть документацию`n7. Выход`n8. Установить / восстановить зависимости интерфейса"
         $choice = Ask 'Выберите пункт: '
         if ($null -eq $choice) { break }
         try {
@@ -197,8 +189,7 @@ try {
                 }
                 '7' { break }
                 '8' { $lastResult = PrepareGui }
-                '9' { $lastResult = RunGui }
-                default { Say 'Введите число от 1 до 9.'; continue }
+                default { Say 'Введите число от 1 до 8.'; continue }
             }
             if ($choice.Trim() -eq '7') { break }
         } catch { [Console]::Error.WriteLine("Ошибка лаунчера: $_"); $lastResult = 1 }

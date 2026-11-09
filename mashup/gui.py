@@ -9,6 +9,7 @@ from pathlib import Path
 import platform
 import sys
 import traceback
+import uuid
 import wave
 from datetime import datetime
 
@@ -110,8 +111,9 @@ class Timeline(QWidget):
 
 
 class MashupWindow(QMainWindow):
-    def __init__(self, trace):
+    def __init__(self, trace, conversion_dir=None):
         super().__init__()
+        self.conversion_dir = Path(conversion_dir) if conversion_dir is not None else Path.home() / ".mashup-lab" / "converted"
         self.trace = trace
         self.process = None
         self.converter_process = None
@@ -155,8 +157,9 @@ class MashupWindow(QMainWindow):
         small = label('Конвертация отдельно\nот рендерера', 'muted'); small.setWordWrap(True); sl.addWidget(small)
         outer.addWidget(side)
         self.stack = QStackedWidget(); outer.addWidget(self.stack, 1)
+        mashup_page = QWidget(); mashup_layout = QVBoxLayout(mashup_page); mashup_layout.setContentsMargins(0,0,0,0); mashup_layout.setSpacing(0)
         scroll = QScrollArea(); scroll.setWidgetResizable(True); scroll.setFrameShape(QFrame.Shape.NoFrame)
-        body = QWidget(); scroll.setWidget(body); self.stack.addWidget(scroll)
+        body = QWidget(); scroll.setWidget(body); mashup_layout.addWidget(scroll, 1); self.stack.addWidget(mashup_page)
         column = QVBoxLayout(body); column.setContentsMargins(34,26,34,30); column.setSpacing(18)
         header = QHBoxLayout(); title = QVBoxLayout(); title.addWidget(label('СОЗДАТЬ  /  НОВЫЙ ПРОЕКТ', 'accent')); title.addWidget(label('Два трека. Один мешап.', 'title')); title.addWidget(label('Выберите аудио, настройте расположение и соберите свой первый микс.', 'muted')); header.addLayout(title); header.addStretch()
         status = label('●  48 kHz  /  PCM WAV', 'accent'); header.addWidget(status); column.addLayout(header)
@@ -178,7 +181,8 @@ class MashupWindow(QMainWindow):
         action = QHBoxLayout(); self.make = QPushButton('Создать мешап  →'); self.make.setObjectName('primary'); self.make.clicked.connect(self.run); action.addWidget(self.make)
         self.stop_render = QPushButton('Остановить'); self.stop_render.setEnabled(False); self.stop_render.clicked.connect(self.cancel_render); action.addWidget(self.stop_render)
         self.open_output = QPushButton('Открыть WAV'); self.open_output.setEnabled(False); self.open_output.clicked.connect(self.open_result); action.addWidget(self.open_output)
-        self.run_status = label('Готов к работе', 'muted'); action.addWidget(self.run_status,1); column.addLayout(action); column.addStretch()
+        self.run_status = label('Готов к работе', 'muted'); self.run_status.setWordWrap(True); action.addWidget(self.run_status,1)
+        footer = QWidget(); footer_layout = QVBoxLayout(footer); footer_layout.setContentsMargins(18,8,18,8); footer_layout.addLayout(action); mashup_layout.addWidget(footer); column.addStretch()
 
         conversion_page, cv = self.page('ПОДГОТОВКА  /  КОНВЕРТАЦИЯ', 'Подготовить аудио',
                                         'Отдельная копия для рендерера · исходный файл не изменяется.')
@@ -186,9 +190,9 @@ class MashupWindow(QMainWindow):
         form.addWidget(label('01  Исходный аудиофайл', 'section'))
         row = QHBoxLayout(); self.conversion_input = QLineEdit(); self.conversion_input.setPlaceholderText('WAV, MP3 или другой локальный аудиофайл'); row.addWidget(self.conversion_input,1)
         pick = QPushButton('Обзор…'); pick.clicked.connect(self.choose_conversion_input); row.addWidget(pick); form.addLayout(row)
-        form.addWidget(label('02  Новое имя WAV', 'section'))
-        row = QHBoxLayout(); self.conversion_output = QLineEdit(); self.conversion_output.setPlaceholderText('Путь к новому файлу .wav'); row.addWidget(self.conversion_output,1)
-        pickdir = QPushButton('Выбрать папку…'); pickdir.clicked.connect(self.choose_conversion_directory); row.addWidget(pickdir); form.addLayout(row)
+        form.addWidget(label('02  Папка конвертированных файлов', 'section'))
+        folder = label(str(self.conversion_dir), 'muted'); folder.setWordWrap(True); folder.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse); form.addWidget(folder)
+        self.conversion_output = QLineEdit(); self.conversion_output.setReadOnly(True); self.conversion_output.setPlaceholderText('Имя файла будет создано автоматически'); form.addWidget(self.conversion_output)
         row = QHBoxLayout(); row.addWidget(label('Выход')); row.addWidget(label('48 000 Hz  ·  PCM 16-bit WAV', 'accent')); row.addSpacing(20); row.addWidget(label('Каналы'))
         self.conversion_channels = QComboBox(); self.conversion_channels.addItem('Стерео', 2); self.conversion_channels.addItem('Моно', 1); row.addWidget(self.conversion_channels); row.addStretch(); form.addLayout(row)
         hint = label('FFmpeg конвертирует первую аудиодорожку; сведение в моно и 16-bit могут изменить звук. Существующий файл не перезаписывается.', 'muted'); hint.setWordWrap(True); form.addWidget(hint)
@@ -251,8 +255,9 @@ class MashupWindow(QMainWindow):
         start = QLineEdit('0'); start.setObjectName(f'start{number}'); end = QLineEdit(); end.setObjectName(f'end{number}'); end.setPlaceholderText('до конца')
         fade_in = spin('fade_in',0,2147483647,0); fade_out = spin('fade_out',0,2147483647,0)
         fields = [('Такт',bar),('Доля',beat),('Тик',tick),('Gain · dB',gain),('Pan',pan),('От · frame',start),('До · frame',end),('Fade in · frames',fade_in),('Fade out · frames',fade_out)]
-        for col,(title,widget) in enumerate(fields):
-            opts.addWidget(label(title,'muted'),0,col); opts.addWidget(widget,1,col)
+        for index,(title,widget) in enumerate(fields):
+            row, col = divmod(index, 3)
+            opts.addWidget(label(title,'muted'),row*2,col); opts.addWidget(widget,row*2+1,col)
         box.addLayout(opts)
         track = {'path':path,'info':info,'bar':bar,'beat':beat,'tick':tick,'gain':gain,'pan':pan,'start':start,'end':end,'fade_in':fade_in,'fade_out':fade_out,'frames':0,'rate':0}
         self.tracks.append(track)
@@ -304,26 +309,14 @@ class MashupWindow(QMainWindow):
 
     def set_conversion_input(self, path):
         self.conversion_input.setText(path)
-        candidate = Path(path).with_name(Path(path).stem + '_48000.wav')
-        self.conversion_output.setText(str(candidate))
+        self.conversion_output.clear()
         self.changed('conversion_input', path)
-        self.changed('conversion_output', str(candidate))
 
     def choose_conversion_input(self):
         self.record('ui.choose_conversion_input')
         self.file_picker('Выберите исходный аудиофайл', QFileDialog.FileMode.ExistingFile,
                          self.set_conversion_input, 'ui.conversion_input_dialog_result',
                          'Аудио (*.wav *.mp3 *.flac *.m4a *.aac *.ogg *.opus *.aif *.aiff);;Все файлы (*)')
-
-    def choose_conversion_directory(self):
-        self.record('ui.choose_conversion_directory')
-        def chosen(parent):
-            previous = self.conversion_output.text().strip()
-            filename = Path(previous).name if previous else 'audio_48000.wav'
-            self.conversion_output.setText(str(Path(parent) / filename))
-            self.changed('conversion_output', self.conversion_output.text())
-        self.file_picker('Выберите папку для WAV', QFileDialog.FileMode.Directory,
-                         chosen, 'ui.conversion_directory_dialog_result')
 
     def read_header(self, number):
         t = self.tracks[number-1]; path = t['path'].text().strip(); t['frames'] = 0; t['rate'] = 0
@@ -354,14 +347,18 @@ class MashupWindow(QMainWindow):
             self.conversion_status.setText('Дождитесь завершения текущей операции.'); return
         self.converted_path = None
         self.use_converted1.setEnabled(False); self.use_converted2.setEnabled(False)
-        source = self.conversion_input.text().strip(); output = self.conversion_output.text().strip()
-        if not source or not output:
-            self.conversion_status.setText('Укажите исходный файл и имя нового WAV.')
+        source = self.conversion_input.text().strip()
+        if not source:
+            self.conversion_status.setText('Укажите исходный файл.')
             self.record('conversion.validation_error', error='Пустой путь'); return
         try:
             exe = ffmpeg_executable()
+            self.conversion_dir.mkdir(parents=True, exist_ok=True)
+            output = str(self.conversion_dir / ('converted-' + uuid.uuid4().hex + '.wav'))
+            self.conversion_output.setText(output)
+            self.record('conversion.target_selected', output=output)
             workspace, stage, args = prepare(source, output, self.conversion_channels.currentData())
-        except ProjectError as exc:
+        except (ProjectError, OSError) as exc:
             self.conversion_status.setText(str(exc)); self.record('conversion.validation_error', error=str(exc)); return
         self.converter_workspace = workspace; self.conversion_stage = stage
         self.conversion_target = Path(output).expanduser().absolute()

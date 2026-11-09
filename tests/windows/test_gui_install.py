@@ -17,7 +17,7 @@ class WindowsGuiInstallTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp) / 'Проект & gui тест'
             root.mkdir()
-            for name in ('Mashup-Lab.bat', 'requirements.txt', 'requirements-gui.txt'):
+            for name in ('Mashup-Lab.bat', 'Start-Mashup-Lab.bat', 'requirements.txt', 'requirements-gui.txt'):
                 shutil.copy2(REPO / name, root / name)
             for name in ('mashup', 'scripts/windows'):
                 shutil.copytree(REPO / name, root / name, ignore=shutil.ignore_patterns('__pycache__'))
@@ -31,7 +31,7 @@ class WindowsGuiInstallTests(unittest.TestCase):
                                     stderr=subprocess.STDOUT, env=env, timeout=600)
             output = result.stdout.decode('utf-8', 'replace')
             self.assertEqual(result.returncode, 0, output)
-            self.assertIn('PySide6: недоступен', output)
+            self.assertIn('PySide6: не установлен', output)
             self.assertIn('FFmpeg: недоступен', output)
             self.assertIn('Окружение, интерфейс и FFmpeg готовы.', output)
             self.assertNotIn('Traceback (most recent call last)', output)
@@ -63,11 +63,22 @@ class WindowsGuiInstallTests(unittest.TestCase):
             output = result.stdout.decode('utf-8', 'replace')
             self.assertEqual(result.returncode, 0, output)
             self.assertIn('FFmpeg: недоступен', output)
-            self.assertIn('Попытка восстановить пакет FFmpeg', output)
+            self.assertIn('Попытка восстановить зависимости', output)
             self.assertIn('Интерфейс и FFmpeg установлены и проверены.', output)
             self.assertIn('Окружение, интерфейс и FFmpeg готовы.', output)
 
-            # The real menu action must start the actual GUI, not just import
+            # A newly declared dependency must be caught at runner startup.
+            requirements = root / 'requirements-gui.txt'
+            requirements.write_text(requirements.read_text(encoding='utf-8') + '\nmashup-future-test-package-does-not-exist>=1\n', encoding='utf-8')
+            result = subprocess.run([str(root / 'Start-Mashup-Lab.bat')], cwd=tmp,
+                                    input=b'\n', stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                    env=env, timeout=120)
+            output = result.stdout.decode('utf-8', 'replace')
+            self.assertNotEqual(result.returncode, 0, output)
+            self.assertIn('mashup-future-test-package-does-not-exist: не установлен', output)
+            requirements.write_text(requirements.read_text(encoding='utf-8').replace('\nmashup-future-test-package-does-not-exist>=1\n', ''), encoding='utf-8')
+
+            # The separate runner must start the actual GUI, not just import
             # its dependency. Only the temporary copied GUI gets a test timer
             # so the headless process closes without manual interaction.
             gui = root / 'mashup' / 'gui.py'
@@ -76,8 +87,8 @@ class WindowsGuiInstallTests(unittest.TestCase):
             self.assertIn(before, code)
             code = code.replace(before, before + '\n        from PySide6.QtCore import QTimer\n        QTimer.singleShot(250, window.close)')
             gui.write_text(code, encoding='utf-8')
-            result = subprocess.run([str(root / 'Mashup-Lab.bat')], cwd=tmp,
-                                    input=b'9\n7\n', stdout=subprocess.PIPE,
+            result = subprocess.run([str(root / 'Start-Mashup-Lab.bat')], cwd=tmp,
+                                    input=b'', stdout=subprocess.PIPE,
                                     stderr=subprocess.STDOUT, env=env, timeout=120)
             output = result.stdout.decode('utf-8', 'replace')
             self.assertEqual(result.returncode, 0, output)

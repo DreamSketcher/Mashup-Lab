@@ -49,7 +49,7 @@ class GuiTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         self.trace = SessionTrace(self.root / 'traces')
-        self.window = MashupWindow(self.trace)
+        self.window = MashupWindow(self.trace, self.root / 'конвертировано')
         self.addCleanup(self.window.close)
         self.window.show(); self.app.processEvents()
         for i in (1,2):
@@ -118,9 +118,9 @@ class GuiTests(unittest.TestCase):
         self.window.tracks[0]['path'].setText(str(source)); self.window.read_header(1)
         self.window.send_to_conversion(1)
         self.assertEqual(self.window.stack.currentIndex(), 1)
-        destination = self.root / 'готовый 48.wav'
-        self.window.conversion_output.setText(str(destination))
         self.window.convert(); self.wait_conversion()
+        destination = Path(self.window.conversion_output.text())
+        self.assertEqual(destination.parent, self.root / 'конвертировано')
         self.assertTrue(destination.is_file(), self.window.conversion_status.text())
         self.assertTrue(self.window.use_converted1.isEnabled())
         with wave.open(str(destination), 'rb') as wav:
@@ -139,15 +139,32 @@ class GuiTests(unittest.TestCase):
                      'conversion.use_output','backend.success'):
             self.assertIn(name, events)
 
-    def test_conversion_existing_destination_is_never_overwritten(self):
-        target = self.root / 'существует.wav'
-        target.write_bytes(b'keep')
+    def test_create_button_visible_at_minimum_size(self):
+        self.window.resize(900, 700); self.app.processEvents()
+        self.assertTrue(self.window.make.isVisible())
+        rect = self.window.make.rect()
+        pos = self.window.make.mapTo(self.window, rect.topLeft())
+        self.assertGreaterEqual(pos.x(), 0)
+        self.assertGreaterEqual(pos.y(), 0)
+        self.assertLessEqual(pos.x() + rect.width(), self.window.width())
+        self.assertLessEqual(pos.y() + rect.height(), self.window.height())
+        self.window.make.click(); self.wait_render()
+        self.assertTrue(self.window.open_output.isEnabled(), self.window.run_status.text())
+
+    def test_conversion_unique_names(self):
+        from mashup.conversion import ffmpeg_executable
+        try:
+            ffmpeg_executable()
+        except Exception:
+            self.skipTest('optional FFmpeg not installed')
         self.window.conversion_input.setText(str(self.root / 'звук 1.wav'))
-        self.window.conversion_output.setText(str(target))
-        self.window.convert()
-        self.assertIsNone(self.window.converter_process)
-        self.assertEqual(target.read_bytes(), b'keep')
-        self.assertTrue(any(row['event'] == 'conversion.validation_error' for row in self.trace_rows()))
+        self.window.convert(); self.wait_conversion()
+        first = Path(self.window.conversion_output.text()); before = first.read_bytes()
+        self.window.convert(); self.wait_conversion()
+        second = Path(self.window.conversion_output.text())
+        self.assertNotEqual(first, second)
+        self.assertEqual(first.read_bytes(), before)
+        self.assertTrue(second.exists())
 
     def test_conversion_invalid_audio_and_cancel(self):
         from mashup.conversion import ffmpeg_executable
@@ -156,16 +173,14 @@ class GuiTests(unittest.TestCase):
         except Exception:
             self.skipTest('optional FFmpeg not installed')
         invalid = self.root / 'not-audio.wav'; invalid.write_bytes(b'not audio')
-        destination = self.root / 'failed.wav'
         self.window.conversion_input.setText(str(invalid))
-        self.window.conversion_output.setText(str(destination))
         self.window.convert(); self.wait_conversion()
-        self.assertFalse(destination.exists())
+        self.assertFalse(Path(self.window.conversion_output.text()).exists())
         self.assertIn('conversion.failed', [row['event'] for row in self.trace_rows()])
         self.window.conversion_input.setText(str(self.root / 'звук 1.wav'))
         self.window.convert()
         self.window.cancel_conversion(); self.wait_conversion()
-        self.assertFalse(destination.exists())
+        self.assertFalse(Path(self.window.conversion_output.text()).exists())
         self.assertIn('conversion.cancelled', [row['event'] for row in self.trace_rows()])
 
     def test_bad_format_reports_error_and_does_not_make_project(self):
