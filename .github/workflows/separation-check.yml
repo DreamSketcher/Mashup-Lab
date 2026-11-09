@@ -1,0 +1,34 @@
+name: Source separation CPU checks
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: windows-2022
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python: '3.12'
+            separator: '0.41.1'
+          - python: '3.14.1'
+            separator: '0.12.0'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Download model and print hash
+        shell: pwsh
+        run: |
+          $url = 'https://github.com/TRvlvr/model_repo/releases/download/all_public_uvr_models/UVR-MDX-NET-Inst_HQ_3.onnx'
+          Invoke-WebRequest -Uri $url -OutFile "$env:RUNNER_TEMP/model.onnx"
+          $hash = (Get-FileHash "$env:RUNNER_TEMP/model.onnx" -Algorithm SHA256).Hash.ToLower()
+          Write-Host "::notice title=UVR model SHA256::$hash"
+      - name: Install engine candidate
+        run: python -m pip install "audio-separator==${{ matrix.separator }}" onnxruntime imageio-ffmpeg audioop-lts "librosa==0.11.0"
+      - name: Import engine
+        run: python -c "from audio_separator.separator import Separator; print('ENGINE IMPORT OK')"
