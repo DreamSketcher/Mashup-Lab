@@ -1,10 +1,14 @@
 name: Linux policy snapshot research
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - arena/32514431-mashup-lab
 permissions:
   contents: read
 jobs:
   experiments:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[linux-policy-probe]')
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
