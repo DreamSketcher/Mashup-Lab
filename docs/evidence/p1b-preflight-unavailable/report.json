@@ -1,0 +1,199 @@
+{
+  "created_utc": "2026-11-09T00:16:56.582688+00:00",
+  "target_profile_gate": "UNAVAILABLE",
+  "profile_gate_scope": "OS/architecture/kernel/package only; not P1 approval",
+  "profile": {
+    "system": "Linux",
+    "machine": "x86_64",
+    "kernel": "6.1.158+",
+    "os_release": "PRETTY_NAME=\"Debian GNU/Linux 12 (bookworm)\"\nNAME=\"Debian GNU/Linux\"\nVERSION_ID=\"12\"\nVERSION=\"12 (bookworm)\"\nVERSION_CODENAME=bookworm\nID=debian\nHOME_URL=\"https://www.debian.org/\"\nSUPPORT_URL=\"https://www.debian.org/support\"\nBUG_REPORT_URL=\"https://bugs.debian.org/\"\n",
+    "package_stdout": "",
+    "package_stderr": "dpkg-query: no packages found matching linux-image-6.8.0-31-generic\n",
+    "package_exit": 1
+  },
+  "collector_exit": 0,
+  "scenarios": [
+    {
+      "id": "P1B-01",
+      "name": "openat2",
+      "level": "primitive",
+      "prerequisites": "Linux x86-64, openat2",
+      "expected": "beneath lookup succeeds; symlinks and escape are rejected",
+      "status": "UNAVAILABLE",
+      "actual": "exact target OS, architecture, running kernel and kernel package not established; not run",
+      "log": null
+    },
+    {
+      "id": "P1B-02",
+      "name": "path_race",
+      "level": "primitive",
+      "prerequisites": "Linux x86-64, openat2; both race outcomes observed",
+      "expected": "concurrent symlink swaps never expose wrong content",
+      "status": "UNAVAILABLE",
+      "actual": "exact target OS, architecture, running kernel and kernel package not established; not run",
+      "log": null
+    },
+    {
+      "id": "P1B-03",
+      "name": "acl",
+      "level": "primitive",
+      "prerequisites": "POSIX ACL utilities, sudo, existing UID 65534 and traversable test mount",
+      "expected": "named ACL permits read and denies write for UID 65534",
+      "status": "UNAVAILABLE",
+      "actual": "exact target OS, architecture, running kernel and kernel package not established; not run",
+      "log": null
+    },
+    {
+      "id": "P1B-04",
+      "name": "memfd",
+      "level": "primitive",
+      "prerequisites": "Linux memfd and file seals",
+      "expected": "sealed content, size and writable shared mappings cannot be changed",
+      "status": "UNAVAILABLE",
+      "actual": "exact target OS, architecture, running kernel and kernel package not established; not run",
+      "log": null
+    },
+    {
+      "id": "P1B-05",
+      "name": "flock",
+      "level": "primitive",
+      "prerequisites": "Linux flock and process creation",
+      "expected": "competitor blocks, replaced lock inode is distinct, killed sole owner releases lock",
+      "status": "UNAVAILABLE",
+      "actual": "exact target OS, architecture, running kernel and kernel package not established; not run",
+      "log": null
+    },
+    {
+      "id": "P1B-06",
+      "name": "trusted-chain",
+      "level": "adapter",
+      "prerequisites": "trusted snapshot/updater/admission implementation and isolated adversarial VM fixtures",
+      "expected": "each parent ownership, modes and actual ACLs checked",
+      "status": "NOT_RUN",
+      "actual": "required implementation and independent acceptance harness do not exist",
+      "log": null
+    },
+    {
+      "id": "P1B-07",
+      "name": "file-types",
+      "level": "adapter",
+      "prerequisites": "trusted snapshot/updater/admission implementation and isolated adversarial VM fixtures",
+      "expected": "policy symlink, hardlink, FIFO, device and directory rejected safely",
+      "status": "NOT_RUN",
+      "actual": "required implementation and independent acceptance harness do not exist",
+      "log": null
+    },
+    {
+      "id": "P1B-08",
+      "name": "acl-authority",
+      "level": "adapter",
+      "prerequisites": "trusted snapshot/updater/admission implementation and isolated adversarial VM fixtures",
+      "expected": "named user/group ACL grants and default ACLs correctly evaluated",
+      "status": "NOT_RUN",
+      "actual": "required implementation and independent acceptance harness do not exist",
+      "log": null
+    },
+    {
+      "id": "P1B-09",
+      "name": "path-escape",
+      "level": "adapter",
+      "prerequisites": "trusted snapshot/updater/admission implementation and isolated adversarial VM fixtures",
+      "expected": "intermediate symlinks and traversal cannot escape trusted root",
+      "status": "NOT_RUN",
+      "actual": "required implementation and independent acceptance harness do not exist",
+      "log": null
+    },
+    {
+      "id": "P1B-10",
+      "name": "snapshot-races",
+      "level": "adapter",
+      "prerequisites": "trusted snapshot/updater/admission implementation and isolated adversarial VM fixtures",
+      "expected": "concurrent file/directory replacement and in-place writes never yield unchecked policy",
+      "status": "NOT_RUN",
+      "actual": "required implementation and independent acceptance harness do not exist",
+      "log": null
+    },
+    {
+      "id": "P1B-11",
+      "name": "same-bytes",
+      "level": "adapter",
+      "prerequisites": "trusted snapshot/updater/admission implementation and isolated adversarial VM fixtures",
+      "expected": "snapshot, hash, parser and consumer use identical protected bytes",
+      "status": "NOT_RUN",
+      "actual": "required implementation and independent acceptance harness do not exist",
+      "log": null
+    },
+    {
+      "id": "P1B-12",
+      "name": "update-lock",
+      "level": "adapter",
+      "prerequisites": "trusted snapshot/updater/admission implementation and isolated adversarial VM fixtures",
+      "expected": "reader and updater share protected lock through documented admission point",
+      "status": "NOT_RUN",
+      "actual": "required implementation and independent acceptance harness do not exist",
+      "log": null
+    },
+    {
+      "id": "P1B-13",
+      "name": "updater-crash",
+      "level": "adapter",
+      "prerequisites": "trusted snapshot/updater/admission implementation and isolated adversarial VM fixtures",
+      "expected": "crash around publication never admits partial policy",
+      "status": "NOT_RUN",
+      "actual": "required implementation and independent acceptance harness do not exist",
+      "log": null
+    },
+    {
+      "id": "P1B-14",
+      "name": "fail-closed",
+      "level": "adapter",
+      "prerequisites": "trusted snapshot/updater/admission implementation and isolated adversarial VM fixtures",
+      "expected": "missing ACL, invalid mount and syscall errors never cause authorization",
+      "status": "NOT_RUN",
+      "actual": "required implementation and independent acceptance harness do not exist",
+      "log": null
+    },
+    {
+      "id": "P1B-15",
+      "name": "admission-revocation",
+      "level": "adapter",
+      "prerequisites": "trusted snapshot/updater/admission implementation and isolated adversarial VM fixtures",
+      "expected": "revocation ordering obeys the admission-point contract",
+      "status": "NOT_RUN",
+      "actual": "required implementation and independent acceptance harness do not exist",
+      "log": null
+    },
+    {
+      "id": "P1B-16",
+      "name": "policy-invariants",
+      "level": "adapter",
+      "prerequisites": "trusted snapshot/updater/admission implementation and isolated adversarial VM fixtures",
+      "expected": "limits, malformed inputs, missing/revoked and identity mismatch do not fall back",
+      "status": "NOT_RUN",
+      "actual": "required implementation and independent acceptance harness do not exist",
+      "log": null
+    },
+    {
+      "id": "P1B-17",
+      "name": "mount-topology",
+      "level": "adapter",
+      "prerequisites": "trusted snapshot/updater/admission implementation and isolated adversarial VM fixtures",
+      "expected": "bind mounts, topology changes and unknown mount state fail closed",
+      "status": "NOT_RUN",
+      "actual": "required implementation and independent acceptance harness do not exist",
+      "log": null
+    },
+    {
+      "id": "P1B-18",
+      "name": "lock-replacement",
+      "level": "adapter",
+      "prerequisites": "trusted snapshot/updater/admission implementation and isolated adversarial VM fixtures",
+      "expected": "protected shared lock inode cannot be replaced to bypass coordination",
+      "status": "NOT_RUN",
+      "actual": "required implementation and independent acceptance harness do not exist",
+      "log": null
+    }
+  ],
+  "trusted_snapshot_approved": false,
+  "planner_admitted": false
+}

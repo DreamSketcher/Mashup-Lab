@@ -1,0 +1,33 @@
+{
+  "manifest_version": "0.1",
+  "implementation": "mashup-lab-timing",
+  "planner_contract_version": "0.1",
+  "engine_version": "test-1",
+  "build_id": "fixture-only",
+  "git_commit": null,
+  "git_dirty": null,
+  "python": {
+    "implementation": "CPython",
+    "version": "3.11.9",
+    "executable_path": "/opt/runtime/python",
+    "executable_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "dependencies": [
+    {
+      "name": "pyyaml",
+      "version": "6.0.2",
+      "artifact_path": "/opt/artifacts/pyyaml.whl",
+      "artifact_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+    }
+  ],
+  "execution_image": {
+    "platform": "linux/amd64",
+    "oci_manifest_digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+    "entrypoint": [
+      "/opt/runtime/python",
+      "-m",
+      "mashup"
+    ],
+    "isolation_policy": "offline-readonly-v1"
+  }
+}
