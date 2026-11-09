@@ -24,7 +24,10 @@ def main():
             from .gui import main as gui_main
         except ImportError as exc:
             trace.emit('application.import_error', error=str(exc), traceback=traceback.format_exc())
-            print(f'error: cannot load GUI: {exc}. Install requirements-gui.txt and check system Qt dependencies.', file=sys.stderr)
+            if exc.name == 'PySide6':
+                print('error: PySide6 не установлен. Выберите пункт 8 в лаунчере или установите requirements-gui.txt.', file=sys.stderr)
+            else:
+                print(f'error: cannot load GUI: {exc}. Install requirements-gui.txt and check system Qt dependencies.', file=sys.stderr)
             if trace.path:
                 print(f'trace: {trace.path}', file=sys.stderr)
             return 1

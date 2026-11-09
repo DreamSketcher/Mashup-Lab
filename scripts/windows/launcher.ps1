@@ -127,8 +127,6 @@ function PrepareGui {
 }
 function RunGui {
     if (-not (Ready)) { return 1 }
-    & $venvPython -c 'import importlib.util,sys; sys.exit(0 if importlib.util.find_spec("PySide6") else 1)' | Out-Host
-    if ($LASTEXITCODE -ne 0) { Say 'PySide6 не установлен. Выберите пункт 8.'; return 1 }
     & $venvPython -m mashup gui | Out-Host
     $code = $LASTEXITCODE
     if ($code -ne 0) { Say "Ошибка интерфейса (код $code). См. сообщение выше и локальную трассу." }
