@@ -1,5 +1,6 @@
 import hashlib
 import json
+import os
 import struct
 import subprocess
 import sys
@@ -96,6 +97,24 @@ class QuickMashupTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual(marker.read_text(), 'keep')
         self.assertEqual(self.a.stat().st_size, 52)
+
+    def test_instrumented_cli_emits_stages_without_pcm(self):
+        folder = self.root / 'traced'
+        env = os.environ.copy()
+        env['MASHUP_GUI_TRACE'] = '1'
+        result = subprocess.run([sys.executable, '-m', 'mashup', 'quick-mashup',
+                                 str(self.a), str(self.b), '--project-dir', str(folder)],
+                                text=True, encoding='utf-8', capture_output=True, env=env)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        prefix = '@@MASHUP_TRACE@@'
+        rows = [json.loads(line[len(prefix):]) for line in result.stderr.splitlines() if line.startswith(prefix)]
+        events = [row['event'] for row in rows]
+        for event in ('quick.start', 'quick.environment', 'quick.project_validated',
+                      'render.plan_validated', 'render.source_decoded', 'render.clip_mixed',
+                      'render.peak', 'render.complete', 'quick.complete'):
+            self.assertIn(event, events)
+        self.assertNotIn('data', rows[-1])
+        self.assertTrue(json.loads(result.stdout)['render']['pcm_sha256'])
 
     def test_truncated_source_fails_without_success_report(self):
         bad = self.root / 'truncated.wav'

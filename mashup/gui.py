@@ -1,0 +1,356 @@
+"""Small PySide6 frontend for the existing two-source CLI.
+
+Logs application actions and instrumented backend stages, not every OS/Qt/DSP
+operation. Audio is never included in the trace.
+"""
+import json
+import os
+from pathlib import Path
+import platform
+import sys
+import traceback
+import wave
+from datetime import datetime
+
+from PySide6.QtCore import Qt, QProcess, QProcessEnvironment, QUrl, qInstallMessageHandler
+from PySide6.QtGui import QColor, QDesktopServices, QPainter
+from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDoubleSpinBox,
+    QFileDialog, QFrame, QGridLayout, QHBoxLayout, QLabel, QLineEdit, QMainWindow,
+    QMessageBox, QPlainTextEdit, QPushButton, QScrollArea, QSpinBox, QVBoxLayout,
+    QWidget)
+
+
+
+from .session_trace import SessionTrace
+
+
+STYLE = '''
+QWidget { background: #10141b; color: #e9edf1; font-family: "Segoe UI", "Arial"; font-size: 13px; }
+QMainWindow, QScrollArea, QScrollArea > QWidget > QWidget { background: #10141b; }
+QFrame#sidebar { background: #141a22; border-right: 1px solid #27313d; }
+QFrame#card { background: #1a212c; border: 1px solid #303c4a; border-radius: 12px; }
+QFrame#strip { background: #151c25; border: 1px solid #2b3745; border-radius: 8px; }
+QLabel { background: transparent; border: none; }
+QLabel#brand { font-size: 20px; font-weight: 750; color: #f6f8fa; }
+QLabel#title { font-size: 30px; font-weight: 750; color: #f6f8fa; }
+QLabel#section { font-size: 17px; font-weight: 700; }
+QLabel#muted { color: #9aa8b7; font-size: 12px; }
+QLabel#accent { color: #73dfc1; font-weight: 700; font-size: 11px; }
+QLabel#warning { color: #eac77e; font-size: 12px; }
+QLineEdit, QSpinBox, QDoubleSpinBox, QComboBox { background: #111821; border: 1px solid #344150; border-radius: 6px; padding: 7px; min-height: 22px; selection-background-color: #288a7a; }
+QLineEdit:focus, QSpinBox:focus, QDoubleSpinBox:focus { border: 1px solid #70dfc2; }
+QPushButton { background: #283441; border: 1px solid #3c4b5a; border-radius: 7px; padding: 9px 14px; font-weight: 600; }
+QPushButton:hover { background: #354758; }
+QPushButton:disabled { color: #687482; background: #252e37; }
+QPushButton#primary { background: #72dfbf; color: #10231f; border: none; padding: 12px 20px; font-weight: 750; }
+QPushButton#primary:hover { background: #a2efd7; }
+QPlainTextEdit { background: #0d131a; color: #afc1c7; border: 1px solid #2c3947; border-radius: 7px; font-family: Consolas, monospace; font-size: 11px; }
+QCheckBox { spacing: 8px; }
+QCheckBox::indicator { width: 16px; height: 16px; }
+QScrollBar:vertical { background: #10141b; width: 10px; }
+QScrollBar::handle:vertical { background: #364555; border-radius: 4px; min-height: 30px; }
+'''
+
+
+def label(text, name=None):
+    obj = QLabel(text)
+    if name:
+        obj.setObjectName(name)
+    return obj
+
+
+def card():
+    frame = QFrame()
+    frame.setObjectName('card')
+    return frame
+
+
+class Timeline(QWidget):
+    """Illustrative clip ranges from WAV headers; never drawn as a waveform."""
+    def __init__(self, window):
+        super().__init__()
+        self.window = window
+        self.setMinimumHeight(118)
+
+    def paintEvent(self, event):
+        p = QPainter(self)
+        p.setRenderHint(QPainter.RenderHint.Antialiasing)
+        p.fillRect(self.rect(), QColor('#141b24'))
+        p.setPen(QColor('#8596a6'))
+        p.drawText(15, 20, 'ПРЕДПРОСМОТР РАЗМЕЩЕНИЯ  ·  НЕ ВОЛНОВАЯ ФОРМА')
+        left, width = 64, max(1, self.width() - 82)
+        bpm = self.window.bpm.value()
+        data = []
+        for track in self.window.tracks:
+            start = ((track['bar'].value()-1)*4 + track['beat'].value()-1 + track['tick'].value()/960) * 60/bpm
+            try:
+                a = int(track['start'].text() or '0')
+                b = int(track['end'].text()) if track['end'].text() else track['frames']
+                duration = max(0, b-a)/48000 if b else 0
+            except ValueError:
+                duration = 0
+            data.append((start, duration))
+        total = max(1.0, *(start+duration for start, duration in data))
+        for i in range(5):
+            x = left + width*i/4
+            p.setPen(QColor('#334150')); p.drawLine(int(x), 34, int(x), 111)
+            p.setPen(QColor('#8292a2')); p.drawText(int(x), 31, f'{total*i/4:.1f}s')
+        for i, (start, duration) in enumerate(data):
+            y = 43 + i*35
+            p.setPen(QColor('#a7b6c4')); p.drawText(15, y+16, f'0{i+1}')
+            if duration:
+                p.setPen(Qt.PenStyle.NoPen)
+                p.setBrush(QColor('#56cbb0' if i == 0 else '#eab978'))
+                p.drawRoundedRect(int(left+start/total*width), y, max(2, int(duration/total*width)), 22, 5, 5)
+        p.end()
+
+
+class MashupWindow(QMainWindow):
+    def __init__(self, trace):
+        super().__init__()
+        self.trace = trace
+        self.process = None
+        self.stdout = bytearray()
+        self.stderr = bytearray()
+        self.result_path = None
+        self.tracks = []
+        self.setWindowTitle('Mashup Lab · Студия')
+        self.resize(1310, 920)
+        self.setMinimumSize(900, 700)
+        self._build()
+        self.record('ui.ready')
+
+    def record(self, event, **fields):
+        row = self.trace.emit(event, **fields)
+        if hasattr(self, 'activity'):
+            detail = fields.get('message') or fields.get('error') or ''
+            self.activity.appendPlainText(f"{row['time_utc'][11:19]}  {event} {str(detail)[:500]}")
+            if self.trace.error:
+                self.trace_status.setText('Трасса недоступна: ' + self.trace.error)
+                self.trace_status.setObjectName('warning')
+        return row
+
+    def _build(self):
+        root = QWidget(); self.setCentralWidget(root)
+        outer = QHBoxLayout(root); outer.setContentsMargins(0,0,0,0); outer.setSpacing(0)
+        side = QFrame(); side.setObjectName('sidebar'); side.setFixedWidth(205)
+        sl = QVBoxLayout(side); sl.setContentsMargins(22,27,22,22); sl.setSpacing(13)
+        sl.addWidget(label('◈  MASHUP', 'brand')); sl.addWidget(label('LAB  /  AUDIO STUDIO', 'accent'))
+        sl.addSpacing(28); sl.addWidget(label('РАБОЧЕЕ ПРОСТРАНСТВО', 'muted'))
+        sl.addWidget(label('●  Новый мешап', 'accent')); sl.addWidget(label('    Проект из двух WAV', 'muted'))
+        sl.addSpacing(25); sl.addWidget(label('01  Выберите аудио', 'muted')); sl.addWidget(label('02  Настройте микс', 'muted')); sl.addWidget(label('03  Создайте WAV', 'muted'))
+        sl.addStretch(); sl.addWidget(label('ЭКСПЕРИМЕНТАЛЬНО', 'accent'))
+        small = label('48 kHz PCM  ·  без SRC\nи изменения темпа', 'muted'); small.setWordWrap(True); sl.addWidget(small)
+        outer.addWidget(side)
+        scroll = QScrollArea(); scroll.setWidgetResizable(True); scroll.setFrameShape(QFrame.Shape.NoFrame)
+        body = QWidget(); scroll.setWidget(body); outer.addWidget(scroll, 1)
+        column = QVBoxLayout(body); column.setContentsMargins(34,26,34,30); column.setSpacing(18)
+        header = QHBoxLayout(); title = QVBoxLayout(); title.addWidget(label('СОЗДАТЬ  /  НОВЫЙ ПРОЕКТ', 'accent')); title.addWidget(label('Два трека. Один мешап.', 'title')); title.addWidget(label('Выберите аудио, настройте расположение и соберите свой первый микс.', 'muted')); header.addLayout(title); header.addStretch()
+        status = label('●  48 kHz  /  PCM WAV', 'accent'); header.addWidget(status); column.addLayout(header)
+        self.controls = QWidget(); controls = QVBoxLayout(self.controls); controls.setContentsMargins(0,0,0,0); controls.setSpacing(16)
+        tracks_header = QHBoxLayout(); tracks_header.addWidget(label('01  Исходники', 'section')); tracks_header.addStretch(); tracks_header.addWidget(label('МОНО ИЛИ СТЕРЕО  ·  16 / 24 / 32 BIT', 'muted')); controls.addLayout(tracks_header)
+        for index in (1,2):
+            controls.addWidget(self._track_card(index))
+        config = card(); cl = QVBoxLayout(config); cl.setContentsMargins(18,16,18,16)
+        row = QHBoxLayout(); row.addWidget(label('02  Размещение', 'section')); row.addStretch(); row.addWidget(label('СХЕМА ПО ГРАНИЦАМ КЛИПОВ', 'muted')); cl.addLayout(row)
+        self.timeline = Timeline(self); cl.addWidget(self.timeline)
+        settings = QHBoxLayout(); settings.addWidget(label('BPM проекта')); self.bpm = QDoubleSpinBox(); self.bpm.setRange(1,999); self.bpm.setDecimals(2); self.bpm.setValue(120); self.bpm.setFixedWidth(110); settings.addWidget(self.bpm)
+        settings.addSpacing(18); settings.addWidget(label('Формат WAV')); self.depth = QComboBox(); self.depth.addItems(['24-bit', '16-bit']); settings.addWidget(self.depth)
+        settings.addSpacing(18); self.verify = QCheckBox('Проверить повторный рендер'); self.verify.setChecked(True); settings.addWidget(self.verify); settings.addStretch(); cl.addLayout(settings)
+        note = label('BPM задаёт только разметку. Автосинхронизации, смены темпа и тональности нет.', 'muted'); note.setWordWrap(True); cl.addWidget(note)
+        controls.addWidget(config)
+        output = card(); ol = QVBoxLayout(output); ol.setContentsMargins(18,16,18,16)
+        ol.addWidget(label('03  Куда сохранить', 'section'))
+        ol.addWidget(label('Укажите новую папку: в ней появятся project.yaml, копии WAV и результат.', 'muted'))
+        pathrow = QHBoxLayout(); self.output_dir = QLineEdit(str(Path.home() / ('Mashup-' + datetime.now().strftime('%Y%m%d-%H%M%S')))); self.output_dir.setObjectName('output_dir'); pathrow.addWidget(self.output_dir,1)
+        choose = QPushButton('Выбрать родительскую папку'); choose.clicked.connect(self.choose_output); pathrow.addWidget(choose); ol.addLayout(pathrow)
+        controls.addWidget(output); column.addWidget(self.controls)
+        action = QHBoxLayout(); self.make = QPushButton('Создать мешап  →'); self.make.setObjectName('primary'); self.make.clicked.connect(self.run); action.addWidget(self.make)
+        self.open_output = QPushButton('Открыть WAV'); self.open_output.setEnabled(False); self.open_output.clicked.connect(self.open_result); action.addWidget(self.open_output)
+        self.run_status = label('Готов к работе', 'muted'); action.addWidget(self.run_status,1); column.addLayout(action)
+        trace_card = card(); tl = QVBoxLayout(trace_card); tl.setContentsMargins(18,15,18,15)
+        tr = QHBoxLayout(); tr.addWidget(label('Трасса действий', 'section')); tr.addStretch(); open_logs = QPushButton('Открыть папку логов'); open_logs.clicked.connect(self.open_logs); tr.addWidget(open_logs); tl.addLayout(tr)
+        self.trace_status = label(str(self.trace.path) if self.trace.path else 'Трасса недоступна: ' + str(self.trace.error), 'muted' if self.trace.path else 'warning'); self.trace_status.setWordWrap(True); self.trace_status.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse); tl.addWidget(self.trace_status)
+        tl.addWidget(label('Локальный JSONL содержит пути и параметры. Перед отправкой проверьте конфиденциальность.', 'muted'))
+        self.activity = QPlainTextEdit(); self.activity.setReadOnly(True); self.activity.setMaximumBlockCount(1000); self.activity.setFixedHeight(100); tl.addWidget(self.activity); column.addWidget(trace_card)
+        self.bpm.valueChanged.connect(lambda v: self.changed('bpm', v)); self.depth.currentTextChanged.connect(lambda v: self.changed('bit_depth', v)); self.verify.toggled.connect(lambda v: self.changed('verify_repeat', v)); self.output_dir.editingFinished.connect(lambda: self.changed('output_dir', self.output_dir.text()))
+
+    def _track_card(self, number):
+        frame = card(); box = QVBoxLayout(frame); box.setContentsMargins(18,15,18,17); box.setSpacing(12)
+        head = QHBoxLayout(); head.addWidget(label(f'АУДИО 0{number}', 'accent' if number == 1 else 'warning')); head.addWidget(label('Вокал / инструментал' if number == 1 else 'Инструментал / вокал', 'section')); head.addStretch()
+        info = label('ФАЙЛ НЕ ВЫБРАН', 'muted'); head.addWidget(info); box.addLayout(head)
+        files = QHBoxLayout(); path = QLineEdit(); path.setObjectName(f'audio{number}'); path.setPlaceholderText('Выберите WAV-файл 48 kHz'); files.addWidget(path,1)
+        select = QPushButton('Обзор…'); select.clicked.connect(lambda: self.choose_file(number)); files.addWidget(select); box.addLayout(files)
+        opts = QGridLayout(); opts.setHorizontalSpacing(12); opts.setVerticalSpacing(6)
+        def spin(name, low, high, value, decimal=False):
+            w = QDoubleSpinBox() if decimal else QSpinBox()
+            w.setRange(low,high); w.setValue(value)
+            if decimal: w.setDecimals(2); w.setSingleStep(0.1 if name == 'pan' else 1)
+            w.setObjectName(f'{name}{number}'); w.valueChanged.connect(lambda v: self.changed(f'{name}{number}',v))
+            return w
+        bar = spin('bar',1,9999,1); beat = spin('beat',1,4,1); tick = spin('tick',0,959,0)
+        gain = spin('gain',-120,24,0,True); pan = spin('pan',-1,1,0,True)
+        start = QLineEdit('0'); start.setObjectName(f'start{number}'); end = QLineEdit(); end.setObjectName(f'end{number}'); end.setPlaceholderText('до конца')
+        fade_in = spin('fade_in',0,2147483647,0); fade_out = spin('fade_out',0,2147483647,0)
+        fields = [('Такт',bar),('Доля',beat),('Тик',tick),('Gain · dB',gain),('Pan',pan),('От · frame',start),('До · frame',end),('Fade in · frames',fade_in),('Fade out · frames',fade_out)]
+        for col,(title,widget) in enumerate(fields):
+            opts.addWidget(label(title,'muted'),0,col); opts.addWidget(widget,1,col)
+        box.addLayout(opts)
+        track = {'path':path,'info':info,'bar':bar,'beat':beat,'tick':tick,'gain':gain,'pan':pan,'start':start,'end':end,'fade_in':fade_in,'fade_out':fade_out,'frames':0}
+        self.tracks.append(track)
+        path.editingFinished.connect(lambda: self.read_header(number))
+        start.editingFinished.connect(lambda: self.changed(f'start{number}',start.text()))
+        end.editingFinished.connect(lambda: self.changed(f'end{number}',end.text()))
+        return frame
+
+    def changed(self, field, value):
+        self.record('ui.value_changed', field=field, value=value)
+        if hasattr(self, 'timeline'):
+            self.timeline.update()
+
+    def choose_file(self, number):
+        self.record('ui.choose_file', track=number)
+        path, _ = QFileDialog.getOpenFileName(self, f'Выберите аудио {number}', '', 'WAV (*.wav);;Все файлы (*)')
+        self.record('ui.file_dialog_result', track=number, selected=path or None)
+        if path:
+            self.tracks[number-1]['path'].setText(path); self.read_header(number)
+
+    def read_header(self, number):
+        t = self.tracks[number-1]; path = t['path'].text().strip(); t['frames'] = 0
+        try:
+            with wave.open(path, 'rb') as wav:
+                t['frames'] = wav.getnframes()
+                info = f'{wav.getframerate()} Hz  ·  {wav.getnchannels()} ch  ·  {wav.getnframes()/wav.getframerate():.2f} сек'
+                if wav.getframerate() != 48000 or wav.getnchannels() not in (1,2) or wav.getsampwidth() not in (2,3,4):
+                    info += '  ·  НЕПОДДЕРЖИВАЕМЫЙ ФОРМАТ'
+                t['info'].setText(info)
+            self.record('ui.source_loaded', track=number, path=path, frames=t['frames'], metadata=info)
+        except (OSError, ValueError, wave.Error, EOFError, ZeroDivisionError) as exc:
+            t['info'].setText('НЕ УДАЛОСЬ ПРОЧИТАТЬ WAV'); self.record('ui.source_error', track=number, path=path, error=str(exc))
+        if hasattr(self,'timeline'): self.timeline.update()
+
+    def choose_output(self):
+        self.record('ui.choose_output_parent')
+        parent = QFileDialog.getExistingDirectory(self, 'Выберите родительскую папку')
+        self.record('ui.output_dialog_result', selected=parent or None)
+        if parent:
+            self.output_dir.setText(str(Path(parent) / ('Mashup-' + datetime.now().strftime('%Y%m%d-%H%M%S'))))
+            self.changed('output_dir', self.output_dir.text())
+
+    def run(self):
+        self.record('ui.render_clicked')
+        if self.process is not None:
+            return
+        paths = [t['path'].text().strip() for t in self.tracks]
+        target = self.output_dir.text().strip()
+        if not all(paths) or not target:
+            self.record('ui.validation_error', error='Выберите оба WAV и новую папку проекта')
+            self.run_status.setText('Выберите оба WAV и новую папку проекта'); return
+        args = ['-m','mashup','quick-mashup',*paths,'--project-dir',target,
+                '--bpm',f'{self.bpm.value():.2f}','--bit-depth',self.depth.currentText().split('-')[0]]
+        for number,t in enumerate(self.tracks,1):
+            args += [f'--bar{number}',str(t['bar'].value()),f'--beat{number}',str(t['beat'].value()),f'--tick{number}',str(t['tick'].value()),
+                     f'--gain{number}',f"{t['gain'].value():.2f}",f'--pan{number}',f"{t['pan'].value():.2f}",
+                     f'--start{number}',t['start'].text().strip(),f'--fade-in{number}',str(t['fade_in'].value()),f'--fade-out{number}',str(t['fade_out'].value())]
+            if t['end'].text().strip(): args += [f'--end{number}',t['end'].text().strip()]
+        if self.verify.isChecked(): args.append('--verify-repeat')
+        self.stdout.clear(); self.stderr.clear(); self.result_path = None
+        self.open_output.setEnabled(False); self.controls.setEnabled(False); self.make.setEnabled(False); self.run_status.setText('Обработка…')
+        self.process = QProcess(self); env = QProcessEnvironment.systemEnvironment(); env.insert('MASHUP_GUI_TRACE','1'); env.insert('PYTHONUTF8','1'); self.process.setProcessEnvironment(env)
+        self.process.readyReadStandardOutput.connect(self.read_stdout); self.process.readyReadStandardError.connect(self.read_stderr)
+        self.process.finished.connect(self.finished); self.process.errorOccurred.connect(self.process_error)
+        self.record('backend.start', executable=sys.executable, arguments=args)
+        self.process.start(sys.executable, args)
+
+    def read_stdout(self):
+        if self.process: self.stdout.extend(bytes(self.process.readAllStandardOutput()))
+
+    def read_stderr(self):
+        if not self.process: return
+        self.stderr.extend(bytes(self.process.readAllStandardError()))
+        while b'\n' in self.stderr:
+            line, _, rest = self.stderr.partition(b'\n'); self.stderr = bytearray(rest)
+            self._stderr_line(line)
+
+    def _stderr_line(self, line):
+        text = line.decode('utf-8','replace')
+        if text.startswith('@@MASHUP_TRACE@@'):
+            try:
+                data = json.loads(text[len('@@MASHUP_TRACE@@'):]); event = data.pop('event')
+                self.record('backend.'+event, **data); return
+            except (ValueError, KeyError, TypeError): pass
+        self.record('backend.stderr', message=text)
+
+    def process_error(self, error):
+        if not self.process: return
+        message = self.process.errorString(); self.record('backend.process_error', error=message)
+        if error == QProcess.ProcessError.FailedToStart:
+            self.process.deleteLater(); self.process = None; self.controls.setEnabled(True); self.make.setEnabled(True)
+            self.run_status.setText('Не удалось запустить рендер: ' + message)
+
+    def finished(self, code, exit_status):
+        self.read_stdout(); self.read_stderr()
+        if self.stderr: self._stderr_line(bytes(self.stderr)); self.stderr.clear()
+        text = bytes(self.stdout).decode('utf-8','replace')
+        if code == 0 and exit_status == QProcess.ExitStatus.NormalExit:
+            try:
+                report = json.loads(text); self.result_path = report['output']; stats = report['render']
+                self.open_output.setEnabled(True)
+                self.run_status.setText(f"Готово · {stats['frames']/48000:.2f} сек · peak {stats['peak']:.3f} · scale {stats['scale']:.3f}")
+                self.record('backend.success', report=report)
+            except (ValueError, KeyError, TypeError) as exc:
+                self.run_status.setText('Ошибка разбора ответа рендера'); self.record('backend.invalid_report', error=str(exc), stdout=text)
+        else:
+            self.run_status.setText(f'Ошибка рендера (код {code}). Подробности — в трассе.')
+            self.record('backend.failed', exit_code=code, exit_status=str(exit_status), stdout=text)
+        self.record('backend.finished', exit_code=code, exit_status=str(exit_status))
+        self.process.deleteLater(); self.process = None; self.controls.setEnabled(True); self.make.setEnabled(True)
+
+    def open_result(self):
+        self.record('ui.open_result', path=self.result_path)
+        if self.result_path and not QDesktopServices.openUrl(QUrl.fromLocalFile(str(Path(self.result_path).resolve()))):
+            self.run_status.setText('Не удалось открыть WAV; найдите его в папке проекта.')
+            self.record('ui.open_result_failed', path=self.result_path)
+
+    def open_logs(self):
+        self.record('ui.open_logs')
+        if not self.trace.path or not QDesktopServices.openUrl(QUrl.fromLocalFile(str(self.trace.path.parent))):
+            self.run_status.setText('Не удалось открыть папку трассы.')
+            self.record('ui.open_logs_failed')
+
+    def closeEvent(self, event):
+        self.record('ui.close_requested', rendering=self.process is not None)
+        if self.process is not None:
+            choice = QMessageBox.question(self, 'Остановить рендер?', 'Рендер ещё выполняется. Остановить? Папка проекта может остаться неполной.')
+            self.record('ui.close_confirmation', confirmed=choice == QMessageBox.StandardButton.Yes)
+            if choice != QMessageBox.StandardButton.Yes:
+                event.ignore(); return
+            self.process.kill(); self.process.waitForFinished(3000)
+        self.record('ui.closed')
+        event.accept()
+
+
+def main(trace=None):
+    if trace is None:
+        trace = SessionTrace()
+        trace.emit('application.start', python=sys.version, platform=platform.platform(), argv=sys.argv, cwd=os.getcwd())
+    trace.emit('application.qt_loaded', pyside=__import__('PySide6').__version__)
+    old_hook = sys.excepthook
+    def exception_hook(kind, value, tb):
+        trace.emit('python.unhandled_exception', traceback=''.join(traceback.format_exception(kind,value,tb)))
+        old_hook(kind,value,tb)
+    sys.excepthook = exception_hook
+    def qt_message(mode, context, message):
+        trace.emit('qt.message', severity=str(mode), message=message, file=context.file, line=context.line)
+    qInstallMessageHandler(qt_message)
+    try:
+        app = QApplication(sys.argv[:1]); app.setApplicationName('Mashup Lab'); app.setStyleSheet(STYLE)
+        window = MashupWindow(trace); window.show()
+        code = app.exec()
+        trace.emit('application.exit', exit_code=code)
+        return code
+    except Exception:
+        trace.emit('application.error', traceback=traceback.format_exc())
+        raise
+    finally:
+        qInstallMessageHandler(None); sys.excepthook = old_hook

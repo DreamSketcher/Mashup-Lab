@@ -114,6 +114,26 @@ function Prepare {
     [IO.File]::WriteAllText($stamp, (RequirementsHash))
     Say 'Окружение готово.'; return 0
 }
+function PrepareGui {
+    if (-not (Ready)) { return 1 }
+    $guiRequirements = Join-Path $root 'requirements-gui.txt'
+    if (-not (Test-Path -LiteralPath $guiRequirements -PathType Leaf)) { Say 'Файл requirements-gui.txt не найден.'; return 1 }
+    Say 'Установка необязательного интерфейса PySide6 в .venv...'
+    & $venvPython -m pip install -r $guiRequirements | Out-Host
+    if ($LASTEXITCODE -ne 0) { Say 'Не удалось установить интерфейс.'; return 1 }
+    & $venvPython -c 'from PySide6.QtWidgets import QApplication' | Out-Host
+    if ($LASTEXITCODE -ne 0) { Say 'Не удалось загрузить PySide6.'; return 1 }
+    Say 'Интерфейс установлен.'; return 0
+}
+function RunGui {
+    if (-not (Ready)) { return 1 }
+    & $venvPython -c 'from PySide6.QtWidgets import QApplication' | Out-Host
+    if ($LASTEXITCODE -ne 0) { Say 'PySide6 не установлен. Выберите пункт 8.'; return 1 }
+    & $venvPython -m mashup gui | Out-Host
+    $code = $LASTEXITCODE
+    if ($code -ne 0) { Say "Ошибка интерфейса (код $code). См. сообщение выше и локальную трассу." }
+    return $code
+}
 function RunProject([string]$command) {
     if (-not (Ready)) { return 1 }
     $inputPath = Ask 'Путь к project.yaml (пустая строка — отмена): '
@@ -139,7 +159,7 @@ function RunProject([string]$command) {
 try {
     Say 'Mashup Lab — экспериментальный CLI. Окно можно закрыть после выхода из меню.'
     while ($true) {
-        Say "`n1. Проверить окружение`n2. Подготовить окружение / установить зависимости`n3. Проверить проект`n4. Построить план проекта`n5. Выполнить рендер`n6. Открыть документацию`n7. Выход"
+        Say "`n1. Проверить окружение`n2. Подготовить окружение / установить зависимости`n3. Проверить проект`n4. Построить план проекта`n5. Выполнить рендер`n6. Открыть документацию`n7. Выход`n8. Установить интерфейс PySide6`n9. Открыть интерфейс"
         $choice = Ask 'Выберите пункт: '
         if ($null -eq $choice) { break }
         try {
@@ -159,7 +179,9 @@ try {
                     else { Start-Process -FilePath 'notepad.exe' -ArgumentList ('"' + $doc + '"') -ErrorAction Stop; $lastResult = 0 }
                 }
                 '7' { break }
-                default { Say 'Введите число от 1 до 7.'; continue }
+                '8' { $lastResult = PrepareGui }
+                '9' { $lastResult = RunGui }
+                default { Say 'Введите число от 1 до 9.'; continue }
             }
             if ($choice.Trim() -eq '7') { break }
         } catch { [Console]::Error.WriteLine("Ошибка лаунчера: $_"); $lastResult = 1 }

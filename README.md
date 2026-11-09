@@ -79,6 +79,14 @@ also contains this older trust-oriented design; for MVP use the simpler binding
 direction in the scope document. None of those documents imply that trusted
 execution is implemented or that hashes authenticate the source of a file.
 
+## Desktop interface
+
+A PySide6 desktop interface is available as an optional dependency. On Windows,
+run `Mashup-Lab.bat`, prepare the environment (2), install the interface (8),
+and open it (9). On other systems install `requirements-gui.txt` and run
+`python -m mashup gui`. See the [desktop guide](docs/desktop-interface.md) for
+setup, supported audio, local traces and privacy limits.
+
 ## Quick start: audio 1 + audio 2
 
 Use two prepared 48 kHz PCM WAV files to create a project and render a first mix:

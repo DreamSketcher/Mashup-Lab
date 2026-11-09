@@ -6,6 +6,8 @@ import argparse
 from decimal import Decimal, InvalidOperation
 import hashlib
 import json
+import os
+import traceback
 from pathlib import Path
 import re
 import shutil
@@ -79,12 +81,23 @@ def inspect_wav(path):
         raise ProjectError(f'cannot read WAV {path}: {exc}') from exc
 
 
-def create_and_render(args):
+def create_and_render(args, trace=None):
     from .render import render
+
+    def emit(event, **fields):
+        if trace is not None:
+            trace(event, **fields)
+
+    emit('quick.start', audio1=str(args.audio1), audio2=str(args.audio2), project_dir=str(args.project_dir))
+    if trace is not None:
+        import numpy as np
+        import soundfile as sf
+        emit('quick.environment', python=sys.version, numpy=np.__version__, soundfile=sf.__version__, libsndfile=sf.__libsndfile_version__, pyyaml=yaml.__version__)
 
     input_paths = [args.audio1, args.audio2]
     # Validate source headers and user options before creating any directories.
     metadata = [inspect_wav(path) for path in input_paths]
+    emit('quick.headers_validated', sources=metadata)
     sources, clips = [], []
     for n, info in enumerate(metadata, 1):
         end = getattr(args, f'end{n}')
@@ -102,6 +115,7 @@ def create_and_render(args):
                'sources': sources, 'clips': clips, 'render': {'bit_depth': args.bit_depth}}
     # Reuse the existing planner's validation for all clip ranges and options.
     plan_project(project, args.project_dir, verify_sources=False)
+    emit('quick.options_validated')
     try:
         # Require a new directory to prevent overwriting user data.
         args.project_dir.mkdir()
@@ -116,23 +130,28 @@ def create_and_render(args):
                 raise ProjectError(f'{path}: WAV metadata changed while copying')
             with target.open('rb') as f:
                 source['sha256'] = hashlib.file_digest(f, 'sha256').hexdigest()
+            emit('quick.source_copied', source_id=source['id'], path=str(target), sha256=source['sha256'])
         project_path = args.project_dir / 'project.yaml'
         with project_path.open('x', encoding='utf-8', newline='\n') as f:
             yaml.dump(project, f, Dumper=ProjectDumper, sort_keys=False, allow_unicode=True)
         # Parse the generated file and use the same validation/renderer as normal.
         plan = plan_project(load_project(project_path), project_path.parent)
+        emit('quick.project_validated', project=str(project_path), frames=plan.total_frames)
         output = args.project_dir / 'mashup.wav'
-        result = render(project_path, output)
+        result = render(project_path, output, trace=trace)
         repeat = None
         if args.verify_repeat:
+            emit('quick.repeat_start')
             with tempfile.TemporaryDirectory(prefix='mashup-repeat-') as tmp:
-                again = render(project_path, Path(tmp) / 'repeat.wav')
+                again = render(project_path, Path(tmp) / 'repeat.wav', trace=trace)
             repeat = (result['pcm_sha256'] == again['pcm_sha256'] and
                       result['frames'] == again['frames'] and result['bit_depth'] == again['bit_depth'])
+            emit('quick.repeat_complete', match=repeat)
             if not repeat:
                 raise ProjectError('repeat render PCM does not match; inspect the project and environment')
     except OSError as exc:
         raise ProjectError(f'cannot create project files: {exc}') from exc
+    emit('quick.complete', project=str(project_path), output=str(output))
     return {'project': str(project_path), 'output': str(output),
             'sources': [str(args.project_dir / source['path']) for source in sources],
             'plan': plan.to_dict(), 'render': result, 'repeat_pcm_match': repeat}
@@ -140,9 +159,16 @@ def create_and_render(args):
 
 def main(argv):
     args = parse_args(argv)
+    def trace(event, **fields):
+        if os.environ.get('MASHUP_GUI_TRACE') == '1':
+            try:
+                print('@@MASHUP_TRACE@@' + json.dumps({'event': event, **fields}, ensure_ascii=True), file=sys.stderr, flush=True)
+            except OSError:
+                pass
     try:
-        result = create_and_render(args)
+        result = create_and_render(args, trace=trace)
     except ProjectError as exc:
+        trace('quick.error', error=str(exc), traceback=traceback.format_exc())
         print(f'error: {exc}', file=sys.stderr)
         print('If a new project directory was created, it may contain partial files; inspect it before retrying.', file=sys.stderr)
         return 1
