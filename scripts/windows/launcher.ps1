@@ -41,7 +41,7 @@ function Compatible([string]$exe, [string]$arguments) {
         $p = New-Object System.Diagnostics.Process
         $p.StartInfo = New-Object System.Diagnostics.ProcessStartInfo
         $p.StartInfo.FileName = $exe
-        $p.StartInfo.Arguments = "$arguments -c `"import sys; sys.exit(0 if sys.version_info >= (3,11) else 1)`""
+        $p.StartInfo.Arguments = "$arguments -c `"import sys; print('MASHUP_PYTHON_OK' if sys.version_info >= (3,11) else 'MASHUP_PYTHON_OLD')`""
         $p.StartInfo.UseShellExecute = $false
         $p.StartInfo.CreateNoWindow = $true
         $p.StartInfo.RedirectStandardOutput = $true
@@ -50,18 +50,19 @@ function Compatible([string]$exe, [string]$arguments) {
         $stdout = $p.StandardOutput.ReadToEnd()
         $stderr = $p.StandardError.ReadToEnd()
         $p.WaitForExit()
-        return ($p.ExitCode -eq 0)
+        return ($p.ExitCode -eq 0 -and $stdout.Trim() -eq 'MASHUP_PYTHON_OK')
     } catch { return $false }
 }
 function FindPython {
     $py = Get-Command py.exe -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
     if ($py) {
-        foreach ($selector in @('-3', '-3.14', '-3.13', '-3.12', '-3.11')) {
+        foreach ($selector in @('-3.13', '-3.12', '-3.11')) {
             if (Compatible $py.Source $selector) { return @{ Exe = $py.Source; Args = @($selector) } }
         }
     }
     $python = Get-Command python.exe -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
     if ($python -and (Compatible $python.Source '')) { return @{ Exe = $python.Source; Args = @() } }
+    if ($py -and (Compatible $py.Source '-3')) { return @{ Exe = $py.Source; Args = @('-3') } }
     return $null
 }
 function Ready {
