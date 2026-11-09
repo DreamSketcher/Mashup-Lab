@@ -20,6 +20,23 @@ jobs:
         run: |
           mkdir -p "$RUNNER_TEMP/policy-research-artifact"
           bash scripts/linux-policy-experiments/run.sh "$RUNNER_TEMP/policy-research-artifact"
+      - name: Publish probe status annotations
+        if: always()
+        shell: bash
+        run: |
+          artifact="$RUNNER_TEMP/policy-research-artifact"
+          if [ -f "$artifact/status.tsv" ]; then
+            while IFS=$'\t' read -r probe result detail; do
+              [ "$probe" = probe ] && continue
+              printf '::notice title=Linux probe %s::%s - %s\n' "$probe" "$result" "$detail"
+            done < "$artifact/status.tsv"
+          else
+            echo '::warning title=Linux research::No status report was produced'
+          fi
+          if [ -f "$artifact/kernel.log" ]; then
+            kernel=$(head -n 1 "$artifact/kernel.log")
+            printf '::notice title=Runner kernel::%s\n' "$kernel"
+          fi
       - name: Upload evidence
         if: always()
         uses: actions/upload-artifact@v4
