@@ -51,7 +51,7 @@ class GuiTests(unittest.TestCase):
         self.trace = SessionTrace(self.root / 'traces')
         self.window = MashupWindow(self.trace, self.root / 'конвертировано')
         self.addCleanup(self.window.close)
-        self.window.show(); self.app.processEvents()
+        self.window.show(); self.window.switch_page(0); self.app.processEvents()
         for i in (1,2):
             path = self.root / f'звук {i}.wav'
             with wave.open(str(path), 'wb') as wav:
@@ -93,7 +93,7 @@ class GuiTests(unittest.TestCase):
         self.assertIsNone(self.window.converter_process, 'conversion process timed out')
 
     def test_navigation_and_nonmodal_file_picker(self):
-        for index in range(4):
+        for index in range(5):
             self.window.nav.button(index).click()
             self.assertEqual(self.window.stack.currentIndex(), index)
         self.window.choose_file(1)
@@ -126,7 +126,10 @@ class GuiTests(unittest.TestCase):
         with wave.open(str(destination), 'rb') as wav:
             self.assertEqual((wav.getnchannels(), wav.getframerate(), wav.getsampwidth(), wav.getnframes()), (2,48000,2,4800))
         self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), before)
-        self.window.use_converted1.click()
+        self.window.to_processing.click()
+        self.assertEqual(self.window.stack.currentIndex(), 4)
+        self.assertEqual(self.window.processing_input.text(), str(destination))
+        self.window.use_processing_input(1)
         self.assertEqual(self.window.stack.currentIndex(), 0)
         self.assertEqual(self.window.tracks[0]['path'].text(), str(destination))
         self.window.run(); self.wait_render()
@@ -138,6 +141,19 @@ class GuiTests(unittest.TestCase):
                      'conversion.progress','conversion.completed','conversion.finished',
                      'conversion.use_output','backend.success'):
             self.assertIn(name, events)
+
+    def test_processing_output_selection(self):
+        vocals = self.root / 'vocals.wav'; instrumental = self.root / 'instrumental.wav'
+        for path in (vocals, instrumental):
+            with wave.open(str(path), 'wb') as w:
+                w.setparams((1,2,48000,0,'NONE','not compressed')); w.writeframes(b'\0\0' * 4)
+        self.window.engine_result = {'vocals': str(vocals), 'instrumental': str(instrumental)}
+        self.window.stem_choice.setCurrentIndex(0); self.window.use_stem(1)
+        self.assertEqual(self.window.tracks[0]['path'].text(), str(vocals))
+        self.window.stem_choice.setCurrentIndex(1); self.window.use_stem(2)
+        self.assertEqual(self.window.tracks[1]['path'].text(), str(instrumental))
+        self.assertEqual(self.window.stack.currentIndex(), 0)
+        self.assertTrue(any(row['event'] == 'processing.use_output' for row in self.trace_rows()))
 
     def test_create_button_visible_at_minimum_size(self):
         self.window.resize(900, 700); self.app.processEvents()
@@ -191,13 +207,14 @@ class GuiTests(unittest.TestCase):
             wav.setparams((1, 2, rate, 0, 'NONE', 'not compressed'))
             samples = (int(4000 * sum(math.sin(2 * math.pi * f * i / rate) for f in (261.6256, 329.6276, 391.9954))) for i in range(rate * 6))
             wav.writeframes(struct.pack('<' + str(rate * 6) + 'h', *samples))
-        self.window.tracks[0]['path'].setText(str(path))
-        self.window.analyze_track(1)
+        self.window.set_processing_input(str(path))
+        self.window.switch_page(4)
+        self.window.analyze_processing()
         deadline = time.monotonic() + 120
         while self.window.analysis_process is not None and time.monotonic() < deadline:
             self.app.processEvents(); time.sleep(.02)
         self.assertIsNone(self.window.analysis_process)
-        self.assertIn('Тональность: C major', self.window.tracks[0]['analysis_info'].text())
+        self.assertIn('Тональность: C major', self.window.analysis_info.text())
         self.assertEqual(self.window.bpm.value(), 120)
         self.assertTrue(any(x['event'] == 'analysis.completed' for x in self.trace_rows()))
 

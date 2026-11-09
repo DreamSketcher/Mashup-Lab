@@ -138,6 +138,37 @@ function PrepareGui {
     }
     Say 'Интерфейс и FFmpeg установлены и проверены.'; return 0
 }
+function PrepareSeparation {
+    $enginePython = Join-Path $root '.venv-separation\Scripts\python.exe'
+    $engineDir = Join-Path $root '.venv-separation'
+    $engineRequirements = Join-Path $root 'requirements-separation.txt'
+    if (-not (Test-Path -LiteralPath $engineRequirements -PathType Leaf)) { Say 'Файл requirements-separation.txt не найден.'; return 1 }
+    if (-not (Test-Path -LiteralPath $enginePython -PathType Leaf)) {
+        if (Test-Path -LiteralPath $engineDir) { Say 'Каталог .venv-separation повреждён; проверьте его вручную.'; return 1 }
+        $py = Get-Command py.exe -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
+        if (-not $py -or -not (Compatible $py.Source '-3.12')) {
+            Say 'Для движка нужен отдельный Python 3.12 x64 с py launcher. Установите его с python.org и повторите пункт 9; существующий Python и .venv не изменяются.'; return 1
+        }
+        Say 'Создание отдельного окружения обработки на Python 3.12...'
+        & $py.Source -3.12 -m venv $engineDir | Out-Host
+        if ($LASTEXITCODE -ne 0) { Say 'Не удалось создать окружение обработки.'; return 1 }
+    }
+    & $enginePython -m mashup.processing_setup check-python | Out-Host
+    if ($LASTEXITCODE -ne 0) { Say 'Окружение обработки должно использовать Python 3.12.'; return 1 }
+    Say 'Установка движка и его зависимостей (может потребоваться несколько гигабайт)...'
+    & $enginePython -m pip install -r $engineRequirements | Out-Host
+    if ($LASTEXITCODE -ne 0) { Say 'Установка движка не удалась.'; return 1 }
+    & $enginePython -m pip check | Out-Host
+    if ($LASTEXITCODE -ne 0) { Say 'Проверка зависимостей движка не прошла.'; return 1 }
+    & $enginePython -c 'from audio_separator.separator import Separator; import onnxruntime' | Out-Host
+    if ($LASTEXITCODE -ne 0) { Say 'Импорт движка не удался.'; return 1 }
+    Say 'Загрузка и проверка модели UVR MDX и её параметров...'
+    & $enginePython -m mashup.model_store install | Out-Host
+    if ($LASTEXITCODE -ne 0) { Say 'Загрузка модели не удалась; повторите пункт 9.'; return 1 }
+    & $enginePython -m mashup.processing_setup check | Out-Host
+    if ($LASTEXITCODE -ne 0) { Say 'Проверка движка не пройдена.'; return 1 }
+    Say 'Движок и модель установлены.'; return 0
+}
 function RunProject([string]$command) {
     if (-not (Ready)) { return 1 }
     $inputPath = Ask 'Путь к project.yaml (пустая строка — отмена): '
@@ -163,7 +194,7 @@ function RunProject([string]$command) {
 try {
     Say 'Mashup Lab — диагностика и команды CLI. Интерфейс: Start-Mashup-Lab.bat. Окно можно закрыть после выхода из меню.'
     while ($true) {
-        Say "`n1. Проверить все зависимости и окружение`n2. Подготовить окружение и установить все зависимости`n3. Проверить проект`n4. Построить план проекта`n5. Выполнить рендер`n6. Открыть документацию`n7. Выход`n8. Установить / восстановить зависимости интерфейса"
+        Say "`n1. Проверить все зависимости и окружение`n2. Подготовить окружение и установить все зависимости`n3. Проверить проект`n4. Построить план проекта`n5. Выполнить рендер`n6. Открыть документацию`n7. Выход`n8. Установить / восстановить зависимости интерфейса`n9. Установить движок и модель обработки"
         $choice = Ask 'Выберите пункт: '
         if ($null -eq $choice) { break }
         try {
@@ -178,6 +209,7 @@ try {
                 '2' {
                     $lastResult = Prepare
                     if ($lastResult -eq 0) { $lastResult = PrepareGui }
+                    if ($lastResult -eq 0) { Say 'Для разделения вокала и музыки установите движок и модель отдельно через пункт 9.' }
                 }
                 '3' { $lastResult = RunProject 'validate' }
                 '4' { $lastResult = RunProject 'plan' }
@@ -189,7 +221,8 @@ try {
                 }
                 '7' { break }
                 '8' { $lastResult = PrepareGui }
-                default { Say 'Введите число от 1 до 8.'; continue }
+                '9' { $lastResult = PrepareSeparation }
+                default { Say 'Введите число от 1 до 9.'; continue }
             }
             if ($choice.Trim() -eq '7') { break }
         } catch { [Console]::Error.WriteLine("Ошибка лаунчера: $_"); $lastResult = 1 }

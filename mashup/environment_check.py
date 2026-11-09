@@ -113,6 +113,18 @@ def main():
         except Exception as exc:
             print(f'{name}: недоступен: {exc}')
             ok = False
+    # Optional isolated processing engine must not block conversion/analysis.
+    root = Path(__file__).resolve().parent.parent
+    engine = root / '.venv-separation' / ('Scripts/python.exe' if sys.platform == 'win32' else 'bin/python')
+    if not engine.is_file():
+        print('Обработка UVR не установлена. Для установки выберите пункт 9 в Mashup-Lab.bat.')
+    else:
+        try:
+            result = subprocess.run([str(engine), '-m', 'mashup.processing_setup', 'check'], cwd=root, timeout=90, check=False)
+            if result.returncode:
+                print('Обработка UVR недоступна. Повторите пункт 9 в Mashup-Lab.bat.')
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            print(f'Обработка UVR не проверена: {exc}. Повторите пункт 9 в Mashup-Lab.bat.')
     if not ok:
         print('Проверка не пройдена. Откройте Mashup-Lab.bat и выберите пункт 2 или 8.')
     else:
