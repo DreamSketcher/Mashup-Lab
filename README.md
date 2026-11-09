@@ -133,3 +133,11 @@ currently supported for trusted policy loading or execution admission.
 The CI workflow runs the unit tests and script syntax checks on Python 3.11,
 3.12 and 3.13 for pushes and pull requests. It does not run the privileged Linux
 policy experiments; those remain in the separate manual research workflow.
+
+## Windows launcher
+
+On Windows 10/11, run `Mashup-Lab.bat` to check or prepare the local Python
+virtual environment and use the CLI without manual activation. See the
+[Windows guide](docs/windows-launcher.md) for setup, render limitations and
+troubleshooting. Windows and Russian-locale testing status is documented there
+and in the Windows test workflow; it is not implied by Linux test results.
