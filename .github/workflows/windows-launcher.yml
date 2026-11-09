@@ -33,4 +33,4 @@ jobs:
         env:
           PYTHONUTF8: '1'
           PYTHONIOENCODING: utf-8
-        run: python tests/windows/test_old_python.py
+        run: python tests/windows/run_ci.py tests/windows/test_old_python.py

@@ -2,7 +2,7 @@
 import subprocess
 import sys
 
-result = subprocess.run([sys.executable, 'tests/windows/test_launcher.py', '-v'],
+result = subprocess.run([sys.executable, sys.argv[1] if len(sys.argv) > 1 else 'tests/windows/test_launcher.py', '-v'],
                         stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 text = result.stdout.decode('utf-8', errors='replace')
 print(text, flush=True)
