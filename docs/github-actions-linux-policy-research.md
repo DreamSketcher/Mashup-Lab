@@ -1,5 +1,10 @@
 # GitHub Actions Linux policy research
 
+> **Scope update:** This document is optional trusted-execution research, not a
+> prerequisite for the Mashup Lab music MVP. For current priorities and the
+> simpler render-time binding direction, see [MVP scope](mvp-scope.md). Historical
+> references to “MVP” below apply only to the proposed trust subsystem.
+
 Status: **GitHub-hosted primitive probes run via a temporary branch push trigger**.
 Neither the probes nor any hypothetical success implement a trusted policy
 snapshot, authorize execution, or change the public `UNAVAILABLE` scaffold.

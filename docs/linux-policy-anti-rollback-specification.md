@@ -1,5 +1,10 @@
 # Policy anti-rollback and durable completion — draft v0.1
 
+> **Scope update:** This document is optional trusted-execution research, not a
+> prerequisite for the Mashup Lab music MVP. For current priorities and the
+> simpler render-time binding direction, see [MVP scope](mvp-scope.md). Historical
+> references to “MVP” below apply only to the proposed trust subsystem.
+
 Status: **design proposal only**. No trusted generation authority, policy
 updater, recovery gate, admission mechanism or Linux snapshot loader is
 implemented. `capture_policy_snapshot()` remains `UNAVAILABLE`. This document

@@ -1,5 +1,10 @@
 # P1 report: candidate VM unavailable
 
+> **Scope update:** This document is optional trusted-execution research, not a
+> prerequisite for the Mashup Lab music MVP. For current priorities and the
+> simpler render-time binding direction, see [MVP scope](mvp-scope.md). Historical
+> references to “MVP” below apply only to the proposed trust subsystem.
+
 Result: **UNAVAILABLE — P1 on the specified candidate was not run.** No VM was
 created or is being claimed as available. This report records a read-only
 preflight of the existing Arena workspace, which is **not** the requested VM.

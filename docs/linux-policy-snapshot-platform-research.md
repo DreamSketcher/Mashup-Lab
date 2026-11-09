@@ -1,5 +1,10 @@
 # Linux trusted policy snapshot: platform research
 
+> **Scope update:** This document is optional trusted-execution research, not a
+> prerequisite for the Mashup Lab music MVP. For current priorities and the
+> simpler render-time binding direction, see [MVP scope](mvp-scope.md). Historical
+> references to “MVP” below apply only to the proposed trust subsystem.
+
 Date: 2026-11-08. Status: **research proposal, no Linux support claim**. No
 adapter is implemented, no trusted policy snapshot is produced, and the existing
 API remains `UNAVAILABLE`. This document addresses snapshot acquisition and

@@ -1,5 +1,10 @@
 # Project–Plan Binding Specification — draft v0.1
 
+> **Scope update:** This document is optional trusted-execution research, not a
+> prerequisite for the Mashup Lab music MVP. For current priorities and the
+> simpler render-time binding direction, see [MVP scope](mvp-scope.md). Historical
+> references to “MVP” below apply only to the proposed trust subsystem.
+
 Status: **design proposal only**. Binding, execution validation and audio
 rendering are not implemented. The existing `plan` and `validate-plan`
 commands do not create or verify a binding. This document complements the

@@ -1,5 +1,10 @@
 # Planner Trust and Execution Specification — draft v0.1
 
+> **Scope update:** This document is optional trusted-execution research, not a
+> prerequisite for the Mashup Lab music MVP. For current priorities and the
+> simpler render-time binding direction, see [MVP scope](mvp-scope.md). Historical
+> references to “MVP” below apply only to the proposed trust subsystem.
+
 Status: **design proposal**. A policy schema parser and untrusted file
 comparison are implemented; no trusted policy store, launcher, image
 verification, isolation monitor, binding or audio execution currently exists.

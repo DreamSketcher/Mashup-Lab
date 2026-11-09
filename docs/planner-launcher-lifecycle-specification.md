@@ -1,5 +1,10 @@
 # Planner Launcher Lifecycle and Bootstrap Contract — draft v0.1
 
+> **Scope update:** This document is optional trusted-execution research, not a
+> prerequisite for the Mashup Lab music MVP. For current priorities and the
+> simpler render-time binding direction, see [MVP scope](mvp-scope.md). Historical
+> references to “MVP” below apply only to the proposed trust subsystem.
+
 Status: **design proposal only; not implemented**. There is no approved
 launcher, runtime adapter or isolation profile. This contract refines the
 [trust and execution specification](planner-trust-and-execution-specification.md)

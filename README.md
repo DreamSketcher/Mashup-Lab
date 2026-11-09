@@ -56,23 +56,27 @@ This project does not claim ownership of third-party material or imply endorseme
 
 **Experiment. Combine. Create.**
 
-## Proposed engine specifications
+## Mashup engine MVP
 
-The following drafts explore a deterministic, AI-free audio processing engine.
-They are design proposals, not features currently implemented in this repository:
+The focus is a local, deterministic and reproducible audio workflow: validate a
+project and its sources, calculate a timeline, render the audio, and record the
+parameters and output identity. See the [MVP scope and roadmap](docs/mvp-scope.md).
+The renderer, render-time binding and render manifest are **not implemented**.
+
+Core drafts:
 
 - [Project format](docs/project-format-specification.md)
+- [Timeline plan](docs/timeline-plan-specification.md)
 - [Audio processing](docs/audio-processing-specification.md)
 - [Determinism and reproducibility](docs/determinism-reproducibility-specification.md)
-- [Project–plan binding (proposal; not implemented)](docs/project-plan-binding-specification.md)
-- [Planner build manifest (schema parser implemented; admission proposed)](docs/planner-build-manifest-specification.md)
-- [Planner build manifest test contract](docs/planner-build-manifest-test-contract.md)
-- [Planner trust and execution (proposal; not implemented)](docs/planner-trust-and-execution-specification.md)
-- [Planner launcher lifecycle and bootstrap (proposal; not implemented)](docs/planner-launcher-lifecycle-specification.md)
-- [Trusted policy loading (proposal; not implemented)](docs/trusted-policy-loading-specification.md)
-- [Linux policy snapshot scaffold and test contract](docs/linux-policy-snapshot-test-contract.md)
-- [Linux policy crash-consistency test contract](docs/linux-policy-crash-consistency-test-contract.md)
-- [Policy anti-rollback and durable completion (proposal)](docs/linux-policy-anti-rollback-specification.md)
+
+The earlier Linux trust, OCI admission, policy loading and anti-rollback designs
+are retained as **optional research outside the MVP**. They are not a prerequisite
+for rendering; their previous requirements apply only to that proposed research,
+not to the local music engine. The current [project–plan binding proposal](docs/project-plan-binding-specification.md)
+also contains this older trust-oriented design; for MVP use the simpler binding
+direction in the scope document. None of those documents imply that trusted
+execution is implemented or that hashes authenticate the source of a file.
 
 ## Reference timeline model (experimental)
 
@@ -88,8 +92,6 @@ python3 -m venv .venv
 .venv/bin/python -m mashup validate project.yaml
 .venv/bin/python -m mashup plan project.yaml > plan.json
 .venv/bin/python -m mashup validate-plan plan.json
-.venv/bin/python -m mashup inspect-manifest tests/fixtures/planner/manifest-valid.json
-.venv/bin/python -m mashup compare-policy manifest.json policy.json
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
@@ -98,7 +100,8 @@ durations in timeline frames; see [the plan contract](docs/timeline-plan-specifi
 the hash in the specification example must be replaced with the actual source
 file hash and metadata. Render-environment checks will be added with a renderer.
 
-`inspect-manifest` validates UTF-8 JSON structure and computes the SHA-256 and
+Optional research commands `inspect-manifest` and `compare-policy` are separate
+from the music MVP. `inspect-manifest` validates UTF-8 JSON structure and computes the SHA-256 and
 planner ID from the exact file bytes. It does not read an image, authorize a
 planner, verify a build, check isolation, or run any code. Its `trust` and
 `execution` fields are explicitly `not_checked`; the sample manifest contains

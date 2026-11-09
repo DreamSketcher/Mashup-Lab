@@ -1,5 +1,10 @@
 # Linux policy publication: crash-consistency test contract — draft v0.1
 
+> **Scope update:** This document is optional trusted-execution research, not a
+> prerequisite for the Mashup Lab music MVP. For current priorities and the
+> simpler render-time binding direction, see [MVP scope](mvp-scope.md). Historical
+> references to “MVP” below apply only to the proposed trust subsystem.
+
 Status: **test design, not implemented or verified**. There is no production
 policy updater, trusted snapshot loader, recovery gate or admission mechanism.
 The current `capture_policy_snapshot()` remains `UNAVAILABLE`. This document

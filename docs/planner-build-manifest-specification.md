@@ -1,5 +1,10 @@
 # Planner Build Manifest Specification — draft v0.1
 
+> **Scope update:** This document is optional trusted-execution research, not a
+> prerequisite for the Mashup Lab music MVP. For current priorities and the
+> simpler render-time binding direction, see [MVP scope](mvp-scope.md). Historical
+> references to “MVP” below apply only to the proposed trust subsystem.
+
 Status: the manifest schema parser and byte identity are implemented; trust,
 image verification, launcher and an approved build profile are not. This
 specifies a future way to identify and admit a particular timing-planner build

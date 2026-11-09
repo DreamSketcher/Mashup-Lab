@@ -1,5 +1,10 @@
 # Linux trusted policy snapshot — implementation and test contract
 
+> **Scope update:** This document is optional trusted-execution research, not a
+> prerequisite for the Mashup Lab music MVP. For current priorities and the
+> simpler render-time binding direction, see [MVP scope](mvp-scope.md). Historical
+> references to “MVP” below apply only to the proposed trust subsystem.
+
 Status: **experimental scaffold, not implemented or supported**. The current
 `mashup.linux_policy_snapshot.capture_policy_snapshot()` always returns
 `UNAVAILABLE`, performs no filesystem access, produces no bytes and does not

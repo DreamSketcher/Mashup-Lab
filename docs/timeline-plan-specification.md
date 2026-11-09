@@ -69,3 +69,10 @@ construction and independent overlap validation inspect clip pairs; a densely
 overlapping project has `n * (n - 1) / 2` overlap entries. Callers handling
 untrusted or large projects should impose their own resource limits; successful
 validation is not a performance or safety guarantee for arbitrarily large inputs.
+
+## MVP scope update
+
+For the first local renderer, the intended binding is to compute and validate a
+fresh plan in the same invocation as the render; see [MVP scope](mvp-scope.md).
+The historical sidecar and trusted-execution research is not a prerequisite.
+Neither a persisted plan nor this policy is implemented for rendering yet.

@@ -1,5 +1,10 @@
 # Trusted Policy Loading — draft v0.1
 
+> **Scope update:** This document is optional trusted-execution research, not a
+> prerequisite for the Mashup Lab music MVP. For current priorities and the
+> simpler render-time binding direction, see [MVP scope](mvp-scope.md). Historical
+> references to “MVP” below apply only to the proposed trust subsystem.
+
 Status: **design proposal, not implemented**. See the
 [Linux snapshot scaffold and test contract](linux-policy-snapshot-test-contract.md). `compare-policy` only parses and
 compares a caller-supplied file; it does not provide the guarantees below. This
