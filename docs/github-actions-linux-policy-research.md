@@ -1,6 +1,6 @@
 # GitHub Actions Linux policy research
 
-Status: **workflow prepared; dispatch attempted, no GitHub-hosted run observed**.
+Status: **GitHub-hosted primitive probes run via a temporary branch push trigger**.
 Neither the probes nor any hypothetical success implement a trusted policy
 snapshot, authorize execution, or change the public `UNAVAILABLE` scaffold.
 The candidate P1 profile in [platform research](linux-policy-snapshot-platform-research.md)
@@ -58,9 +58,9 @@ exists on the repository's default branch: [events reference](https://docs.githu
 This session may only push its Arena branch, so the workflow cannot become
 registered on `main` from this session without an authorized merge. The attempted
 `gh workflow run` returned HTTP 404; the [raw dispatch record](evidence/github-actions/dispatch-unavailable.txt)
-contains the command and result. The actual runner environment, exact kernel and
-all individual experiment outcomes are therefore **UNAVAILABLE**, not PASS or
-FAIL, and no Actions artifact was created. Once it is
+contains the command and result. That dispatch created no Actions artifact. A subsequent push-triggered run
+is described below; manual dispatch remains blocked until the workflow exists on
+the default branch. Once it is
 available on the default branch, an authorized operator can run:
 
 ```sh
@@ -73,9 +73,34 @@ gh run download RUN_ID -D ./policy-research-evidence
 `RUN_ID` above is explanatory and must be replaced by an actual run ID. Inspect
 `status.tsv`, all logs, workflow conclusion, runner image and actual package
 versions before drawing conclusions. The artifact is retained for 14 days, not
-permanent storage. No GitHub runner measurements or results are asserted until an
-actual run completes and its artifacts are examined. Further blockers include
+permanent storage. Treat the annotations and uninspected artifact as different levels of evidence;
+only directly observed results may be asserted. Further blockers include
 unavailable loop devices/sudo/ACL utilities, runner kernel drift and insufficient
 privileges; the job reports these rather than installing packages or substituting
 a host filesystem. P1 still requires the separately specified candidate VM,
 precise image/mount/namespace/ACL conditions and independent platform tests.
+
+## Observed branch run (not P1)
+
+A one-off push-triggered run was used because manual dispatch was not registered
+on `main`. Afterward the push trigger was removed; the workflow remains
+manual-only. [Run 42539528762](https://github.com/DreamSketcher/Mashup-Lab/actions/runs/42539528762)
+completed successfully on commit `6547752`. GitHub check annotations report:
+
+| Check | Outcome |
+| --- | --- |
+| Running kernel | `7.0.0-1017-azure` |
+| Exact candidate kernel/package | UNAVAILABLE |
+| Environment collection | PASS (collector ran only) |
+| Temporary loop ext4 and cleanup | PASS |
+| openat2, path race, sealed memfd, flock | PASS for the limited primitive probes |
+| ACL | UNAVAILABLE; no more specific reason available from annotations |
+
+The green job permits UNAVAILABLE probes and is not a P1 or security pass. The
+[API annotations](evidence/github-actions/run-42539528762/annotations.json) and
+[run metadata](evidence/github-actions/run-42539528762/run.json) are preserved.
+The workflow reported artifact upload success, but downloading it in this sandbox
+failed because the redirected artifact storage host is inaccessible here; the
+raw probe logs, full environment and specific ACL cause have **not** been
+reviewed. An authorized user can inspect/download the artifact from the run page.
+The exact requested VM/kernel and P1-B adapter acceptance remain UNAVAILABLE.
