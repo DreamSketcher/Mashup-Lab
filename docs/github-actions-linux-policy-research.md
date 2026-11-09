@@ -1,6 +1,6 @@
 # GitHub Actions Linux policy research
 
-Status: **workflow prepared; no GitHub-hosted run has been observed yet**.
+Status: **workflow prepared; dispatch attempted, no GitHub-hosted run observed**.
 Neither the probes nor any hypothetical success implement a trusted policy
 snapshot, authorize execution, or change the public `UNAVAILABLE` scaffold.
 The candidate P1 profile in [platform research](linux-policy-snapshot-platform-research.md)
@@ -56,7 +56,11 @@ insufficient race observation are UNAVAILABLE where detected.
 GitHub documents that `workflow_dispatch` is usable only when the workflow file
 exists on the repository's default branch: [events reference](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflow_dispatch).
 This session may only push its Arena branch, so the workflow cannot become
-registered on `main` from this session without an authorized merge. Once it is
+registered on `main` from this session without an authorized merge. The attempted
+`gh workflow run` returned HTTP 404; the [raw dispatch record](evidence/github-actions/dispatch-unavailable.txt)
+contains the command and result. The actual runner environment, exact kernel and
+all individual experiment outcomes are therefore **UNAVAILABLE**, not PASS or
+FAIL, and no Actions artifact was created. Once it is
 available on the default branch, an authorized operator can run:
 
 ```sh
