@@ -17,4 +17,4 @@ jobs:
       - name: Install test prerequisite
         run: python -m pip install -r requirements.txt
       - name: Test launcher end-to-end
-        run: python tests/windows/test_launcher.py -v
+        run: python tests/windows/run_ci.py
