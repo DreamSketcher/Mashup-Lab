@@ -17,7 +17,8 @@ mountinfo. It records the running kernel and exact installed kernel package;
 the installed package version is `6.8.0-31.31`. A different or unverifiable
 kernel is UNAVAILABLE, not P1 success. Runner image/kernel revisions can change.
 
-A private temporary 64 MiB loop image is formatted ext4 and mounted with
+A private temporary 64 MiB loop image under a dedicated `/tmp` directory is
+formatted ext4 and mounted with
 `nodev,nosuid,noexec`, if noninteractive sudo, tools, loop allocation and mount
 succeed. Only this throwaway mount is used for probes; no system directories,
 accounts, policies or host filesystems are modified. If creation fails, each
@@ -104,3 +105,32 @@ failed because the redirected artifact storage host is inaccessible here; the
 raw probe logs, full environment and specific ACL cause have **not** been
 reviewed. An authorized user can inspect/download the artifact from the run page.
 The exact requested VM/kernel and P1-B adapter acceptance remain UNAVAILABLE.
+
+## ACL follow-up run
+
+In the earlier run, the user reported `UNAVAILABLE: uid 65534 cannot traverse
+temporary directory` in the downloaded artifact. That indicated the probe did
+not reach ACL evaluation; it did not demonstrate missing ACL support. The
+harness now creates its dedicated parent under `/tmp` with traversal allowed,
+without changing `/tmp` or other system directory permissions. Its image file
+and mount remain in that temporary directory, and cleanup still unmounts and
+detaches the allocated loop device.
+
+[Run 42539860170](https://github.com/DreamSketcher/Mashup-Lab/actions/runs/42539860170)
+on commit `550fd5a` reports `PASS` for separate `acl_user`, `acl_group` and
+`acl_default` probes. They test UID 65534 read then write for a named user ACL,
+named group ACL write then denial via the ACL mask, and an inherited default ACL
+on a newly created file. The same run reports PASS for loop setup and cleanup,
+openat2, path race, memfd and flock; the kernel is `7.0.0-1017-azure`, and the
+exact required kernel remains UNAVAILABLE. These are finite primitive probes,
+not trusted policy evaluation. [Run metadata](evidence/github-actions/run-42539860170/run.json)
+and [annotations](evidence/github-actions/run-42539860170/annotations.json) are
+available. Full raw logs were uploaded as a GitHub artifact but cannot be
+downloaded from this network-restricted sandbox, so this account relies on the
+reported annotations rather than an independent review of the raw ACL logs.
+
+Intermediate symlink/hardlink and mount topology coverage, independent
+reader/updater coordination, protected lock replacement tests and the exact
+candidate VM remain open. The original P1-B adapter acceptance scenarios remain
+NOT_RUN. Workflow push triggers used for these experiments have been removed;
+manual dispatch still requires the workflow on the default branch.
