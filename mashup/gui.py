@@ -249,6 +249,7 @@ class MashupWindow(QMainWindow):
         self.conversion_input.editingFinished.connect(lambda: self.changed('conversion_input', self.conversion_input.text()))
         self.conversion_output.editingFinished.connect(lambda: self.changed('conversion_output', self.conversion_output.text()))
         self.conversion_channels.currentTextChanged.connect(lambda v: self.changed('conversion_channels', v))
+        self.processing_input.textChanged.connect(self.processing_input_changed)
 
     def page(self, kicker, title, subtitle):
         scroll = QScrollArea(); scroll.setWidgetResizable(True); scroll.setFrameShape(QFrame.Shape.NoFrame)
@@ -470,6 +471,13 @@ class MashupWindow(QMainWindow):
         self.record('conversion.use_output', track=number, path=self.converted_path)
         self.tracks[number-1]['path'].setText(self.converted_path)
         self.read_header(number); self.run_status.setText('Файл выбран. Проверьте диапазон клипа перед рендером.'); self.switch_page(0)
+
+    def processing_input_changed(self, path):
+        self.analysis_info.setText('BPM и тональность не определены')
+        self.engine_result = None
+        self.stem_choice.setEnabled(False)
+        for button in self.stem_buttons: button.setEnabled(False)
+        self.record('processing.input_changed', path=path)
 
     def send_converted_to_processing(self):
         if self.converted_path:

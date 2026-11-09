@@ -83,7 +83,8 @@ execution is implemented or that hashes authenticate the source of a file.
 
 A PySide6 desktop interface is available as an optional dependency. On Windows,
 run `Mashup-Lab.bat` to prepare the environment (2), then use
-`Start-Mashup-Lab.bat` to open the interface. On other systems install `requirements-gui.txt` and run
+`Start-Mashup-Lab.bat` to open the interface. Optional local UVR separation
+is installed from diagnostic menu 9 using a separate Python 3.12 environment. On other systems install `requirements-gui.txt` and run
 `python -m mashup gui`. See the [desktop guide](docs/desktop-interface.md) for
 setup, separate FFmpeg audio conversion, local traces, privacy and license limits.
 

@@ -6,6 +6,9 @@ import shutil
 import tempfile
 import wave
 import struct
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import imageio_ffmpeg
 from mashup import model_store

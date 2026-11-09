@@ -139,7 +139,7 @@ class GuiTests(unittest.TestCase):
         events = [row['event'] for row in self.trace_rows()]
         for name in ('conversion.requested','conversion.started','conversion.ffmpeg',
                      'conversion.progress','conversion.completed','conversion.finished',
-                     'conversion.use_output','backend.success'):
+                     'processing.input_from_conversion','processing.use_input','backend.success'):
             self.assertIn(name, events)
 
     def test_processing_output_selection(self):
