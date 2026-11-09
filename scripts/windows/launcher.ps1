@@ -145,12 +145,12 @@ function PrepareSeparation {
     if (-not (Test-Path -LiteralPath $engineRequirements -PathType Leaf)) { Say 'Файл requirements-separation.txt не найден.'; return 1 }
     if (-not (Test-Path -LiteralPath $enginePython -PathType Leaf)) {
         if (Test-Path -LiteralPath $engineDir) { Say 'Каталог .venv-separation повреждён; проверьте его вручную.'; return 1 }
-        $py = Get-Command py.exe -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
-        if (-not $py -or -not (Compatible $py.Source '-3.12')) {
-            Say 'Для движка нужен отдельный Python 3.12 x64 с py launcher. Установите его с python.org и повторите пункт 9; существующий Python и .venv не изменяются.'; return 1
-        }
-        Say 'Создание отдельного окружения обработки на Python 3.12...'
-        & $py.Source -3.12 -m venv $engineDir | Out-Host
+        $bootstrap = Join-Path $PSScriptRoot 'separation-python.ps1'
+        & $bootstrap -ProjectRoot $root | Out-Host
+        if (-not $?) { Say 'Не удалось подготовить локальный Python 3.12; см. сообщение выше.'; return 1 }
+        $localPython = Join-Path $root '.python-separation\python.exe'
+        Say 'Создание отдельного окружения обработки на локальном Python 3.12...'
+        & $localPython -m venv $engineDir | Out-Host
         if ($LASTEXITCODE -ne 0) { Say 'Не удалось создать окружение обработки.'; return 1 }
     }
     & $enginePython -m mashup.processing_setup check-python | Out-Host

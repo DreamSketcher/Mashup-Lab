@@ -21,6 +21,11 @@ jobs:
           PYTHONUTF8: '1'
           PYTHONIOENCODING: utf-8
         run: python tests/windows/run_ci.py
+      - name: Test project-local Python bootstrap
+        env:
+          PYTHONUTF8: '1'
+          PYTHONIOENCODING: utf-8
+        run: python tests/windows/run_ci.py tests/windows/test_separation_python.py
   incompatible-python:
     runs-on: windows-2022
     timeout-minutes: 10

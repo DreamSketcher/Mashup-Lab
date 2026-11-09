@@ -2,3 +2,6 @@
 __pycache__/
 
 .venv-separation/
+
+.python-separation/
+.python-separation-download-*/
