@@ -15,7 +15,7 @@ with tempfile.TemporaryDirectory() as tmp:
     shutil.copytree(repo / 'scripts' / 'windows', root / 'scripts' / 'windows')
     shutil.copy2(repo / 'requirements.txt', root)
     env = os.environ.copy()
-    env['PATH'] = str(Path(sys.executable).parent) + os.pathsep + str(Path(env['SystemRoot']) / 'System32')
+    env['PATH'] = str(Path(sys.executable).parent) + os.pathsep + str(Path(os.environ['SystemRoot']) / 'System32')
     result = subprocess.run([str(root / 'Mashup-Lab.bat')], cwd=tmp,
                             input=b'2\n7\n', stdout=subprocess.PIPE,
                             stderr=subprocess.STDOUT, env=env, timeout=60)
