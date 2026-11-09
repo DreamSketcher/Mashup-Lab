@@ -27,7 +27,12 @@ try {
     [Console]::WriteLine('Загрузка официального CPython 3.12.10 x64 с nuget.org в каталог проекта...')
     [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
     Invoke-WebRequest -Uri $url -OutFile $archive -UseBasicParsing
-    $actual = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash
+    $sha = [Security.Cryptography.SHA256]::Create()
+    try {
+        $stream = [IO.File]::OpenRead($archive)
+        try { $actual = [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-', '') }
+        finally { $stream.Dispose() }
+    } finally { $sha.Dispose() }
     if ($actual -ne $expected) { throw 'SHA-256 пакета Python не совпал; пакет не установлен.' }
     Add-Type -AssemblyName System.IO.Compression.FileSystem
     $unpacked = Join-Path $stage 'unpacked'
