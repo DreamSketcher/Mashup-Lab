@@ -75,6 +75,9 @@ def unprivileged_replacement_denied():
         root = Path(name); os.chmod(root, 0o755)
         parent = root / 'chain'; parent.mkdir(mode=0o755)
         lock = parent / 'lock'; lock.touch(mode=0o644)
+        for directory in (root, parent):
+            if subprocess.run(user + ['test', '-x', str(directory)]).returncode:
+                raise Unavailable('unprivileged user cannot traverse test path')
         script = '''import os,sys
 for src,dst in ((sys.argv[1],sys.argv[1]+'.renamed'),(sys.argv[2],sys.argv[2]+'.renamed')):
     try: os.rename(src,dst)
