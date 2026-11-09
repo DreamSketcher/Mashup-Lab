@@ -29,6 +29,6 @@ jobs:
           $hash = (Get-FileHash "$env:RUNNER_TEMP/model.onnx" -Algorithm SHA256).Hash.ToLower()
           Write-Host "::notice title=UVR model SHA256::$hash"
       - name: Install engine candidate
-        run: python -m pip install "audio-separator==${{ matrix.separator }}" onnxruntime imageio-ffmpeg audioop-lts "librosa==0.11.0"
+        run: python scripts/separation-dependency-probe.py ${{ matrix.separator }}
       - name: Import engine
         run: python -c "from audio_separator.separator import Separator; print('ENGINE IMPORT OK')"
