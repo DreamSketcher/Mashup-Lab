@@ -55,3 +55,68 @@ This project does not claim ownership of third-party material or imply endorseme
 ---
 
 **Experiment. Combine. Create.**
+
+## Proposed engine specifications
+
+The following drafts explore a deterministic, AI-free audio processing engine.
+They are design proposals, not features currently implemented in this repository:
+
+- [Project format](docs/project-format-specification.md)
+- [Audio processing](docs/audio-processing-specification.md)
+- [Determinism and reproducibility](docs/determinism-reproducibility-specification.md)
+- [Project–plan binding (proposal; not implemented)](docs/project-plan-binding-specification.md)
+- [Planner build manifest (schema parser implemented; admission proposed)](docs/planner-build-manifest-specification.md)
+- [Planner build manifest test contract](docs/planner-build-manifest-test-contract.md)
+- [Planner trust and execution (proposal; not implemented)](docs/planner-trust-and-execution-specification.md)
+- [Planner launcher lifecycle and bootstrap (proposal; not implemented)](docs/planner-launcher-lifecycle-specification.md)
+- [Trusted policy loading (proposal; not implemented)](docs/trusted-policy-loading-specification.md)
+- [Linux policy snapshot scaffold and test contract](docs/linux-policy-snapshot-test-contract.md)
+- [Linux policy crash-consistency test contract](docs/linux-policy-crash-consistency-test-contract.md)
+- [Policy anti-rollback and durable completion (proposal)](docs/linux-policy-anti-rollback-specification.md)
+
+## Reference timeline model (experimental)
+
+The Python implementation parses the draft YAML format, validates project
+structure and local PCM WAV identity/metadata, and computes exact timeline
+frames, pairwise half-open overlap intervals, and total duration. It does not
+process or render audio, check a render backend, or prove audio determinism.
+Python 3.11+ is required.
+
+```sh
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+.venv/bin/python -m mashup validate project.yaml
+.venv/bin/python -m mashup plan project.yaml > plan.json
+.venv/bin/python -m mashup validate-plan plan.json
+.venv/bin/python -m mashup inspect-manifest tests/fixtures/planner/manifest-valid.json
+.venv/bin/python -m mashup compare-policy manifest.json policy.json
+.venv/bin/python -m unittest discover -s tests -v
+```
+
+`plan` prints versioned JSON with named clip and overlap boundaries and
+durations in timeline frames; see [the plan contract](docs/timeline-plan-specification.md). Project paths are relative to the project file;
+the hash in the specification example must be replaced with the actual source
+file hash and metadata. Render-environment checks will be added with a renderer.
+
+`inspect-manifest` validates UTF-8 JSON structure and computes the SHA-256 and
+planner ID from the exact file bytes. It does not read an image, authorize a
+planner, verify a build, check isolation, or run any code. Its `trust` and
+`execution` fields are explicitly `not_checked`; the sample manifest contains
+fabricated artifact digests.
+
+`compare-policy` checks a caller-supplied policy's schema and compares it to a
+manifest's claimed identity, image digest and platform. It returns `MATCH`,
+`NOT_LISTED`, `REVOKED`, `MISMATCH` or `UNAVAILABLE` (exit 0, 1 or 2). A
+`MATCH` is **not admission or proof of trust**: policy ownership/protection,
+actual image contents, runtime and isolation are not checked. The policy parser
+shares the manifest JSON limits and permits at most 1,024 entries.
+
+The Linux trusted policy snapshot adapter is a fail-closed scaffold only: it
+never reads a policy or returns a trusted snapshot. No Linux configuration is
+currently supported for trusted policy loading or execution admission.
+
+## Continuous integration
+
+The CI workflow runs the unit tests and script syntax checks on Python 3.11,
+3.12 and 3.13 for pushes and pull requests. It does not run the privileged Linux
+policy experiments; those remain in the separate manual research workflow.
