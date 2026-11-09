@@ -112,3 +112,9 @@ shares the manifest JSON limits and permits at most 1,024 entries.
 The Linux trusted policy snapshot adapter is a fail-closed scaffold only: it
 never reads a policy or returns a trusted snapshot. No Linux configuration is
 currently supported for trusted policy loading or execution admission.
+
+## Continuous integration
+
+The CI workflow runs the unit tests and script syntax checks on Python 3.11,
+3.12 and 3.13 for pushes and pull requests. It does not run the privileged Linux
+policy experiments; those remain in the separate manual research workflow.
