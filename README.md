@@ -79,6 +79,19 @@ also contains this older trust-oriented design; for MVP use the simpler binding
 direction in the scope document. None of those documents imply that trusted
 execution is implemented or that hashes authenticate the source of a file.
 
+## Quick start: audio 1 + audio 2
+
+Use two prepared 48 kHz PCM WAV files to create a project and render a first mix:
+
+```sh
+.venv/bin/python -m mashup quick-mashup "audio 1.wav" "audio 2.wav" --project-dir "my-mashup" --verify-repeat
+```
+
+Listen to `my-mashup/mashup.wav`. Both full files start together by default;
+there is no automatic tempo/key matching, resampling or pitch shift. Use music
+that you have permission to remix. For setup, Windows, manual placement, clip
+ranges, gain/pan/fades and listening checks, see the [two-audio CLI guide](docs/two-audio-cli.md).
+
 ## Reference timeline model (experimental)
 
 The Python implementation parses the draft YAML format, validates project

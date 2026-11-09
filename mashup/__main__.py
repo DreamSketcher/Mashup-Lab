@@ -10,8 +10,11 @@ from .trust_policy import PolicyError, load_policy, compare_policy
 
 
 def main():
-    parser = argparse.ArgumentParser(prog='python -m mashup')
-    parser.add_argument('command', choices=['validate', 'plan', 'validate-plan', 'inspect-manifest', 'compare-policy', 'render'])
+    if len(sys.argv) > 1 and sys.argv[1] == 'quick-mashup':
+        from .quick_mashup import main as quick_mashup_main
+        return quick_mashup_main(sys.argv[2:])
+    parser = argparse.ArgumentParser(prog='python -m mashup', epilog='For the two-audio workflow: python -m mashup quick-mashup --help')
+    parser.add_argument('command', choices=['validate', 'plan', 'validate-plan', 'inspect-manifest', 'compare-policy', 'render', 'quick-mashup'])
     parser.add_argument('project', type=Path)
     parser.add_argument('policy', type=Path, nargs='?')
     parser.add_argument('-o', '--output', type=Path, help='new output WAV path (render only)')
