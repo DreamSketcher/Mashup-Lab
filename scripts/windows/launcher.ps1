@@ -65,11 +65,19 @@ function FindPython {
     if ($py -and (Compatible $py.Source '-3')) { return @{ Exe = $py.Source; Args = @('-3') } }
     return $null
 }
+function RequirementsHash {
+    $sha = [System.Security.Cryptography.SHA256]::Create()
+    try {
+        $stream = [IO.File]::OpenRead($requirements)
+        try { $bytes = $sha.ComputeHash($stream) } finally { $stream.Dispose() }
+        return ([BitConverter]::ToString($bytes).Replace('-', ''))
+    } finally { $sha.Dispose() }
+}
 function Ready {
     if (-not (Test-Path -LiteralPath $venvPython -PathType Leaf)) { Say 'Окружение .venv не найдено. Выберите пункт 2.'; return $false }
     if (-not (Compatible $venvPython '')) { Say 'Python в .venv не работает или его версия ниже 3.11. Окружение не удаляется.'; return $false }
     if (-not (Test-Path -LiteralPath $stamp -PathType Leaf)) { Say 'Зависимости ещё не подготовлены. Выберите пункт 2.'; return $false }
-    $hash = (Get-FileHash -LiteralPath $requirements -Algorithm SHA256).Hash
+    $hash = (RequirementsHash)
     if (([IO.File]::ReadAllText($stamp)).Trim() -ne $hash) { Say 'requirements.txt изменился. Выберите пункт 2.'; return $false }
     & $venvPython -c 'import yaml, numpy, soundfile; import mashup; import mashup.render' | Out-Host
     if ($LASTEXITCODE -ne 0) { Say 'Ошибка импорта библиотек. Выберите пункт 2.'; return $false }
@@ -103,7 +111,7 @@ function Prepare {
     if ($LASTEXITCODE -ne 0) { Say 'Ошибка импорта после установки.'; return 1 }
     & $venvPython -m pip check | Out-Host
     if ($LASTEXITCODE -ne 0) { Say 'Ошибка проверки зависимостей.'; return 1 }
-    [IO.File]::WriteAllText($stamp, (Get-FileHash -LiteralPath $requirements -Algorithm SHA256).Hash)
+    [IO.File]::WriteAllText($stamp, (RequirementsHash))
     Say 'Окружение готово.'; return 0
 }
 function RunProject([string]$command) {
