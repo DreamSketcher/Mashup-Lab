@@ -19,7 +19,7 @@ class WindowsLauncherTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.tmp = tempfile.TemporaryDirectory()
-        cls.root = Path(cls.tmp.name) / 'Проект & тест ! % и (пробел)'
+        cls.root = Path(cls.tmp.name) / 'Проект & тест ! %MASHUP_LAUNCHER_UNSET% и (пробел)'
         cls.root.mkdir()
         for name in ('Mashup-Lab.bat', 'pyproject.toml', 'requirements.txt'):
             shutil.copy2(REPO / name, cls.root / name)
