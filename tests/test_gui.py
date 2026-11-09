@@ -1,4 +1,5 @@
 """Optional PySide6 GUI smoke tests (headless Qt offscreen)."""
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -83,6 +84,89 @@ class GuiTests(unittest.TestCase):
             self.assertIn(event, events)
         row = next(row for row in self.trace_rows() if row['event'] == 'backend.success')
         self.assertTrue(row['report']['repeat_pcm_match'])
+
+    def wait_conversion(self):
+        deadline = time.monotonic() + 30
+        while self.window.converter_process is not None and time.monotonic() < deadline:
+            self.app.processEvents()
+            time.sleep(.01)
+        self.assertIsNone(self.window.converter_process, 'conversion process timed out')
+
+    def test_navigation_and_nonmodal_file_picker(self):
+        for index in range(4):
+            self.window.nav.button(index).click()
+            self.assertEqual(self.window.stack.currentIndex(), index)
+        self.window.choose_file(1)
+        self.app.processEvents()
+        self.assertTrue(self.window._dialogs)
+        dialog = self.window._dialogs[-1]
+        self.assertFalse(dialog.isModal())
+        dialog.reject(); self.app.processEvents()
+        self.assertTrue(any(row['event'] == 'ui.page_changed' for row in self.trace_rows()))
+
+    def test_conversion_and_use_as_source(self):
+        try:
+            from mashup.conversion import ffmpeg_executable
+            ffmpeg_executable()
+        except Exception:
+            self.skipTest('optional FFmpeg not installed')
+        source = self.root / 'аудио 44.1.wav'
+        with wave.open(str(source), 'wb') as wav:
+            wav.setparams((1,2,44100,0,'NONE','not compressed'))
+            wav.writeframes(struct.pack('<4410h', *([2048]*4410)))
+        before = hashlib.sha256(source.read_bytes()).hexdigest()
+        self.window.tracks[0]['path'].setText(str(source)); self.window.read_header(1)
+        self.window.send_to_conversion(1)
+        self.assertEqual(self.window.stack.currentIndex(), 1)
+        destination = self.root / 'готовый 48.wav'
+        self.window.conversion_output.setText(str(destination))
+        self.window.convert(); self.wait_conversion()
+        self.assertTrue(destination.is_file(), self.window.conversion_status.text())
+        self.assertTrue(self.window.use_converted1.isEnabled())
+        with wave.open(str(destination), 'rb') as wav:
+            self.assertEqual((wav.getnchannels(), wav.getframerate(), wav.getsampwidth(), wav.getnframes()), (2,48000,2,4800))
+        self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), before)
+        self.window.use_converted1.click()
+        self.assertEqual(self.window.stack.currentIndex(), 0)
+        self.assertEqual(self.window.tracks[0]['path'].text(), str(destination))
+        self.window.run(); self.wait_render()
+        self.assertTrue(self.window.open_output.isEnabled(), self.window.run_status.text())
+        with wave.open(str(self.root / 'новый проект' / 'mashup.wav'), 'rb') as wav:
+            self.assertEqual(wav.getnframes(), 4800)
+        events = [row['event'] for row in self.trace_rows()]
+        for name in ('conversion.requested','conversion.started','conversion.ffmpeg',
+                     'conversion.progress','conversion.completed','conversion.finished',
+                     'conversion.use_output','backend.success'):
+            self.assertIn(name, events)
+
+    def test_conversion_existing_destination_is_never_overwritten(self):
+        target = self.root / 'существует.wav'
+        target.write_bytes(b'keep')
+        self.window.conversion_input.setText(str(self.root / 'звук 1.wav'))
+        self.window.conversion_output.setText(str(target))
+        self.window.convert()
+        self.assertIsNone(self.window.converter_process)
+        self.assertEqual(target.read_bytes(), b'keep')
+        self.assertTrue(any(row['event'] == 'conversion.validation_error' for row in self.trace_rows()))
+
+    def test_conversion_invalid_audio_and_cancel(self):
+        from mashup.conversion import ffmpeg_executable
+        try:
+            ffmpeg_executable()
+        except Exception:
+            self.skipTest('optional FFmpeg not installed')
+        invalid = self.root / 'not-audio.wav'; invalid.write_bytes(b'not audio')
+        destination = self.root / 'failed.wav'
+        self.window.conversion_input.setText(str(invalid))
+        self.window.conversion_output.setText(str(destination))
+        self.window.convert(); self.wait_conversion()
+        self.assertFalse(destination.exists())
+        self.assertIn('conversion.failed', [row['event'] for row in self.trace_rows()])
+        self.window.conversion_input.setText(str(self.root / 'звук 1.wav'))
+        self.window.convert()
+        self.window.cancel_conversion(); self.wait_conversion()
+        self.assertFalse(destination.exists())
+        self.assertIn('conversion.cancelled', [row['event'] for row in self.trace_rows()])
 
     def test_bad_format_reports_error_and_does_not_make_project(self):
         path = self.root / '44100.wav'

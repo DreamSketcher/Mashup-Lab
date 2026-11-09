@@ -42,6 +42,11 @@ class WindowsGuiInstallTests(unittest.TestCase):
             self.assertEqual(check.returncode, 0, check.stderr)
             self.assertEqual(check.stdout.strip(), '6.10.3')
 
+            ffmpeg = subprocess.run([str(python), '-c',
+                                     'import imageio_ffmpeg, subprocess; subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(), "-version"], check=True)'],
+                                    capture_output=True, timeout=30)
+            self.assertEqual(ffmpeg.returncode, 0, ffmpeg.stderr.decode('utf-8', 'replace'))
+
             # The real menu action must start the actual GUI, not just import
             # its dependency. Only the temporary copied GUI gets a test timer
             # so the headless process closes without manual interaction.

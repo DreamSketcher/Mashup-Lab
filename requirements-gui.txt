@@ -2,3 +2,5 @@
 # PySide6 6.8.3 does not support Python 3.14; retain it on 3.11–3.13.
 PySide6==6.8.3; python_version < "3.14"
 PySide6==6.10.3; python_version >= "3.14"
+# Includes a platform-specific FFmpeg executable; distribution needs license review.
+imageio-ffmpeg==0.6.0

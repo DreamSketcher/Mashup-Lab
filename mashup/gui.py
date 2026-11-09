@@ -14,14 +14,16 @@ from datetime import datetime
 
 from PySide6.QtCore import Qt, QProcess, QProcessEnvironment, QUrl, qInstallMessageHandler
 from PySide6.QtGui import QColor, QDesktopServices, QPainter
-from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDoubleSpinBox,
+from PySide6.QtWidgets import (QApplication, QButtonGroup, QCheckBox, QComboBox, QDoubleSpinBox,
     QFileDialog, QFrame, QGridLayout, QHBoxLayout, QLabel, QLineEdit, QMainWindow,
-    QMessageBox, QPlainTextEdit, QPushButton, QScrollArea, QSpinBox, QVBoxLayout,
+    QPlainTextEdit, QPushButton, QScrollArea, QSpinBox, QStackedWidget, QVBoxLayout,
     QWidget)
 
 
 
 from .session_trace import SessionTrace
+from .conversion import ffmpeg_executable, prepare, publish
+from .model import ProjectError
 
 
 STYLE = '''
@@ -42,6 +44,8 @@ QLineEdit:focus, QSpinBox:focus, QDoubleSpinBox:focus { border: 1px solid #70dfc
 QPushButton { background: #283441; border: 1px solid #3c4b5a; border-radius: 7px; padding: 9px 14px; font-weight: 600; }
 QPushButton:hover { background: #354758; }
 QPushButton:disabled { color: #687482; background: #252e37; }
+QPushButton#nav { text-align: left; background: transparent; border: none; padding: 12px; color: #a3b2c1; }
+QPushButton#nav:checked { background: #203b3b; color: #81e6ca; }
 QPushButton#primary { background: #72dfbf; color: #10231f; border: none; padding: 12px 20px; font-weight: 750; }
 QPushButton#primary:hover { background: #a2efd7; }
 QPlainTextEdit { background: #0d131a; color: #afc1c7; border: 1px solid #2c3947; border-radius: 7px; font-family: Consolas, monospace; font-size: 11px; }
@@ -86,7 +90,7 @@ class Timeline(QWidget):
             try:
                 a = int(track['start'].text() or '0')
                 b = int(track['end'].text()) if track['end'].text() else track['frames']
-                duration = max(0, b-a)/48000 if b else 0
+                duration = max(0, b-a)/track['rate'] if b and track['rate'] else 0
             except ValueError:
                 duration = 0
             data.append((start, duration))
@@ -110,6 +114,11 @@ class MashupWindow(QMainWindow):
         super().__init__()
         self.trace = trace
         self.process = None
+        self.converter_process = None
+        self.converter_workspace = None
+        self.converted_path = None
+        self.convert_cancelled = False
+        self._dialogs = []
         self.stdout = bytearray()
         self.stderr = bytearray()
         self.result_path = None
@@ -134,16 +143,20 @@ class MashupWindow(QMainWindow):
         root = QWidget(); self.setCentralWidget(root)
         outer = QHBoxLayout(root); outer.setContentsMargins(0,0,0,0); outer.setSpacing(0)
         side = QFrame(); side.setObjectName('sidebar'); side.setFixedWidth(205)
-        sl = QVBoxLayout(side); sl.setContentsMargins(22,27,22,22); sl.setSpacing(13)
+        sl = QVBoxLayout(side); sl.setContentsMargins(16,27,16,22); sl.setSpacing(9)
         sl.addWidget(label('◈  MASHUP', 'brand')); sl.addWidget(label('LAB  /  AUDIO STUDIO', 'accent'))
         sl.addSpacing(28); sl.addWidget(label('РАБОЧЕЕ ПРОСТРАНСТВО', 'muted'))
-        sl.addWidget(label('●  Новый мешап', 'accent')); sl.addWidget(label('    Проект из двух WAV', 'muted'))
-        sl.addSpacing(25); sl.addWidget(label('01  Выберите аудио', 'muted')); sl.addWidget(label('02  Настройте микс', 'muted')); sl.addWidget(label('03  Создайте WAV', 'muted'))
+        self.nav = QButtonGroup(self); self.nav.setExclusive(True)
+        for i, title in enumerate(('◉   Мешап', '⇄   Конвертация', '⚙   Параметры', '≡   Трасса')):
+            button = QPushButton(title); button.setObjectName('nav'); button.setCheckable(True)
+            self.nav.addButton(button, i); sl.addWidget(button)
+        self.nav.button(0).setChecked(True); self.nav.idClicked.connect(self.switch_page)
         sl.addStretch(); sl.addWidget(label('ЭКСПЕРИМЕНТАЛЬНО', 'accent'))
-        small = label('48 kHz PCM  ·  без SRC\nи изменения темпа', 'muted'); small.setWordWrap(True); sl.addWidget(small)
+        small = label('Конвертация отдельно\nот рендерера', 'muted'); small.setWordWrap(True); sl.addWidget(small)
         outer.addWidget(side)
+        self.stack = QStackedWidget(); outer.addWidget(self.stack, 1)
         scroll = QScrollArea(); scroll.setWidgetResizable(True); scroll.setFrameShape(QFrame.Shape.NoFrame)
-        body = QWidget(); scroll.setWidget(body); outer.addWidget(scroll, 1)
+        body = QWidget(); scroll.setWidget(body); self.stack.addWidget(scroll)
         column = QVBoxLayout(body); column.setContentsMargins(34,26,34,30); column.setSpacing(18)
         header = QHBoxLayout(); title = QVBoxLayout(); title.addWidget(label('СОЗДАТЬ  /  НОВЫЙ ПРОЕКТ', 'accent')); title.addWidget(label('Два трека. Один мешап.', 'title')); title.addWidget(label('Выберите аудио, настройте расположение и соберите свой первый микс.', 'muted')); header.addLayout(title); header.addStretch()
         status = label('●  48 kHz  /  PCM WAV', 'accent'); header.addWidget(status); column.addLayout(header)
@@ -154,10 +167,7 @@ class MashupWindow(QMainWindow):
         config = card(); cl = QVBoxLayout(config); cl.setContentsMargins(18,16,18,16)
         row = QHBoxLayout(); row.addWidget(label('02  Размещение', 'section')); row.addStretch(); row.addWidget(label('СХЕМА ПО ГРАНИЦАМ КЛИПОВ', 'muted')); cl.addLayout(row)
         self.timeline = Timeline(self); cl.addWidget(self.timeline)
-        settings = QHBoxLayout(); settings.addWidget(label('BPM проекта')); self.bpm = QDoubleSpinBox(); self.bpm.setRange(1,999); self.bpm.setDecimals(2); self.bpm.setValue(120); self.bpm.setFixedWidth(110); settings.addWidget(self.bpm)
-        settings.addSpacing(18); settings.addWidget(label('Формат WAV')); self.depth = QComboBox(); self.depth.addItems(['24-bit', '16-bit']); settings.addWidget(self.depth)
-        settings.addSpacing(18); self.verify = QCheckBox('Проверить повторный рендер'); self.verify.setChecked(True); settings.addWidget(self.verify); settings.addStretch(); cl.addLayout(settings)
-        note = label('BPM задаёт только разметку. Автосинхронизации, смены темпа и тональности нет.', 'muted'); note.setWordWrap(True); cl.addWidget(note)
+        note = label('Темп и формат экспорта находятся в разделе «Параметры».', 'muted'); note.setWordWrap(True); cl.addWidget(note)
         controls.addWidget(config)
         output = card(); ol = QVBoxLayout(output); ol.setContentsMargins(18,16,18,16)
         ol.addWidget(label('03  Куда сохранить', 'section'))
@@ -166,21 +176,69 @@ class MashupWindow(QMainWindow):
         choose = QPushButton('Выбрать родительскую папку'); choose.clicked.connect(self.choose_output); pathrow.addWidget(choose); ol.addLayout(pathrow)
         controls.addWidget(output); column.addWidget(self.controls)
         action = QHBoxLayout(); self.make = QPushButton('Создать мешап  →'); self.make.setObjectName('primary'); self.make.clicked.connect(self.run); action.addWidget(self.make)
+        self.stop_render = QPushButton('Остановить'); self.stop_render.setEnabled(False); self.stop_render.clicked.connect(self.cancel_render); action.addWidget(self.stop_render)
         self.open_output = QPushButton('Открыть WAV'); self.open_output.setEnabled(False); self.open_output.clicked.connect(self.open_result); action.addWidget(self.open_output)
-        self.run_status = label('Готов к работе', 'muted'); action.addWidget(self.run_status,1); column.addLayout(action)
+        self.run_status = label('Готов к работе', 'muted'); action.addWidget(self.run_status,1); column.addLayout(action); column.addStretch()
+
+        conversion_page, cv = self.page('ПОДГОТОВКА  /  КОНВЕРТАЦИЯ', 'Подготовить аудио',
+                                        'Отдельная копия для рендерера · исходный файл не изменяется.')
+        self.converter_controls = card(); form = QVBoxLayout(self.converter_controls); form.setContentsMargins(20,20,20,20); form.setSpacing(14)
+        form.addWidget(label('01  Исходный аудиофайл', 'section'))
+        row = QHBoxLayout(); self.conversion_input = QLineEdit(); self.conversion_input.setPlaceholderText('WAV, MP3 или другой локальный аудиофайл'); row.addWidget(self.conversion_input,1)
+        pick = QPushButton('Обзор…'); pick.clicked.connect(self.choose_conversion_input); row.addWidget(pick); form.addLayout(row)
+        form.addWidget(label('02  Новое имя WAV', 'section'))
+        row = QHBoxLayout(); self.conversion_output = QLineEdit(); self.conversion_output.setPlaceholderText('Путь к новому файлу .wav'); row.addWidget(self.conversion_output,1)
+        pickdir = QPushButton('Выбрать папку…'); pickdir.clicked.connect(self.choose_conversion_directory); row.addWidget(pickdir); form.addLayout(row)
+        row = QHBoxLayout(); row.addWidget(label('Выход')); row.addWidget(label('48 000 Hz  ·  PCM 16-bit WAV', 'accent')); row.addSpacing(20); row.addWidget(label('Каналы'))
+        self.conversion_channels = QComboBox(); self.conversion_channels.addItem('Стерео', 2); self.conversion_channels.addItem('Моно', 1); row.addWidget(self.conversion_channels); row.addStretch(); form.addLayout(row)
+        hint = label('FFmpeg конвертирует первую аудиодорожку; сведение в моно и 16-bit могут изменить звук. Существующий файл не перезаписывается.', 'muted'); hint.setWordWrap(True); form.addWidget(hint)
+        cv.addWidget(self.converter_controls)
+        row = QHBoxLayout(); self.convert_button = QPushButton('Конвертировать  →'); self.convert_button.setObjectName('primary'); self.convert_button.clicked.connect(self.convert); row.addWidget(self.convert_button)
+        self.cancel_conversion_button = QPushButton('Остановить'); self.cancel_conversion_button.setEnabled(False); self.cancel_conversion_button.clicked.connect(self.cancel_conversion); row.addWidget(self.cancel_conversion_button)
+        self.conversion_status = label('Готово к подготовке', 'muted'); self.conversion_status.setWordWrap(True); row.addWidget(self.conversion_status,1); cv.addLayout(row)
+        row = QHBoxLayout(); self.use_converted1 = QPushButton('Использовать как аудио 1'); self.use_converted2 = QPushButton('Использовать как аудио 2')
+        for number, button in ((1,self.use_converted1),(2,self.use_converted2)):
+            button.setEnabled(False); button.clicked.connect(lambda checked=False, n=number: self.use_converted(n)); row.addWidget(button)
+        row.addStretch(); cv.addLayout(row); cv.addStretch(); self.stack.addWidget(conversion_page)
+
+        settings_page, sv = self.page('ПРОЕКТ  /  ПАРАМЕТРЫ', 'Параметры проекта', 'Изменения действуют при следующем создании мешапа.')
+        settings_card = card(); settings = QVBoxLayout(settings_card); settings.setContentsMargins(20,20,20,20); settings.setSpacing(14)
+        row = QHBoxLayout(); row.addWidget(label('BPM проекта')); self.bpm = QDoubleSpinBox(); self.bpm.setRange(1,999); self.bpm.setDecimals(2); self.bpm.setValue(120); self.bpm.setFixedWidth(110); row.addWidget(self.bpm); row.addStretch(); settings.addLayout(row)
+        note = label('BPM задаёт только разметку. Автосинхронизации и изменения темпа нет.', 'muted'); note.setWordWrap(True); settings.addWidget(note)
+        row = QHBoxLayout(); row.addWidget(label('Разрядность выходного WAV')); self.depth = QComboBox(); self.depth.addItems(['24-bit', '16-bit']); row.addWidget(self.depth); row.addStretch(); settings.addLayout(row)
+        self.verify = QCheckBox('Проверить повторный рендер'); self.verify.setChecked(True); settings.addWidget(self.verify)
+        sv.addWidget(settings_card); sv.addStretch(); self.stack.addWidget(settings_page)
+
+        trace_page, tv = self.page('ДИАГНОСТИКА  /  СОБЫТИЯ', 'Трасса действий', 'События и ошибки текущей сессии.')
         trace_card = card(); tl = QVBoxLayout(trace_card); tl.setContentsMargins(18,15,18,15)
-        tr = QHBoxLayout(); tr.addWidget(label('Трасса действий', 'section')); tr.addStretch(); open_logs = QPushButton('Открыть папку логов'); open_logs.clicked.connect(self.open_logs); tr.addWidget(open_logs); tl.addLayout(tr)
+        tr = QHBoxLayout(); tr.addWidget(label('Локальный журнал', 'section')); tr.addStretch(); open_logs = QPushButton('Открыть папку логов'); open_logs.clicked.connect(self.open_logs); tr.addWidget(open_logs); tl.addLayout(tr)
         self.trace_status = label(str(self.trace.path) if self.trace.path else 'Трасса недоступна: ' + str(self.trace.error), 'muted' if self.trace.path else 'warning'); self.trace_status.setWordWrap(True); self.trace_status.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse); tl.addWidget(self.trace_status)
-        tl.addWidget(label('Локальный JSONL содержит пути и параметры. Перед отправкой проверьте конфиденциальность.', 'muted'))
-        self.activity = QPlainTextEdit(); self.activity.setReadOnly(True); self.activity.setMaximumBlockCount(1000); self.activity.setFixedHeight(100); tl.addWidget(self.activity); column.addWidget(trace_card)
+        privacy = label('Локальный JSONL содержит пути и параметры. Перед отправкой проверьте конфиденциальность.', 'muted'); privacy.setWordWrap(True); tl.addWidget(privacy)
+        self.activity = QPlainTextEdit(); self.activity.setReadOnly(True); self.activity.setMaximumBlockCount(1000); self.activity.setMinimumHeight(280); tl.addWidget(self.activity); tv.addWidget(trace_card,1); self.stack.addWidget(trace_page)
         self.bpm.valueChanged.connect(lambda v: self.changed('bpm', v)); self.depth.currentTextChanged.connect(lambda v: self.changed('bit_depth', v)); self.verify.toggled.connect(lambda v: self.changed('verify_repeat', v)); self.output_dir.editingFinished.connect(lambda: self.changed('output_dir', self.output_dir.text()))
+        self.conversion_input.editingFinished.connect(lambda: self.changed('conversion_input', self.conversion_input.text()))
+        self.conversion_output.editingFinished.connect(lambda: self.changed('conversion_output', self.conversion_output.text()))
+        self.conversion_channels.currentTextChanged.connect(lambda v: self.changed('conversion_channels', v))
+
+    def page(self, kicker, title, subtitle):
+        scroll = QScrollArea(); scroll.setWidgetResizable(True); scroll.setFrameShape(QFrame.Shape.NoFrame)
+        body = QWidget(); scroll.setWidget(body)
+        layout = QVBoxLayout(body); layout.setContentsMargins(34,26,34,30); layout.setSpacing(18)
+        layout.addWidget(label(kicker,'accent')); layout.addWidget(label(title,'title')); layout.addWidget(label(subtitle,'muted'))
+        return scroll, layout
+
+    def switch_page(self, index):
+        self.stack.setCurrentIndex(index)
+        self.nav.button(index).setChecked(True)
+        self.record('ui.page_changed', page=('mashup','conversion','settings','trace')[index])
 
     def _track_card(self, number):
         frame = card(); box = QVBoxLayout(frame); box.setContentsMargins(18,15,18,17); box.setSpacing(12)
         head = QHBoxLayout(); head.addWidget(label(f'АУДИО 0{number}', 'accent' if number == 1 else 'warning')); head.addWidget(label('Вокал / инструментал' if number == 1 else 'Инструментал / вокал', 'section')); head.addStretch()
         info = label('ФАЙЛ НЕ ВЫБРАН', 'muted'); head.addWidget(info); box.addLayout(head)
         files = QHBoxLayout(); path = QLineEdit(); path.setObjectName(f'audio{number}'); path.setPlaceholderText('Выберите WAV-файл 48 kHz'); files.addWidget(path,1)
-        select = QPushButton('Обзор…'); select.clicked.connect(lambda: self.choose_file(number)); files.addWidget(select); box.addLayout(files)
+        select = QPushButton('Обзор…'); select.clicked.connect(lambda: self.choose_file(number)); files.addWidget(select)
+        prepare_button = QPushButton('В конвертер'); prepare_button.clicked.connect(lambda: self.send_to_conversion(number)); files.addWidget(prepare_button); box.addLayout(files)
         opts = QGridLayout(); opts.setHorizontalSpacing(12); opts.setVerticalSpacing(6)
         def spin(name, low, high, value, decimal=False):
             w = QDoubleSpinBox() if decimal else QSpinBox()
@@ -196,7 +254,7 @@ class MashupWindow(QMainWindow):
         for col,(title,widget) in enumerate(fields):
             opts.addWidget(label(title,'muted'),0,col); opts.addWidget(widget,1,col)
         box.addLayout(opts)
-        track = {'path':path,'info':info,'bar':bar,'beat':beat,'tick':tick,'gain':gain,'pan':pan,'start':start,'end':end,'fade_in':fade_in,'fade_out':fade_out,'frames':0}
+        track = {'path':path,'info':info,'bar':bar,'beat':beat,'tick':tick,'gain':gain,'pan':pan,'start':start,'end':end,'fade_in':fade_in,'fade_out':fade_out,'frames':0,'rate':0}
         self.tracks.append(track)
         path.editingFinished.connect(lambda: self.read_header(number))
         start.editingFinished.connect(lambda: self.changed(f'start{number}',start.text()))
@@ -208,18 +266,70 @@ class MashupWindow(QMainWindow):
         if hasattr(self, 'timeline'):
             self.timeline.update()
 
+    def file_picker(self, title, mode, callback, trace_event, name_filter=None):
+        # Non-modal picker: settings and workflows remain in the main window.
+        dialog = QFileDialog(self, title)
+        dialog.setOption(QFileDialog.Option.DontUseNativeDialog, True)
+        dialog.setWindowModality(Qt.WindowModality.NonModal)
+        dialog.setFileMode(mode)
+        if name_filter:
+            dialog.setNameFilter(name_filter)
+        self._dialogs.append(dialog)
+        def selected(path):
+            self.record(trace_event, selected=path)
+            callback(path)
+        def closed(result):
+            if not result:
+                self.record(trace_event, selected=None)
+            if dialog in self._dialogs:
+                self._dialogs.remove(dialog)
+            dialog.deleteLater()
+        dialog.fileSelected.connect(selected)
+        dialog.finished.connect(closed)
+        dialog.show()
+
     def choose_file(self, number):
         self.record('ui.choose_file', track=number)
-        path, _ = QFileDialog.getOpenFileName(self, f'Выберите аудио {number}', '', 'WAV (*.wav);;Все файлы (*)')
-        self.record('ui.file_dialog_result', track=number, selected=path or None)
-        if path:
+        def chosen(path):
             self.tracks[number-1]['path'].setText(path); self.read_header(number)
+        self.file_picker(f'Выберите аудио {number}', QFileDialog.FileMode.ExistingFile,
+                         chosen, 'ui.file_dialog_result', 'WAV (*.wav);;Все файлы (*)')
+
+    def send_to_conversion(self, number):
+        path = self.tracks[number-1]['path'].text().strip()
+        self.record('ui.send_to_conversion', track=number, path=path)
+        if path:
+            self.set_conversion_input(path)
+        self.switch_page(1)
+
+    def set_conversion_input(self, path):
+        self.conversion_input.setText(path)
+        candidate = Path(path).with_name(Path(path).stem + '_48000.wav')
+        self.conversion_output.setText(str(candidate))
+        self.changed('conversion_input', path)
+        self.changed('conversion_output', str(candidate))
+
+    def choose_conversion_input(self):
+        self.record('ui.choose_conversion_input')
+        self.file_picker('Выберите исходный аудиофайл', QFileDialog.FileMode.ExistingFile,
+                         self.set_conversion_input, 'ui.conversion_input_dialog_result',
+                         'Аудио (*.wav *.mp3 *.flac *.m4a *.aac *.ogg *.opus *.aif *.aiff);;Все файлы (*)')
+
+    def choose_conversion_directory(self):
+        self.record('ui.choose_conversion_directory')
+        def chosen(parent):
+            previous = self.conversion_output.text().strip()
+            filename = Path(previous).name if previous else 'audio_48000.wav'
+            self.conversion_output.setText(str(Path(parent) / filename))
+            self.changed('conversion_output', self.conversion_output.text())
+        self.file_picker('Выберите папку для WAV', QFileDialog.FileMode.Directory,
+                         chosen, 'ui.conversion_directory_dialog_result')
 
     def read_header(self, number):
-        t = self.tracks[number-1]; path = t['path'].text().strip(); t['frames'] = 0
+        t = self.tracks[number-1]; path = t['path'].text().strip(); t['frames'] = 0; t['rate'] = 0
         try:
             with wave.open(path, 'rb') as wav:
-                t['frames'] = wav.getnframes()
+                t['frames'] = wav.getnframes(); t['rate'] = wav.getframerate()
                 info = f'{wav.getframerate()} Hz  ·  {wav.getnchannels()} ch  ·  {wav.getnframes()/wav.getframerate():.2f} сек'
                 if wav.getframerate() != 48000 or wav.getnchannels() not in (1,2) or wav.getsampwidth() not in (2,3,4):
                     info += '  ·  НЕПОДДЕРЖИВАЕМЫЙ ФОРМАТ'
@@ -231,16 +341,123 @@ class MashupWindow(QMainWindow):
 
     def choose_output(self):
         self.record('ui.choose_output_parent')
-        parent = QFileDialog.getExistingDirectory(self, 'Выберите родительскую папку')
-        self.record('ui.output_dialog_result', selected=parent or None)
-        if parent:
+        def chosen(parent):
             self.output_dir.setText(str(Path(parent) / ('Mashup-' + datetime.now().strftime('%Y%m%d-%H%M%S'))))
             self.changed('output_dir', self.output_dir.text())
+        self.file_picker('Выберите родительскую папку', QFileDialog.FileMode.Directory,
+                         chosen, 'ui.output_dialog_result')
+
+    def convert(self):
+        self.record('conversion.requested', source=self.conversion_input.text().strip(),
+                    output=self.conversion_output.text().strip(), channels=self.conversion_channels.currentData())
+        if self.converter_process is not None or self.process is not None:
+            self.conversion_status.setText('Дождитесь завершения текущей операции.'); return
+        self.converted_path = None
+        self.use_converted1.setEnabled(False); self.use_converted2.setEnabled(False)
+        source = self.conversion_input.text().strip(); output = self.conversion_output.text().strip()
+        if not source or not output:
+            self.conversion_status.setText('Укажите исходный файл и имя нового WAV.')
+            self.record('conversion.validation_error', error='Пустой путь'); return
+        try:
+            exe = ffmpeg_executable()
+            workspace, stage, args = prepare(source, output, self.conversion_channels.currentData())
+        except ProjectError as exc:
+            self.conversion_status.setText(str(exc)); self.record('conversion.validation_error', error=str(exc)); return
+        self.converter_workspace = workspace; self.conversion_stage = stage
+        self.conversion_target = Path(output).expanduser().absolute()
+        self.conversion_channel_count = self.conversion_channels.currentData()
+        self.conversion_stderr = bytearray(); self.conversion_stdout = bytearray(); self.convert_cancelled = False
+        self.converter_controls.setEnabled(False); self.convert_button.setEnabled(False); self.make.setEnabled(False)
+        self.cancel_conversion_button.setEnabled(True); self.conversion_status.setText('Конвертация…')
+        self.converter_process = QProcess(self)
+        self.converter_process.readyReadStandardOutput.connect(self.read_conversion_stdout)
+        self.converter_process.readyReadStandardError.connect(self.read_conversion_stderr)
+        self.converter_process.finished.connect(self.conversion_finished)
+        self.converter_process.errorOccurred.connect(self.conversion_process_error)
+        self.record('conversion.started', executable=str(exe), arguments=args, output=str(self.conversion_target))
+        self.converter_process.start(str(exe), args)
+
+    def read_conversion_stdout(self):
+        if not self.converter_process: return
+        self.conversion_stdout.extend(bytes(self.converter_process.readAllStandardOutput()))
+        while b'\n' in self.conversion_stdout:
+            line, _, rest = self.conversion_stdout.partition(b'\n'); self.conversion_stdout = bytearray(rest)
+            text = line.decode('utf-8','replace').strip()
+            if text.startswith(('out_time=', 'progress=')):
+                self.record('conversion.progress', message=text)
+                if text.startswith('out_time='): self.conversion_status.setText('Конвертация · ' + text[9:])
+
+    def read_conversion_stderr(self):
+        if not self.converter_process: return
+        self.conversion_stderr.extend(bytes(self.converter_process.readAllStandardError()))
+        while b'\n' in self.conversion_stderr:
+            line, _, rest = self.conversion_stderr.partition(b'\n'); self.conversion_stderr = bytearray(rest)
+            self.record('conversion.ffmpeg', message=line.decode('utf-8','replace').strip())
+
+    def cancel_conversion(self):
+        if self.converter_process:
+            self.convert_cancelled = True; self.record('conversion.cancel_requested')
+            self.conversion_status.setText('Остановка…'); self.converter_process.kill()
+
+    def conversion_process_error(self, error):
+        if not self.converter_process: return
+        message = self.converter_process.errorString(); self.record('conversion.process_error', error=message)
+        if error == QProcess.ProcessError.FailedToStart:
+            self.conversion_status.setText('Не удалось запустить FFmpeg: ' + message)
+            self.cleanup_conversion()
+
+    def cleanup_conversion(self):
+        if self.converter_process:
+            self.converter_process.deleteLater(); self.converter_process = None
+        if self.converter_workspace:
+            try:
+                self.converter_workspace.cleanup()
+            except OSError as exc:
+                self.record('conversion.cleanup_error', error=str(exc))
+            self.converter_workspace = None
+        self.converter_controls.setEnabled(True); self.convert_button.setEnabled(True); self.cancel_conversion_button.setEnabled(False)
+        self.make.setEnabled(True)
+
+    def conversion_finished(self, code, exit_status):
+        if not self.converter_process: return
+        self.read_conversion_stdout(); self.read_conversion_stderr()
+        if self.conversion_stderr:
+            self.record('conversion.ffmpeg', message=bytes(self.conversion_stderr).decode('utf-8','replace'))
+            self.conversion_stderr.clear()
+        try:
+            if self.convert_cancelled:
+                self.record('conversion.cancelled', exit_code=code); self.conversion_status.setText('Конвертация остановлена. Исходник не изменён.')
+            elif code != 0 or exit_status != QProcess.ExitStatus.NormalExit:
+                self.record('conversion.failed', exit_code=code, exit_status=str(exit_status))
+                self.conversion_status.setText('Ошибка FFmpeg. Подробности в разделе «Трасса».')
+            else:
+                info = publish(self.conversion_stage, self.conversion_target, self.conversion_channel_count)
+                self.converted_path = str(self.conversion_target)
+                self.use_converted1.setEnabled(True); self.use_converted2.setEnabled(True)
+                self.record('conversion.completed', output=self.converted_path, **info)
+                self.conversion_status.setText(f"Готово · {info['frames']/48000:.2f} сек · {info['channels']} канал(а)")
+        except ProjectError as exc:
+            self.record('conversion.publish_error', error=str(exc)); self.conversion_status.setText(str(exc))
+        finally:
+            self.record('conversion.finished', exit_code=code, exit_status=str(exit_status))
+            self.cleanup_conversion()
+
+    def use_converted(self, number):
+        if not self.converted_path: return
+        self.record('conversion.use_output', track=number, path=self.converted_path)
+        self.tracks[number-1]['path'].setText(self.converted_path)
+        self.read_header(number); self.run_status.setText('Файл выбран. Проверьте диапазон клипа перед рендером.'); self.switch_page(0)
+
+    def cancel_render(self):
+        if self.process:
+            self.record('backend.cancel_requested')
+            self.run_status.setText('Остановка… Папка проекта может остаться неполной.')
+            self.process.kill()
 
     def run(self):
         self.record('ui.render_clicked')
-        if self.process is not None:
-            return
+        if self.process is not None or self.converter_process is not None:
+            self.run_status.setText('Дождитесь завершения текущей операции.'); return
         paths = [t['path'].text().strip() for t in self.tracks]
         target = self.output_dir.text().strip()
         if not all(paths) or not target:
@@ -255,7 +472,7 @@ class MashupWindow(QMainWindow):
             if t['end'].text().strip(): args += [f'--end{number}',t['end'].text().strip()]
         if self.verify.isChecked(): args.append('--verify-repeat')
         self.stdout.clear(); self.stderr.clear(); self.result_path = None
-        self.open_output.setEnabled(False); self.controls.setEnabled(False); self.make.setEnabled(False); self.run_status.setText('Обработка…')
+        self.open_output.setEnabled(False); self.controls.setEnabled(False); self.make.setEnabled(False); self.convert_button.setEnabled(False); self.stop_render.setEnabled(True); self.run_status.setText('Обработка…')
         self.process = QProcess(self); env = QProcessEnvironment.systemEnvironment(); env.insert('MASHUP_GUI_TRACE','1'); env.insert('PYTHONUTF8','1'); self.process.setProcessEnvironment(env)
         self.process.readyReadStandardOutput.connect(self.read_stdout); self.process.readyReadStandardError.connect(self.read_stderr)
         self.process.finished.connect(self.finished); self.process.errorOccurred.connect(self.process_error)
@@ -285,7 +502,7 @@ class MashupWindow(QMainWindow):
         if not self.process: return
         message = self.process.errorString(); self.record('backend.process_error', error=message)
         if error == QProcess.ProcessError.FailedToStart:
-            self.process.deleteLater(); self.process = None; self.controls.setEnabled(True); self.make.setEnabled(True)
+            self.process.deleteLater(); self.process = None; self.controls.setEnabled(True); self.make.setEnabled(True); self.convert_button.setEnabled(True); self.stop_render.setEnabled(False)
             self.run_status.setText('Не удалось запустить рендер: ' + message)
 
     def finished(self, code, exit_status):
@@ -304,7 +521,7 @@ class MashupWindow(QMainWindow):
             self.run_status.setText(f'Ошибка рендера (код {code}). Подробности — в трассе.')
             self.record('backend.failed', exit_code=code, exit_status=str(exit_status), stdout=text)
         self.record('backend.finished', exit_code=code, exit_status=str(exit_status))
-        self.process.deleteLater(); self.process = None; self.controls.setEnabled(True); self.make.setEnabled(True)
+        self.process.deleteLater(); self.process = None; self.controls.setEnabled(True); self.make.setEnabled(True); self.convert_button.setEnabled(True); self.stop_render.setEnabled(False)
 
     def open_result(self):
         self.record('ui.open_result', path=self.result_path)
@@ -319,13 +536,14 @@ class MashupWindow(QMainWindow):
             self.record('ui.open_logs_failed')
 
     def closeEvent(self, event):
-        self.record('ui.close_requested', rendering=self.process is not None)
-        if self.process is not None:
-            choice = QMessageBox.question(self, 'Остановить рендер?', 'Рендер ещё выполняется. Остановить? Папка проекта может остаться неполной.')
-            self.record('ui.close_confirmation', confirmed=choice == QMessageBox.StandardButton.Yes)
-            if choice != QMessageBox.StandardButton.Yes:
-                event.ignore(); return
-            self.process.kill(); self.process.waitForFinished(3000)
+        busy = self.process is not None or self.converter_process is not None
+        self.record('ui.close_requested', busy=busy)
+        if busy:
+            message = 'Сначала дождитесь завершения операции или нажмите «Остановить» в её разделе.'
+            self.run_status.setText(message); self.conversion_status.setText(message)
+            self.record('ui.close_blocked', message=message)
+            self.switch_page(1 if self.converter_process is not None else 0)
+            event.ignore(); return
         self.record('ui.closed')
         event.accept()
 

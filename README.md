@@ -85,7 +85,7 @@ A PySide6 desktop interface is available as an optional dependency. On Windows,
 run `Mashup-Lab.bat`, prepare the environment (2), install the interface (8),
 and open it (9). On other systems install `requirements-gui.txt` and run
 `python -m mashup gui`. See the [desktop guide](docs/desktop-interface.md) for
-setup, supported audio, local traces and privacy limits.
+setup, separate FFmpeg audio conversion, local traces, privacy and license limits.
 
 ## Quick start: audio 1 + audio 2
 
